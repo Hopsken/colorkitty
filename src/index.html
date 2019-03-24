@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=900">
+    <link rel="icon" sizes="192x192" href="/colorkitty_192.png" />
+    <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
+    <title>Color Kitty - Compose and Share Palettes</title>
+    <style>
+      @keyframes breath {
+        from { transform: scale(0.9) }
+        to { transform: scale(1.1) }
+      }
+      #loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+      #loading img {
+        display: block;
+        animation: breath 1.5s infinite ease-in-out alternate;
+      }
+    </style>
+</head>
+<body>
+    <div id='app'>
+      <div id='loading'>
+        <img width="100" height="100" src='/colorkitty_192.png' alt='loading' />
+      </div>
+    </div>
+</body>
+</html>

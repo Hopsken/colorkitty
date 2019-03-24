@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src",
+    "charset": "utf-8",
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "jsx": "react",
+    "lib": ["dom", "es5", "es6", "es7", "esnext"],
+    "module": "es2015",
+    "moduleResolution": "node",
+    "newLine": "lf",
+    "noEmit": true,
+    "noEmitHelpers": true,
+    "noFallthroughCasesInSwitch": false,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "rootDir": "./src",
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "suppressExcessPropertyErrors": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "target": "es5",
+    "paths": {
+      "@/locales": [
+        "../locales"
+      ],
+      "@/types": [
+        "./types"
+      ],
+      "@/*": [
+        "*"
+      ]
+    },
+  },
+  "exclude": [
+    "dist",
+    "node_modules",
+    "server",
+  ]
+}

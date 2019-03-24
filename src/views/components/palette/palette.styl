@@ -1,0 +1,80 @@
+@require '~@/styles'
+
+.palette
+  $shadow()
+  display: inline-block
+  box-sizing: border-box
+  width: 20rem
+  border-radius: $qu
+  background-color: #fff
+  overflow: hidden
+  transition: all .45s ease
+
+  &:hover
+  &:focus
+    box-shadow: 0 10px 40px 0 rgba(62,57,107,.2), 0 2px 9px 0 rgba(62,57,107,.2)
+
+.colors
+  position: relative
+  display: flex
+  flex-direction: row
+  height: qu(60)
+  margin: 0
+  padding: 0
+  width: 100%
+  height: 75%
+
+  .c
+    position: relative
+    flex: 1 0 auto
+
+    &:hover
+      span
+        opacity: 1
+
+    span
+      position: absolute
+      display: inline-block
+      opacity: 0
+      color: $G30
+      background-color: rgba(0, 0, 0, .1)
+      padding: qu(1) qu(1)
+      left: 0
+      bottom: 0
+      transition: all .2s timing-function(.8, .0, .2, 1)
+
+      &:hover
+        background-color: rgba(0,0,0,0.4)
+
+.bottom
+  display: flex
+  align-items: center
+  height: 25%
+  padding: 0 1.25rem
+
+  &-info
+    display: flex
+    flex-direction: column
+
+  &-name
+    $ellipsis()
+    color: $DarkShade
+    font-size: 1.2rem
+
+  &-date
+    $ellipsis()
+    color: $G80
+    font-size: .8rem
+
+  .active
+    color: $Main
+
+  &-fav
+    display: flex
+    align-items: center
+    margin-left: auto
+    padding: 0 .7rem
+
+    i[class~='anticon']
+      position: relative
+      top: 1px

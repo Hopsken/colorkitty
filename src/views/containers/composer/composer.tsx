@@ -1,0 +1,446 @@
+import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc'
+import { Button,  Slider,  Popover, Upload, message, Drawer } from 'antd'
+import Draggable, { DraggableData } from 'react-draggable'
+import { RGBColor, ColorResult } from 'react-color'
+import * as React from 'react'
+
+import {
+  toHex, toRGBString,
+  getColorsFromImage,
+  getPaletteFromImage,
+  findNearestColorOfPalette
+} from '@/utilities'
+import { Pickle, SuprePicker } from '@/views/components'
+
+const styles = require('./composer.styl')
+const cx = require('classnames/bind').bind(styles)
+const displayError = (content: string) => message.error(content)
+
+interface State {
+  colors: RGBColor[]
+  colorNumbers: number
+  currentIndex: number
+  paletteName: string
+  showPainter: boolean
+  showDrawer: boolean
+  painterImg: {
+    width: number,
+    height: number
+  }
+}
+
+const SortableColorItem = SortableElement<{
+  color: RGBColor,
+  length: number,
+  handleClickColor: () => void
+}>(({
+  color,
+  length,
+  handleClickColor
+}) => (
+    <div
+      className={ cx('c', `c-${length}`) }
+      style={ { backgroundColor: toRGBString(color) } }
+      onClick={ handleClickColor }
+    >
+      <span>{ toHex(color).toUpperCase() }</span>
+    </div>
+  )
+)
+
+const SortableColorList = SortableContainer<{
+  colors: RGBColor[],
+  handleClick: (index: number) => () => void
+}>(({
+  colors,
+  handleClick,
+}) => {
+  const items = colors.map((color: any, index: any, all: any) => (
+    <SortableColorItem
+      key={ `color-${index}` }
+      index={ index }
+      color={ color }
+      length={ all.length }
+      handleClickColor={ handleClick(index) }
+    />)
+  )
+
+  return (
+    <div className={ styles['palette-colors'] } >
+      { items }
+    </div>)
+})
+
+export class ComposerContainer extends React.PureComponent<any, State> {
+
+  private canvas = React.createRef<HTMLCanvasElement>()
+  private baseFontSize = parseInt(
+    window.getComputedStyle(document.body)
+      .getPropertyValue('font-size')
+      .substring(0, 2)
+    ) || 16
+  private imageColors: RGBColor[] = []
+  private colorsPosition: number[] = []
+  private drawerContainer = React.createRef<HTMLElement>()
+
+  state = {
+    colors: [
+      { r: 231, g: 218, b: 253 },
+      { r: 105, g: 87, b: 200 },
+      { r: 80, g: 64, b: 166 },
+      { r: 67, g: 50, b: 160 },
+      { r: 41, g: 26, b: 124 },
+      { r: 20, g: 6, b: 100 }
+    ],
+    colorNumbers: 5,
+    isLoading: false,
+    currentIndex: -1,
+    paletteName: '',
+    showPainter: false,
+    showDrawer: false,
+    painterImg: {
+      width: this.baseFontSize * 40,
+      height: this.baseFontSize * 22
+    }
+  }
+
+  componentDidCatch() {
+    displayError('Some unexpected error happen, please try again.')
+  }
+
+  getDrawerContainer = () => {
+    return this.drawerContainer.current!
+  }
+
+  renderSideColorPicker = () => {
+    const { showDrawer, colors } = this.state
+
+    return (
+      <Drawer
+        mask={ false }
+        visible={ showDrawer }
+        title='Color Picker'
+        getContainer={ this.getDrawerContainer }
+        onClose={ this.handleCloseDrawer }
+        width={ 300 }
+      >
+        <SuprePicker
+          color={ colors[this.state.currentIndex] }
+          onChange={ this.handleChangeColor }
+        />
+      </Drawer>
+    )
+  }
+
+  renderColor = (
+    color: RGBColor,
+    index: number,
+    colors: RGBColor[]
+  ) => {
+    return (
+      <div
+        key={ index }
+        className={ cx('c', `c-${colors.length}`) }
+        style={ { backgroundColor: toRGBString(color) } }
+        onClick={ this.handleClickColor(index) }
+      >
+        <span>{ toHex(color).toUpperCase() }</span>
+      </div>
+    )
+  }
+
+  renderPalette = () => (
+    <SortableColorList
+      axis='x'
+      lockAxis='x'
+      colors={ this.colors }
+      handleClick={ this.handleClickColor }
+      onSortEnd={ this.handleDragColorEnd }
+      distance={ 10 }
+      lockToContainerEdges={ true }
+    />
+  )
+
+  renderCard = () => {
+    const { paletteName, colorNumbers } = this.state
+
+    const nameInput = (
+      <input
+        className={ styles['palette-name'] }
+        value={ paletteName }
+        onChange={ this.handleInputName }
+        placeholder='NEW PALETTE'
+      />
+    )
+
+    const controls = (
+      <div className={ styles['palette-settings'] }>
+
+        <span className={ styles['palette-slider-title'] }>COUNT</span>
+        <div className={ styles['palette-slider'] }>
+          <span className={ styles['palette-slider-tip'] }>1</span>
+          <Slider
+            value={ colorNumbers }
+            step={ 1 }
+            max={ 6 }
+            min={ 1 }
+            onChange={ this.handleChangeNumbers }
+          />
+          <span className={ styles['palette-slider-tip'] }>6</span>
+        </div>
+      </div>
+    )
+
+    return (
+      <section className={ styles['palette'] }>
+
+        { this.renderPalette() }
+        { this.renderSideColorPicker() }
+
+        <div className={ styles['palette-info'] }>
+
+          { nameInput }
+
+          <div className={ styles['palette-control'] }>
+
+            <Upload
+              accept={ 'image/*' }
+              beforeUpload={ this.handleLoadImage  }
+              showUploadList={ false }
+            >
+              <Button icon='picture' />
+            </Upload>
+
+            <Popover placement='bottom' content={ controls } trigger={ 'click' }>
+              <Button
+                className={ styles['palette-control-more'] }
+                icon='sliders'
+              />
+            </Popover>
+
+            <Button
+              className={ styles['palette-control-save'] }
+            >
+              SAVE
+            </Button>
+          </div>
+
+        </div>
+
+      </section>
+    )
+  }
+
+  renderPainter = () => {
+    const { showPainter, colorNumbers, colors } = this.state
+
+    const bounds = {
+      left: 0,
+      top: 0,
+      right: this.canvasSize.width,
+      bottom: this.canvasSize.height
+    }
+    const pickleStyle = {
+      top: -55,
+      left: -20
+    }
+
+    const Pickles = this.colorsPosition.length >= colorNumbers && this.colorsPosition.slice(0, colorNumbers).map((position, index) => {
+
+      const { offsetX, offsetY } = this.getPickleOffset(position)
+
+      return (
+        <Draggable
+          key={ index }
+          bounds={ bounds }
+          defaultPosition={ { x: offsetX, y: offsetY } }
+          onStart={ this.handleDragStart(index) }
+          onDrag={ this.handleDragPickle(index) }
+          onStop={ this.handleDragPickle(index) }
+        >
+          <Pickle
+            size={ 40 }
+            color={ toRGBString(colors[index]) }
+            style={ pickleStyle }
+            index={ index + 1 }
+          />
+        </Draggable>
+      )
+    })
+
+    return (
+      <section
+        className={ styles['painter']  }
+        style={ { display: showPainter ? 'block' : 'none' } }
+      >
+        <div className={ styles['painting'] }>
+          <canvas
+            ref={ this.canvas }
+            { ...this.canvasSize }
+          />
+          { Pickles }
+        </div>
+      </section>
+    )
+  }
+
+  render() {
+
+    return (
+      <section className={ styles['container'] } ref={ this.drawerContainer }>
+        { this.renderCard() }
+        { this.renderPainter() }
+      </section>
+    )
+  }
+
+  handleDragColorEnd = ({ oldIndex, newIndex }: {
+    oldIndex: number,
+    newIndex: number
+  }) => {
+    this.setState({
+      colors: arrayMove(this.state.colors, oldIndex, newIndex)
+    })
+  }
+
+  handleChangeNumbers = (count: number) => {
+    this.setState({
+      colorNumbers: count
+    })
+  }
+
+  handleChangeColor = (color: ColorResult) => {
+    const { colors, currentIndex } = this.state
+    this.setState({
+      colors: colors.map((value, index) => {
+        if (index === currentIndex ) {
+          return color.rgb
+        } else {
+          return value
+        }
+      })
+    })
+  }
+
+  handleCloseDrawer = () => {
+    this.setState({
+      showDrawer: false
+    })
+  }
+
+  handleClickColor = (index: number) => () => {
+    this.setState({
+      currentIndex: index,
+      showDrawer: true
+    })
+  }
+
+  handleInputName = (ev: React.FormEvent<HTMLInputElement>) => {
+    const target = ev.target as HTMLInputElement
+    this.setState({
+      paletteName: target.value
+    })
+  }
+
+  handleLoadImage = (file: File) => {
+
+    if (!this.canvas.current) {
+      return false
+    }
+
+    const ctx = this.canvas.current.getContext('2d')
+
+    getImageBase64(file!, imageUrl => {
+
+      const img = new Image()
+      img.onload = () => {
+
+        this.colorsPosition = []
+        this.setState({
+          showPainter: true,
+          painterImg: { width: img.width, height: img.height }
+        }, () => {
+
+          const canvasSize = this.canvasSize
+          ctx!.drawImage(img, 0, 0, canvasSize.width, canvasSize.height)
+
+          const imageData = ctx!.getImageData(0, 0, canvasSize.width, canvasSize.height)
+          const palette = getPaletteFromImage(
+            imageData,
+            this.state.colors.length
+          )
+
+          this.imageColors = getColorsFromImage(imageData)
+          if (palette) {
+
+            const nearsetColors = findNearestColorOfPalette(
+              this.imageColors, palette
+            )
+
+            this.colorsPosition = nearsetColors.map(one => one.index)
+            this.setState({
+              colors: nearsetColors.map(one => one.rgb)
+            })
+          }
+
+        })
+      }
+
+      img.src = imageUrl!
+    })
+
+    return false
+  }
+
+  handleDragStart = (index: number) => () => {
+    this.setState({
+      currentIndex: index
+    })
+  }
+
+  handleDragPickle = (index: number) => (_: MouseEvent, data: DraggableData) => {
+
+    const picklePositin = Math.round(data.y) * this.canvasSize.width + Math.round(data.x)
+
+    if (picklePositin < 0 || picklePositin >= this.imageColors.length) {
+      return
+    }
+
+    this.setState({
+      colors: this.state.colors.map(
+        (color, idx) => idx === index
+          ? this.imageColors[picklePositin]
+          : color
+      )
+    })
+  }
+
+  private get colors() {
+    return this.state.colors.slice(0, this.state.colorNumbers)
+  }
+
+  private getPickleOffset(index: number) {
+
+    const { width } = this.canvasSize
+
+    return {
+      offsetX: Math.floor(index % width),
+      offsetY: Math.ceil(index / width)
+    }
+  }
+
+  private get canvasSize() {
+    const { painterImg: drawerImg } = this.state
+
+    return {
+      width: this.baseFontSize * 40,
+      height: Math.floor(this.baseFontSize * 40 * (drawerImg.height / drawerImg.width))
+    }
+  }
+}
+
+function getImageBase64(img: Blob, callback: (res: string) => void) {
+  const reader = new FileReader()
+  reader.onload = () => callback(reader.result as string)
+  reader.readAsDataURL(img)
+}

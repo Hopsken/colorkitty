@@ -1,0 +1,25 @@
+@require './colors.styl'
+
+$qu = 4px
+
+$base-font-color = $G100
+$base-font-face = 'Helvetica Neue', 'PingFang SC', 'Microsoft Yahei', '微软雅黑', STXihei, '华文细黑', sans-serif
+$base-font-size = 14px
+$base-line-height = qu(5)
+
+$title-font-size = 18px
+
+qu(x)
+  x * 4px
+
+timing-function(x1 = 0.19, y1 = 1, x2 = 0.22, y2 = 1)
+  cubic-bezier(x1, y1, x2, y2)
+
+// mixins
+$shadow()
+  box-shadow: 0 10px 40px 0 rgba(62,57,107,.07), 0 2px 9px 0 rgba(62,57,107,.07)
+
+$ellipsis()
+  overflow: hidden
+  white-space: nowrap
+  text-overflow: ellipsis

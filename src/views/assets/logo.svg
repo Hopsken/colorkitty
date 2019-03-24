@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="165px" height="170px" viewBox="0 0 165 170" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <ellipse id="path-1" cx="80" cy="76" rx="80" ry="76"></ellipse>
+        <path d="M-0.599250936,74.2047244 L59.9343129,74.2047244 C59.9343129,85.111261 68.9221546,93.9527559 80.0092192,93.9527559 C91.0962839,93.9527559 100.084126,85.111261 100.084126,74.2047244 L160,74.2047244 C160,117.169869 124.048633,152 79.7003745,152 C35.352116,152 -0.599250936,117.169869 -0.599250936,74.2047244 Z" id="path-3"></path>
+    </defs>
+    <g id="Logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="v1.1.0" transform="translate(-273.000000, -169.000000)">
+            <g id="Group" transform="translate(276.000000, 174.000000)">
+                <g id="Face" transform="translate(0.000000, 13.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use id="Mask" fill="#FFFFFF" xlink:href="#path-1"></use>
+                    <mask id="mask-4" fill="white">
+                        <use xlink:href="#path-3"></use>
+                    </mask>
+                    <path stroke="#F27978" stroke-width="8" d="M3.51098782,78.2047244 C5.65879979,117.075147 38.9227851,148 79.7003745,148 C120.477964,148 153.741949,117.075147 155.889761,78.2047244 L103.74429,78.2047244 C101.815778,89.4257677 91.9117102,97.9527559 80.0092192,97.9527559 C68.1067283,97.9527559 58.2026604,89.4257677 56.2741485,78.2047244 L3.51098782,78.2047244 Z"></path>
+                </g>
+                <g id="Ears" transform="translate(2.000000, 0.000000)" fill="#FFF2F2" stroke="#F27978" stroke-width="10">
+                    <path d="M84.2885407,7.13885559 C41.1546736,7.13885559 6.18776551,41.829375 6.18776551,84.6222993 L6.18776551,7.13885559 L84.2885407,7.13885559 Z" id="Combined-Shape" transform="translate(45.238153, 45.880577) rotate(10.000000) translate(-45.238153, -45.880577) "></path>
+                    <path d="M148.571486,7.13885559 C105.437619,7.13885559 70.4707112,41.829375 70.4707112,84.6222993 L70.4707112,7.13885559 L148.571486,7.13885559 Z" id="Combined-Shape-Copy" transform="translate(109.521099, 45.880577) scale(-1, 1) rotate(10.000000) translate(-109.521099, -45.880577) "></path>
+                </g>
+                <g id="Eyes" transform="translate(46.000000, 46.000000)" fill="#DB7070">
+                    <g id="left">
+                        <ellipse id="eye" cx="6.58035714" cy="14" rx="6.58035714" ry="14"></ellipse>
+                    </g>
+                    <g id="right" transform="translate(53.839286, 0.000000)">
+                        <ellipse id="eye" cx="6.58035714" cy="14" rx="6.58035714" ry="14"></ellipse>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

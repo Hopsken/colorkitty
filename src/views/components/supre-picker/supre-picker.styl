@@ -1,0 +1,37 @@
+// to override default styles
+:global(.chrome-picker)
+  box-shadow: 0 2px 4px 0 rgba(62,57,107,0.2) !important
+  width: 100% !important
+
+.harmony
+  margin-top: 2rem
+
+  h3
+    display: inline-block
+    margin-right: 1rem
+
+.slide-wrapper
+  h3
+    margin: .5rem 0
+
+.slides
+  display: flex
+  flex-direction: row
+  height: 2rem
+  width: 100%
+
+  .slide
+    flex: 1 1 0%
+    margin-right: 1px
+    text-align: center
+    color: #fff
+    line-height: 2rem
+
+    &:last-child
+      margin-right: 0
+
+    & > span
+      display: none
+
+    &:hover > span
+        display: inline-block
