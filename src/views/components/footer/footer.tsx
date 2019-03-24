@@ -9,6 +9,6 @@ export const FooterComp = () => (
     <Divider className={ styles['divider'] }>
       <img className={ styles['logo'] } alt='color kitty' src={ kitty }/>
     </Divider>
-    <p>Made with <Icon type='heart' style={ { color: '#FE615C' } } /> by Sean Walker</p>
+    <p>Made with <Icon type='heart' style={ { color: '#FE615C' } } /> by Hopsken</p>
   </footer>
 )

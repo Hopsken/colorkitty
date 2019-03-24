@@ -1,1 +1,0 @@
-export { NavbarComp } from './navbar'

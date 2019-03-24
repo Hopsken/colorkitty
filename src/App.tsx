@@ -2,7 +2,7 @@ import { hot } from 'react-hot-loader'
 import * as React from 'react'
 
 import { ComposerContainer } from '@/views/containers'
-import { FooterComp, NavbarComp } from '@/views/components'
+import { FooterComp, HeaderComp } from '@/views/components'
 
 require('./app.styl')
 
@@ -11,7 +11,7 @@ class App extends React.PureComponent {
   render() {
     return (
       <div>
-        <NavbarComp />
+        <HeaderComp />
         <ComposerContainer />
         <FooterComp />
       </div>

@@ -1,14 +1,14 @@
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc'
-import { Button,  Slider,  Popover, Upload, message, Drawer } from 'antd'
+import { Button,  Slider,  Popover, Upload, message, Drawer, Icon } from 'antd'
 import Draggable, { DraggableData } from 'react-draggable'
 import { RGBColor, ColorResult } from 'react-color'
 import * as React from 'react'
 
 import {
-  toHex, toRGBString,
   getColorsFromImage,
   getPaletteFromImage,
-  findNearestColorOfPalette
+  findNearestColorOfPalette,
+  toHex, toRGBString, exportPNG,
 } from '@/utilities'
 import { Pickle, SuprePicker } from '@/views/components'
 
@@ -161,6 +161,21 @@ export class ComposerContainer extends React.PureComponent<any, State> {
     />
   )
 
+  renderPaletteToolbox = () => {
+    return (
+      <div className={ styles['palette-toolbox'] }>
+        <Button
+          onClick={ this.handleExport }
+        >
+          <Icon type='picture' />Export
+        </Button>
+        <Button>
+          <Icon type='share-alt' />Share
+        </Button>
+      </div>
+    )
+  }
+
   renderCard = () => {
     const { paletteName, colorNumbers } = this.state
 
@@ -195,37 +210,28 @@ export class ComposerContainer extends React.PureComponent<any, State> {
       <section className={ styles['palette'] }>
 
         { this.renderPalette() }
-        { this.renderSideColorPicker() }
 
         <div className={ styles['palette-info'] }>
-
           { nameInput }
 
           <div className={ styles['palette-control'] }>
-
-            <Upload
-              accept={ 'image/*' }
-              beforeUpload={ this.handleLoadImage  }
-              showUploadList={ false }
-            >
-              <Button icon='picture' />
-            </Upload>
-
             <Popover placement='bottom' content={ controls } trigger={ 'click' }>
               <Button
                 className={ styles['palette-control-more'] }
                 icon='sliders'
               />
             </Popover>
-
-            <Button
-              className={ styles['palette-control-save'] }
+            <Upload
+              accept={ 'image/*' }
+              beforeUpload={ this.handleLoadImage  }
+              showUploadList={ false }
             >
-              SAVE
-            </Button>
+              <Button icon='picture'>Choose Picture</Button>
+            </Upload>
           </div>
-
         </div>
+
+        { this.renderPaletteToolbox() }
 
       </section>
     )
@@ -289,6 +295,7 @@ export class ComposerContainer extends React.PureComponent<any, State> {
     return (
       <section className={ styles['container'] } ref={ this.drawerContainer }>
         { this.renderCard() }
+        { this.renderSideColorPicker() }
         { this.renderPainter() }
       </section>
     )
@@ -390,6 +397,13 @@ export class ComposerContainer extends React.PureComponent<any, State> {
     })
 
     return false
+  }
+
+  handleExport = () => {
+    exportPNG(
+      this.colors.map(one => toHex(one)),
+      this.state.paletteName || 'New Palette'
+    )
   }
 
   handleDragStart = (index: number) => () => {

@@ -1,7 +1,7 @@
 import { saveAs } from 'file-saver'
 import tinyColor from 'tinycolor2'
 
-const logo = require('@/views/assets/favicon.png')
+const logo = require('@/views/assets/colorkitty.png')
 
 function drawRect(ctx: CanvasRenderingContext2D, color: string, pos: any) {
   ctx.fillStyle = color
@@ -107,9 +107,9 @@ export function exportPNG(colors: string[], name: string) {
   const avatar = new Image(52, 52)
   avatar.crossOrigin = ''
   avatar.onload = function() {
-      ctx.drawImage(<any>this, 472, 395, 48, 48)
+    ctx.drawImage(<any>this, 390, 407, 122, 30)
 
-      canvas.toBlob((blob) => saveAs(blob!, `${name}.png`))
+    canvas.toBlob((blob) => saveAs(blob!, `${name}.png`))
   }
   avatar.src = logo
 }
