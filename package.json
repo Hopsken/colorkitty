@@ -10,7 +10,7 @@
     "start": "npm run dev",
     "dev": "webpack-dev-server --config tools/webpack.dev.js",
     "lint": "tslint -e .gitignore --fix -p tsconfig.json",
-    "build": "NODE_ENV=prod rm -rf dist && webpack --optimize-minimize --config tools/webpack.prod.js"
+    "build": "set NODE_ENV=prod rm -rf dist && webpack --optimize-minimize --config tools/webpack.prod.js"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.6",

@@ -113,6 +113,11 @@ module.exports = {
         from: `${rootDir}/src/views/assets/colorkitty_192.png`,
         to: `${rootDir}/dist/colorkitty_192.png`,
         toType: 'file'
+      },
+      {
+        from: `${rootDir}/src/views/assets/screenshot.png`,
+        to: `${rootDir}/dist/images/screenshot.png`,
+        toType: 'file'
       }
     ])
   ]
