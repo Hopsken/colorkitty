@@ -162,6 +162,10 @@ export class ComposerContainer extends React.PureComponent<any, State> {
   )
 
   renderPaletteToolbox = () => {
+    const twitterShareUrl = 'https://twitter.com/intent/tweet?'
+    + 'orginal_referer=https://colorkitty.com&button_hashtag=colorkitty'
+    + '&url=https://colorkitty.com&text=Extract perfect palettes from delicious pictures.'
+
     return (
       <div className={ styles['palette-toolbox'] }>
         <Button
@@ -169,8 +173,8 @@ export class ComposerContainer extends React.PureComponent<any, State> {
         >
           <Icon type='picture' />Export
         </Button>
-        <Button>
-          <Icon type='share-alt' />Share
+        <Button href={ twitterShareUrl }>
+          <Icon type='twitter' />Tweet
         </Button>
       </div>
     )
