@@ -4,7 +4,7 @@ import { Divider, Icon } from 'antd'
 const styles = require('./footer.styl')
 const kitty = require('@/views/assets/logo.svg')
 
-export const FooterComp = () => (
+export const Footer = () => (
   <footer className={ styles['footer'] }>
     <Divider className={ styles['divider'] }>
       <img className={ styles['logo'] } alt='color kitty' src={ kitty }/>

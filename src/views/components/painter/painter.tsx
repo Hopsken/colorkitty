@@ -163,7 +163,6 @@ export class Painter extends React.PureComponent<Props, State> {
     const nearsetColors = findNearestColorOfPalette(
       this.imageColors, palette
     )
-
     this.colorsPosition = nearsetColors.map(one => one.index)
     this.props.updateColors(
       nearsetColors.map(one => one.rgb)
@@ -171,7 +170,6 @@ export class Painter extends React.PureComponent<Props, State> {
   }
 
   private getPickleOffset(index: number) {
-
     const { width } = this.canvasSize
 
     return {
