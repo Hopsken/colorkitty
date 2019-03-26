@@ -1,5 +1,4 @@
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc'
-import Draggable, { DraggableData } from 'react-draggable'
 import { RGBColor, ColorResult } from 'react-color'
 import * as React from 'react'
 import {
@@ -9,13 +8,8 @@ import {
   Icon, Tooltip ,
 } from 'antd'
 
-import {
-  getColorsFromImage,
-  getPaletteFromImage,
-  findNearestColorOfPalette,
-  toHex, toRGBString, exportPNG,
-} from '@/utilities'
-import { Pickle, SuprePicker } from '@/views/components'
+import { toHex, toRGBString, exportPNG } from '@/utilities'
+import { SuprePicker, Painter } from '@/views/components'
 
 const styles = require('./composer.styl')
 const cx = require('classnames/bind').bind(styles)
@@ -26,12 +20,8 @@ interface State {
   colorNumbers: number
   currentIndex: number
   paletteName: string
-  showPainter: boolean
   showDrawer: boolean
-  painterImg: {
-    width: number,
-    height: number
-  }
+  rawImage: File | null
 }
 
 const SortableColorItem = SortableElement<{
@@ -78,14 +68,6 @@ const SortableColorList = SortableContainer<{
 
 export class ComposerContainer extends React.PureComponent<any, State> {
 
-  private canvas = React.createRef<HTMLCanvasElement>()
-  private baseFontSize = parseInt(
-    window.getComputedStyle(document.body)
-      .getPropertyValue('font-size')
-      .substring(0, 2)
-    ) || 16
-  private imageColors: RGBColor[] = []
-  private colorsPosition: number[] = []
   private drawerContainer = React.createRef<HTMLElement>()
 
   state = {
@@ -98,15 +80,10 @@ export class ComposerContainer extends React.PureComponent<any, State> {
       { r: 20, g: 6, b: 100 }
     ],
     colorNumbers: 5,
-    isLoading: false,
     currentIndex: -1,
     paletteName: '',
-    showPainter: false,
     showDrawer: false,
-    painterImg: {
-      width: this.baseFontSize * 40,
-      height: this.baseFontSize * 22
-    }
+    rawImage: null
   }
 
   componentDidCatch() {
@@ -117,15 +94,15 @@ export class ComposerContainer extends React.PureComponent<any, State> {
     return this.drawerContainer.current!
   }
 
-  renderSideColorPicker = () => {
+  renderSideDrawer = () => {
     const { showDrawer, colors } = this.state
 
     return (
       <Drawer
         mask={ false }
         visible={ showDrawer }
-        title='Color Picker'
         getContainer={ this.getDrawerContainer }
+        title='Color Picker'
         onClose={ this.handleCloseDrawer }
         width={ 300 }
       >
@@ -231,7 +208,7 @@ export class ComposerContainer extends React.PureComponent<any, State> {
             </Popover>
             <Upload
               accept={ 'image/*' }
-              beforeUpload={ this.handleLoadImage  }
+              beforeUpload={ this.handleUploadImage  }
               showUploadList={ false }
             >
               <Tooltip title='Pick colors from Image'>
@@ -247,68 +224,26 @@ export class ComposerContainer extends React.PureComponent<any, State> {
     )
   }
 
-  renderPainter = () => {
-    const { showPainter, colorNumbers, colors } = this.state
-
-    const bounds = {
-      left: 0,
-      top: 0,
-      right: this.canvasSize.width,
-      bottom: this.canvasSize.height
-    }
-    const pickleStyle = {
-      top: -55,
-      left: -20
-    }
-
-    const Pickles = this.colorsPosition.length >= colorNumbers && this.colorsPosition.slice(0, colorNumbers).map((position, index) => {
-
-      const { offsetX, offsetY } = this.getPickleOffset(position)
-
-      return (
-        <Draggable
-          key={ index }
-          bounds={ bounds }
-          defaultPosition={ { x: offsetX, y: offsetY } }
-          onStart={ this.handleDragStart(index) }
-          onDrag={ this.handleDragPickle(index) }
-          onStop={ this.handleDragPickle(index) }
-        >
-          <Pickle
-            size={ 40 }
-            color={ toRGBString(colors[index]) }
-            style={ pickleStyle }
-            index={ index + 1 }
-          />
-        </Draggable>
-      )
-    })
-
-    return (
-      <section
-        className={ styles['painter']  }
-        style={ { display: showPainter ? 'block' : 'none' } }
-      >
-        <div className={ styles['painting'] }>
-          <canvas
-            ref={ this.canvas }
-            { ...this.canvasSize }
-          />
-          { Pickles }
-        </div>
-      </section>
-    )
-  }
-
   render() {
 
     return (
       <section className={ styles['container'] } ref={ this.drawerContainer }>
         { this.renderCard() }
-        { this.renderSideColorPicker() }
-        { this.renderPainter() }
+        { this.renderSideDrawer() }
+        <Painter
+          colors={ this.colors }
+          file={ this.state.rawImage }
+          updateColors={ this.handleUpdateColors }
+          updateCurrentIndex={ this.handleUpdateCurrentIndex }
+        />
       </section>
     )
+  }
+
+  handleUpdateColors = (colors: RGBColor[]) => {
+    this.setState({
+      colors
+    })
   }
 
   handleDragColorEnd = ({ oldIndex, newIndex }: {
@@ -328,15 +263,15 @@ export class ComposerContainer extends React.PureComponent<any, State> {
 
   handleChangeColor = (color: ColorResult) => {
     const { colors, currentIndex } = this.state
-    this.setState({
-      colors: colors.map((value, index) => {
+    this.handleUpdateColors(
+      colors.map((value, index) => {
         if (index === currentIndex ) {
           return color.rgb
         } else {
           return value
         }
       })
-    })
+    )
   }
 
   handleCloseDrawer = () => {
@@ -359,53 +294,10 @@ export class ComposerContainer extends React.PureComponent<any, State> {
     })
   }
 
-  handleLoadImage = (file: File) => {
-
-    if (!this.canvas.current) {
-      return false
-    }
-
-    const ctx = this.canvas.current.getContext('2d')
-
-    getImageBase64(file!, imageUrl => {
-
-      const img = new Image()
-      img.onload = () => {
-
-        this.colorsPosition = []
-        this.setState({
-          showPainter: true,
-          painterImg: { width: img.width, height: img.height }
-        }, () => {
-
-          const canvasSize = this.canvasSize
-          ctx!.drawImage(img, 0, 0, canvasSize.width, canvasSize.height)
-
-          const imageData = ctx!.getImageData(0, 0, canvasSize.width, canvasSize.height)
-          const palette = getPaletteFromImage(
-            imageData,
-            this.state.colors.length
-          )
-
-          this.imageColors = getColorsFromImage(imageData)
-          if (palette) {
-
-            const nearsetColors = findNearestColorOfPalette(
-              this.imageColors, palette
-            )
-
-            this.colorsPosition = nearsetColors.map(one => one.index)
-            this.setState({
-              colors: nearsetColors.map(one => one.rgb)
-            })
-          }
-
-        })
-      }
-
-      img.src = imageUrl!
+  handleUploadImage = (file: File) => {
+    this.setState({
+      rawImage: file
     })
-
     return false
   }
 
@@ -416,55 +308,13 @@ export class ComposerContainer extends React.PureComponent<any, State> {
     )
   }
 
-  handleDragStart = (index: number) => () => {
+  handleUpdateCurrentIndex = (index: number) => {
     this.setState({
       currentIndex: index
-    })
-  }
-
-  handleDragPickle = (index: number) => (_: MouseEvent, data: DraggableData) => {
-
-    const picklePositin = Math.round(data.y) * this.canvasSize.width + Math.round(data.x)
-
-    if (picklePositin < 0 || picklePositin >= this.imageColors.length) {
-      return
-    }
-
-    this.setState({
-      colors: this.state.colors.map(
-        (color, idx) => idx === index
-          ? this.imageColors[picklePositin]
-          : color
-      )
     })
   }
 
   private get colors() {
     return this.state.colors.slice(0, this.state.colorNumbers)
   }
-
-  private getPickleOffset(index: number) {
-
-    const { width } = this.canvasSize
-
-    return {
-      offsetX: Math.floor(index % width),
-      offsetY: Math.ceil(index / width)
-    }
-  }
-
-  private get canvasSize() {
-    const { painterImg: drawerImg } = this.state
-
-    return {
-      width: this.baseFontSize * 40,
-      height: Math.floor(this.baseFontSize * 40 * (drawerImg.height / drawerImg.width))
-    }
-  }
-}
-
-function getImageBase64(img: Blob, callback: (res: string) => void) {
-  const reader = new FileReader()
-  reader.onload = () => callback(reader.result as string)
-  reader.readAsDataURL(img)
 }
