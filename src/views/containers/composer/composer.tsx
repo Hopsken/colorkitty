@@ -1,8 +1,13 @@
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc'
-import { Button,  Slider,  Popover, Upload, message, Drawer, Icon } from 'antd'
 import Draggable, { DraggableData } from 'react-draggable'
 import { RGBColor, ColorResult } from 'react-color'
 import * as React from 'react'
+import {
+  Button, Slider,
+  Popover, Upload,
+  message, Drawer,
+  Icon, Tooltip ,
+} from 'antd'
 
 import {
   getColorsFromImage,
@@ -220,17 +225,18 @@ export class ComposerContainer extends React.PureComponent<any, State> {
 
           <div className={ styles['palette-control'] }>
             <Popover placement='bottom' content={ controls } trigger={ 'click' }>
-              <Button
-                className={ styles['palette-control-more'] }
-                icon='sliders'
-              />
+              <Tooltip title='Settings'>
+                <Button icon='sliders' />
+              </Tooltip>
             </Popover>
             <Upload
               accept={ 'image/*' }
               beforeUpload={ this.handleLoadImage  }
               showUploadList={ false }
             >
-              <Button icon='picture'>Choose Picture</Button>
+              <Tooltip title='Pick colors from Image'>
+                <Button icon='camera' />
+              </Tooltip>
             </Upload>
           </div>
         </div>
