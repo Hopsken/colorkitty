@@ -69,7 +69,7 @@ export class Painter extends React.PureComponent<Props, State> {
       const { offsetX, offsetY } = this.getPickleOffset(position)
       return (
         <Draggable
-          key={ index }
+          key={ position }
           bounds={ bounds }
           defaultPosition={ { x: offsetX, y: offsetY } }
           onStart={ this.handleDragStart(index) }
@@ -136,6 +136,7 @@ export class Painter extends React.PureComponent<Props, State> {
       const img = new Image()
       img.onload = () => {
         this.setCanvasSize(img.height, img.width)
+        this.forceUpdate()
         this.setState({
           hidden: false
         }, () => {
