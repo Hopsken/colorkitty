@@ -1,13 +1,13 @@
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc'
-import * as React from 'react'
 import { RGBColor } from 'react-color'
+import * as React from 'react'
 import {
   Button, Slider,
-  Popover, Upload,
-  Icon, Tooltip ,
+  Popover, Upload, Tooltip
 } from 'antd'
 
-import { toHex, toRGBString, exportPNG } from '@/utilities'
+import { toHex, toRGBString } from '@/utilities'
+import { PaletteToolbox } from './palette-toolbox'
 
 interface Props {
   colors: RGBColor[]
@@ -22,10 +22,6 @@ interface Props {
 
 const styles = require('./palette.styl')
 const cx = require('classnames/bind').bind(styles)
-
-const twitterShareUrl = 'https://twitter.com/intent/tweet?'
-    + 'orginal_referer=https://colorkitty.com&button_hashtag=colorkitty'
-    + '&url=https://colorkitty.com&text=Extract perfect palettes from delicious pictures.'
 
 const SortableColorItem = SortableElement<{
   color: RGBColor,
@@ -98,21 +94,6 @@ export class Palette extends React.PureComponent<Props> {
     />
   )
 
-  renderPaletteToolbox = () => {
-    return (
-      <div className={ styles['palette-toolbox'] }>
-        <Button
-          onClick={ this.handleExport }
-        >
-          <Icon type='picture' />Export
-        </Button>
-        <Button href={ twitterShareUrl }>
-          <Icon type='twitter' />Tweet
-        </Button>
-      </div>
-    )
-  }
-
   renderControls = () => {
     const { colors, onChangeColorsCount } = this.props
 
@@ -167,7 +148,10 @@ export class Palette extends React.PureComponent<Props> {
       <section className={ styles['palette'] }>
         { this.renderPalette() }
         { this.renderBottom() }
-        { this.renderPaletteToolbox() }
+        <PaletteToolbox
+          colors={ this.props.colors }
+          paletteName={ this.props.paletteName }
+        />
       </section>
     )
   }
@@ -184,13 +168,6 @@ export class Palette extends React.PureComponent<Props> {
       arrayMove(this.props.colors, oldIndex, newIndex)
     )
     this.props.onClickColor(newIndex)
-  }
-
-  handleExport = () => {
-    exportPNG(
-      this.props.colors.map(one => toHex(one)),
-      this.props.paletteName || 'New Palette'
-    )
   }
 
   handleInputName = (ev: React.FormEvent<HTMLInputElement>) => {

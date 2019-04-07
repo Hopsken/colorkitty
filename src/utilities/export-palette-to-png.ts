@@ -1,5 +1,8 @@
 import { saveAs } from 'file-saver'
 import tinyColor from 'tinycolor2'
+import { RGBColor } from 'react-color'
+
+import { toHex } from './color'
 
 const logo = require('@/views/assets/colorkitty.png')
 
@@ -91,7 +94,7 @@ function init(ctx: CanvasRenderingContext2D, name: string) {
   )
 }
 
-export function exportPNG(colors: string[], name: string) {
+export function exportPNG(colors: RGBColor[], name: string) {
 
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')!
@@ -102,7 +105,7 @@ export function exportPNG(colors: string[], name: string) {
   ctx.scale(ratio, ratio)
   init(ctx, name)
 
-  colors.map((color, index, all) => drawColor(ctx, color, index, all.length))
+  colors.map((color, index, all) => drawColor(ctx, toHex(color), index, all.length))
 
   const avatar = new Image(52, 52)
   avatar.crossOrigin = ''
