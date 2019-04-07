@@ -3,6 +3,7 @@ import { RGBColor, ColorResult } from 'react-color'
 import * as React from 'react'
 
 import { SuprePicker, Painter, Palette } from '@/views/components'
+import { parseColorsFromUrl } from '@/utilities'
 
 const styles = require('./composer.styl')
 const displayError = (content: string) => message.error(content)
@@ -16,24 +17,35 @@ interface State {
   rawImage: File | null
 }
 
+const defaultPalette = [
+  { r: 231, g: 218, b: 253 },
+  { r: 105, g: 87, b: 200 },
+  { r: 80, g: 64, b: 166 },
+  { r: 67, g: 50, b: 160 },
+  { r: 41, g: 26, b: 124 },
+  { r: 20, g: 6, b: 100 }
+]
+
 export class ComposerContainer extends React.PureComponent<any, State> {
 
   private drawerContainer = React.createRef<HTMLElement>()
 
   state = {
-    colors: [
-      { r: 231, g: 218, b: 253 },
-      { r: 105, g: 87, b: 200 },
-      { r: 80, g: 64, b: 166 },
-      { r: 67, g: 50, b: 160 },
-      { r: 41, g: 26, b: 124 },
-      { r: 20, g: 6, b: 100 }
-    ],
+    colors: defaultPalette,
     colorsCount: 5,
     currentIndex: -1,
     paletteName: '',
     showDrawer: false,
     rawImage: null
+  }
+
+  componentDidMount() {
+    const palette = parseColorsFromUrl()
+    if (palette) {
+      this.setState({
+        colors: palette
+      })
+    }
   }
 
   componentDidCatch() {
