@@ -80,7 +80,6 @@ export class PaletteToolbox extends React.PureComponent<Props, State> {
         onCancel={ this.toggleModal }
         footer={ null }
         title='Export'
-        bodyStyle={ { padding: 0 } }
       >
         <Card bordered={ false }>
           { methods }
