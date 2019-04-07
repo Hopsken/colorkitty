@@ -27,8 +27,8 @@ enum ExportMethod {
 
 const styles = require('./palette-toolbox.styl')
 const twitterShareUrl = 'https://twitter.com/intent/tweet?'
-  + 'orginal_referer=https://colorkitty.com&button_hashtag=colorkitty'
-  + '&url=https://colorkitty.com&text=Extract perfect palettes from delicious pictures.'
+  + 'button_hashtag=colorkitty'
+  + '&url=__URL__&text=Palette: __PALETTE_NAME__.'
 const exportMethodsArray = [
   {
     name: ExportMethod.URL,
@@ -98,7 +98,7 @@ export class PaletteToolbox extends React.PureComponent<Props, State> {
         >
           <Icon type='picture' />Export
         </Button>
-        <Button href={ twitterShareUrl }>
+        <Button onClick={ this.handleTweet }>
           <Icon type='twitter' />Tweet
         </Button>
 
@@ -115,7 +115,7 @@ export class PaletteToolbox extends React.PureComponent<Props, State> {
 
   handleExport = (method: ExportMethod) => () => {
     const { colors, paletteName } = this.props
-    const content = exportMethods[method](colors, paletteName || 'New Palette')
+    const content = (exportMethods[method] as (colors: RGBColor[], name: string) => string)(colors, paletteName || 'New Palette')
 
     if (content) {
       this.setState({
@@ -130,5 +130,17 @@ export class PaletteToolbox extends React.PureComponent<Props, State> {
         content: ''
       })
     }
+  }
+
+  handleTweet = () => {
+    const { paletteName, colors } = this.props
+
+    const win = window.open(
+      twitterShareUrl
+        .replace('__URL__', exportMethods['url'](colors))
+        .replace('__PALETTE_NAME__', paletteName || 'New Palette')
+    )
+
+    win!.focus()
   }
 }
