@@ -1,10 +1,12 @@
-import * as React from 'react'
-import { Select, Card, message } from 'antd'
-import { Color } from 'react-color'
 import { InjectedColorProps, ChromePicker, CustomPicker } from 'react-color'
+import { Select, Card, message, Col, Row } from 'antd'
+import { Color } from 'react-color'
+import tinycolor from 'tinycolor2'
+import * as React from 'react'
 
 import { colorCombinations, ColorCombinationType } from '@/utilities'
 import isFunction from 'lodash/isFunction'
+import { SuppressibleCard } from '../suppressible-card'
 
 const Option = Select.Option
 const styles = require('./supre-picker.styl')
@@ -73,9 +75,10 @@ class SuprePickerComp extends React.PureComponent<SuprePickerProps, SuprePickerS
   }
 
   getContainer = () => document.getElementById('sidebar')!
+
   renderSelector = () => (
     <Select
-      style={ { width: 140 } }
+      style={ { width: 140, marginBottom: 12 } }
       defaultValue='analogous'
       onChange={ this.handleChangeCombineType }
       getPopupContainer={ this.getContainer }
@@ -88,29 +91,74 @@ class SuprePickerComp extends React.PureComponent<SuprePickerProps, SuprePickerS
     </Select>
   )
 
+  renderContrast = () => {
+    const { hex } = this.props
+    if (!hex) {
+      return null
+    }
+
+    const contrast2White = tinycolor.readability(hex, '#fff')
+    const contrast2Black = tinycolor.readability(hex, '#000')
+
+    return (
+      <div className={ styles['contrast'] }>
+        <Row>
+          <Col span={ 8 }>&nbsp;</Col>
+          <Col span={ 8 }>White</Col>
+          <Col span={ 8 }>Black</Col>
+        </Row>
+        <Row>
+          <Col span={ 8 }>AA</Col>
+          <Col span={ 8 }>{ contrast2White >= 4.5 ? '✓' : ' ' }</Col>
+          <Col span={ 8 }>{ contrast2Black >= 4.5 ? '✓' : ' ' }</Col>
+        </Row>
+        <Row>
+          <Col span={ 8 }>AAA</Col>
+          <Col span={ 8 }>{ contrast2White >= 7 ? '✓' : ' ' }</Col>
+          <Col span={ 8 }>{ contrast2Black >= 7 ? '✓' : ' ' }</Col>
+        </Row>
+        <Row>
+          <Col span={ 8 }>Lg AA</Col>
+          <Col span={ 8 }>{ contrast2White >= 3 ? '✓' : ' ' }</Col>
+          <Col span={ 8 }>{ contrast2Black >= 3 ? '✓' : ' ' }</Col>
+        </Row>
+        <Row>
+          <Col span={ 8 }>Lg AAA</Col>
+          <Col span={ 8 }>{ contrast2White >= 4.5 ? '✓' : ' ' }</Col>
+          <Col span={ 8 }>{ contrast2Black >= 4.5 ? '✓' : ' ' }</Col>
+        </Row>
+      </div>
+    )
+  }
+
   render() {
     return (
       <div className={ styles['picker'] } id='sidebar'>
-        <Card bodyStyle={ { padding: 0 } } >
+        <Card bodyStyle={ { padding: 0 } }>
           <ChromePicker
             { ...this.props }
             disableAlpha={ true }
           />
         </Card>
 
-        <Card className={ styles['card'] } size='small' type='inner' title='Shades'>
+        <SuppressibleCard className={ styles['card'] } size='small' type='inner' title='Shades'>
           <CombinationComp
             hex={ this.props.hex }
             type='monochromatic'
           />
-        </Card>
+        </SuppressibleCard>
 
-        <Card className={ styles['card'] }  size='small' type='inner' title='Harmony' extra={ this.renderSelector() }>
+        <SuppressibleCard className={ styles['card'] }  size='small' type='inner' title='Harmony'>
+          { this.renderSelector() }
           <CombinationComp
             hex={ this.props.hex }
             type={ this.state.combinationType }
           />
-        </Card>
+        </SuppressibleCard>
+
+        <SuppressibleCard className={ styles['card'] }  size='small' type='inner' title='Contrast'>
+          { this.renderContrast() }
+        </SuppressibleCard>
       </div>
     )
   }
