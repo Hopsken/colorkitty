@@ -20,6 +20,7 @@
     "@types/color": "^3.0.0",
     "@types/file-saver": "^2.0.0",
     "@types/lodash": "^4.14.123",
+    "@types/node": "^11.13.0",
     "@types/react": "^16.8.13",
     "@types/react-color": "^3.0.0",
     "@types/react-dom": "^16.8.3",

@@ -197,6 +197,11 @@
   resolved "http://registry.npm.taobao.org/@types/lodash/download/@types/lodash-4.14.123.tgz#39be5d211478c8dd3bdae98ee75bb7efe4abfe4d"
   integrity sha1-Ob5dIRR4yN072umO51u37+Sr/k0=
 
+"@types/node@^11.13.0":
+  version "11.13.0"
+  resolved "http://registry.npm.taobao.org/@types/node/download/@types/node-11.13.0.tgz#b0df8d6ef9b5001b2be3a94d909ce3c29a80f9e1"
+  integrity sha1-sN+Nbvm1ABsr46lNkJzjwpqA+eE=
+
 "@types/prop-types@*":
   version "15.7.0"
   resolved "http://registry.npm.taobao.org/@types/prop-types/download/@types/prop-types-15.7.0.tgz#4c48fed958d6dcf9487195a0ef6456d5f6e0163a"
