@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Select } from 'antd'
+import { Select, Card, message } from 'antd'
 import { Color } from 'react-color'
 import { InjectedColorProps, ChromePicker, CustomPicker } from 'react-color'
 
@@ -41,6 +41,7 @@ export function CombinationComp({
     }
     // @ts-ignore
     navigator.clipboard.writeText(color)
+    .then(() => message.success('Copied!'))
   }
 
   const colorSlides =  (colorCombinations[type](hex) || []).map((one: string, index: number) => {
@@ -87,38 +88,29 @@ class SuprePickerComp extends React.PureComponent<SuprePickerProps, SuprePickerS
     </Select>
   )
 
-  renderCombination = () => {
-    return (
-      <div className={ styles['harmony'] }>
-        <h3>Harmony: </h3>
-        { this.renderSelector() }
-        <CombinationComp
-          hex={ this.props.hex }
-          type={ this.state.combinationType }
-          onClick={ this.props.onChange }
-        />
-      </div>
-    )
-  }
-
   render() {
     return (
       <div className={ styles['picker'] } id='sidebar'>
-        <ChromePicker
-          { ...this.props }
-          disableAlpha={ true }
-        />
+        <Card bodyStyle={ { padding: 0 } } >
+          <ChromePicker
+            { ...this.props }
+            disableAlpha={ true }
+          />
+        </Card>
 
-        <div className={ styles['harmony'] }>
-          <h3>Shades</h3>
+        <Card className={ styles['card'] } size='small' type='inner' title='Shades'>
           <CombinationComp
             hex={ this.props.hex }
             type='monochromatic'
-            onClick={ this.props.onChange }
           />
-        </div>
+        </Card>
 
-        { this.renderCombination() }
+        <Card className={ styles['card'] }  size='small' type='inner' title='Harmony' extra={ this.renderSelector() }>
+          <CombinationComp
+            hex={ this.props.hex }
+            type={ this.state.combinationType }
+          />
+        </Card>
       </div>
     )
   }

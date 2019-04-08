@@ -1,5 +1,5 @@
-import { message, Drawer } from 'antd'
 import { RGBColor, ColorResult } from 'react-color'
+import { message, Drawer } from 'antd'
 import * as React from 'react'
 
 import { SuprePicker, Painter, Palette } from '@/views/components'
