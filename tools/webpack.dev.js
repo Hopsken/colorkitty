@@ -29,6 +29,16 @@ module.exports = webpackMerge(commonConfig, {
         exclude: /node_modules/,
         use: [
           {
+            loader: 'babel-loader',
+            options: {
+              plugins: [
+                '@babel/plugin-syntax-typescript',
+                '@babel/plugin-syntax-jsx',
+                'react-hot-loader/babel',
+              ],
+            },
+          },
+          {
             loader: 'ts-loader',
             options: {
               transpileOnly: true,

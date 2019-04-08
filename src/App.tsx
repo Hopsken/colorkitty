@@ -1,4 +1,4 @@
-import { hot } from 'react-hot-loader'
+import { hot } from 'react-hot-loader/root'
 import * as React from 'react'
 
 import { ComposerContainer } from '@/views/containers'
@@ -19,4 +19,4 @@ class App extends React.PureComponent {
   }
 }
 
-export default hot(module)(App)
+export default hot(App)
