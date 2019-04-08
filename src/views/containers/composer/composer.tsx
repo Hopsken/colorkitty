@@ -85,6 +85,7 @@ export class ComposerContainer extends React.PureComponent<any, State> {
           title='Color Picker'
           onClose={ this.handleCloseDrawer }
           width={ 300 }
+          destroyOnClose={ true }
         >
           <SuprePicker
             color={ colors[currentIndex] }
