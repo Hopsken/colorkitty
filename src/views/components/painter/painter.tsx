@@ -1,5 +1,6 @@
 import Draggable, { DraggableData } from 'react-draggable'
 import { Color, RGBColor } from 'react-color'
+import { Icon, Spin } from 'antd'
 import * as React from 'react'
 
 import {
@@ -29,6 +30,7 @@ const pickleStyle = {
   top: -55,
   left: -20
 }
+const loadingIcon = <Icon type='loading' style={ { fontSize: 48 } } spin={ true } />
 
 export class Painter extends React.PureComponent<Props, State> {
 
@@ -89,12 +91,18 @@ export class Painter extends React.PureComponent<Props, State> {
 
   render() {
     const { hidden } = this.state
+    const { file } = this.props
+
     return (
       <section
         className={ styles['painter'] }
-        style={ { display: hidden ? 'none' : 'block' } }
+        style={ { display: file ? 'block' : 'none' } }
       >
-        <div className={ styles['painting'] }>
+        { hidden && <Spin tip='Processing...' indicator={ loadingIcon } /> }
+        <div
+          className={ styles['painting'] }
+          style={ { display: hidden ? 'none' : 'block' } }
+        >
           <canvas
             ref={ this.canvas }
             { ...this.canvasSize }
@@ -130,6 +138,10 @@ export class Painter extends React.PureComponent<Props, State> {
     if (!this.canvas.current || !file) {
       return null
     }
+
+    this.setState({
+      hidden: true
+    })
 
     const ctx = this.canvas.current.getContext('2d')
     getImageBase64(file!, (imageUrl: string) => {
