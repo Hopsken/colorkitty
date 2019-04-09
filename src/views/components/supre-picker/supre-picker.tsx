@@ -5,7 +5,7 @@ import isFunction from 'lodash/isFunction'
 import { Color } from 'react-color'
 import * as React from 'react'
 
-import { colorCombinations, ColorCombinationType } from '@/utilities'
+import { colorCombinations, ColorCombinationType, readable } from '@/utilities'
 import { SuppressibleCard } from '../suppressible-card'
 
 const Option = Select.Option
@@ -51,7 +51,7 @@ export function CombinationComp({
       <div
         key={ index }
         className={ styles['slide'] }
-        style={ { background: one } }
+        style={ { background: one, color: readable(one) } }
         onClick={ handleChange(one) }
       >
         <span>{ one.toUpperCase() }</span>

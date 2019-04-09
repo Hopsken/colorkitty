@@ -1,8 +1,7 @@
-import { mostReadable } from '@ctrl/tinycolor'
 import { saveAs } from 'file-saver'
 import { RGBColor } from 'react-color'
 
-import { toHex } from './color'
+import { toHex, readable } from './color'
 
 const logo = require('@/views/assets/colorkitty.png')
 
@@ -37,17 +36,10 @@ function drawColor(ctx: CanvasRenderingContext2D, color: string, index: number, 
       h
   })
 
-  const textColor = mostReadable(color,
-      ['#fff', '#4A4A4A'],
-      {
-        includeFallbackColors: true
-      }
-    )!.toHexString()
-
   drawText(
       ctx,
       color,
-      textColor,
+      readable(color),
       {
           x: 90 + w * index,
           y: 224

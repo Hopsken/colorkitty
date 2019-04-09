@@ -1,5 +1,11 @@
 import { Color, HSLColor, RGBColor } from 'react-color'
-import { TinyColor } from '@ctrl/tinycolor'
+import { TinyColor, mostReadable } from '@ctrl/tinycolor'
+
+export function readable(color: Color): string {
+  return mostReadable(color,
+    ['#fff', '#4A4A4A'],
+  )!.toHexString()
+}
 
 export function toHex(color: Color): string {
   return (new TinyColor(color)).toHexString()

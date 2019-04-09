@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { readable } from '@/utilities'
 const styles = require('./pickle.styl')
 
 interface Props extends React.BaseHTMLAttributes<HTMLDivElement> {
@@ -28,6 +29,7 @@ export const Pickle = (props: Props) => {
     textAlign: 'center' as React.CSSProperties['textAlign'],
     fontWeight: 700,
     backgroundColor: color,
+    color: readable(color)
   }
 
   return (

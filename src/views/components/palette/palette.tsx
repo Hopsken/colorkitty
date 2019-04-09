@@ -6,7 +6,7 @@ import {
   Popover, Upload, Tooltip
 } from 'antd'
 
-import { toHex, toRGBString } from '@/utilities'
+import { toHex, toRGBString, readable } from '@/utilities'
 import { PaletteToolbox } from './palette-toolbox'
 
 interface Props {
@@ -40,7 +40,7 @@ const SortableColorItem = SortableElement<{
       style={ { backgroundColor: toRGBString(color) } }
       onClick={ handleClickColor }
     >
-      <span>{ toHex(color).toUpperCase() }</span>
+      <span style={ { color: readable(color) } }>{ toHex(color).toUpperCase() }</span>
     </div>
   )
 )
