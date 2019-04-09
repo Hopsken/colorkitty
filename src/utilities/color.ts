@@ -1,29 +1,12 @@
 import { Color, HSLColor, RGBColor } from 'react-color'
-import QixColor from 'color'
 import { TinyColor } from '@ctrl/tinycolor'
 
-function removeAlpha(color: Color) {
-  if (isRGBColor(color) || isHSLColor(color)) {
-    delete color.a
-  }
-  return color
-}
-
 export function toHex(color: Color): string {
-  return QixColor(removeAlpha(color)).hex()
+  return (new TinyColor(color)).toHexString()
 }
 
 export function toRGBString(color: Color): string {
-  return QixColor(removeAlpha(color)).rgb().string()
-}
-
-export function hslToRgb(color: HSLColor): RGBColor {
-  const rgbArr = QixColor(removeAlpha(color)).rgb()
-  return {
-    r: rgbArr[0],
-    g: rgbArr[1],
-    b: rgbArr[2],
-  }
+  return (new TinyColor(color)).toRgbString()
 }
 
 export function isHexColor(hex: string) {
