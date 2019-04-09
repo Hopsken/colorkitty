@@ -1,4 +1,5 @@
-import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc'
+import { SortableContainer, SortableElement } from 'react-sortable-hoc'
+import arrayMove from 'array-move'
 import { RGBColor } from 'react-color'
 import * as React from 'react'
 import {

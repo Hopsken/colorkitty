@@ -602,6 +602,11 @@ array-flatten@^2.1.0:
   resolved "http://registry.npm.taobao.org/array-flatten/download/array-flatten-2.1.2.tgz#24ef80a28c1a893617e2149b0c6d0d788293b099"
   integrity sha1-JO+AoowaiTYX4hSbDG0NeIKTsJk=
 
+array-move@^2.1.0:
+  version "2.1.0"
+  resolved "http://registry.npm.taobao.org/array-move/download/array-move-2.1.0.tgz#b4e9fc8d6a580bc97dcad408e0539c61b4b7ed7e"
+  integrity sha1-tOn8jWpYC8l9ytQI4FOcYbS37X4=
+
 array-tree-filter@^2.1.0:
   version "2.1.0"
   resolved "http://registry.npm.taobao.org/array-tree-filter/download/array-tree-filter-2.1.0.tgz#873ac00fec83749f255ac8dd083814b4f6329190"

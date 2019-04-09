@@ -27,6 +27,7 @@
     "@types/react-recaptcha": "^2.3.3",
     "@types/react-sortable-hoc": "^0.6.5",
     "antd": "^3.16.2",
+    "array-move": "^2.1.0",
     "autoprefixer": "^9.5.1",
     "babel-loader": "^8.0.5",
     "classnames": "^2.2.6",
