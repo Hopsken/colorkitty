@@ -1,5 +1,5 @@
 import { InjectedColorProps, ChromePicker, CustomPicker } from 'react-color'
-import { Select, Card, message } from 'antd'
+import { Select, Card, message, Icon } from 'antd'
 import isFunction from 'lodash/isFunction'
 import { Color } from 'react-color'
 import * as React from 'react'
@@ -10,6 +10,14 @@ import { ContrastTable } from './contrast-table'
 
 const Option = Select.Option
 const styles = require('./supre-picker.styl')
+const contrastTitle = (
+  <span>
+    Contrast&nbsp;&nbsp;
+    <a target='_blank' href='https://webaim.org/articles/contrast/'>
+      <Icon type='question-circle' />
+    </a>
+  </span>
+)
 
 interface SuprePickerProps extends InjectedColorProps {
   colors: Color[]
@@ -119,7 +127,7 @@ class SuprePickerComp extends React.PureComponent<SuprePickerProps, SuprePickerS
           />
         </SuppressibleCard>
 
-        <SuppressibleCard className={ styles['card'] }  size='small' type='inner' title='Contrast'>
+        <SuppressibleCard className={ styles['card'] }  size='small' type='inner' title={ contrastTitle }>
           <ContrastTable colors={ this.props.colors } activeColor={ this.props.hex! } />
         </SuppressibleCard>
       </div>

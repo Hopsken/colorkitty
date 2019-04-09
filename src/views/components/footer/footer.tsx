@@ -9,6 +9,6 @@ export const Footer = () => (
     <Divider className={ styles['divider'] }>
       <img className={ styles['logo'] } alt='color kitty' src={ kitty }/>
     </Divider>
-    <p>Made with <Icon type='heart' style={ { color: '#FE615C' } } /> by <a href='https://github.com/hopsken'>Hopsken</a></p>
+    <p>Made with <Icon type='heart' style={ { color: '#FE615C' } } /> by <a href='https://hopsken.com'>Hopsken</a></p>
   </footer>
 )

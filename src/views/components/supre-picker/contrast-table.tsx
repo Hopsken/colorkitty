@@ -1,6 +1,6 @@
 import { Color, TwitterPicker, TwitterPickerProps, ColorResult } from 'react-color'
 import { readability } from '@ctrl/tinycolor'
-import { Dropdown } from 'antd'
+import { Dropdown, Icon } from 'antd'
 import * as React from 'react'
 
 import { toHex } from '@/utilities'
