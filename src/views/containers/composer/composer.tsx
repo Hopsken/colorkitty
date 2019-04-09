@@ -99,7 +99,7 @@ export class ComposerContainer extends React.PureComponent<any, State> {
 
   handleUpdateColors = (colors: RGBColor[]) => {
     this.setState({
-      colors
+      colors: colors.concat(this.state.colors.slice(colors.length))
     })
   }
 
