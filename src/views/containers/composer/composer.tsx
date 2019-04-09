@@ -129,9 +129,10 @@ export class ComposerContainer extends React.PureComponent<any, State> {
   }
 
   handleClickColor = (index: number) => {
+    const { currentIndex } = this.state
     this.setState({
-      currentIndex: index,
-      showDrawer: true
+      currentIndex: index === currentIndex ? -1 : index,
+      showDrawer: index === currentIndex ? false : true
     })
   }
 

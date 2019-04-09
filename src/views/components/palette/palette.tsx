@@ -174,7 +174,6 @@ export class Palette extends React.PureComponent<Props> {
     this.props.updateColors(
       arrayMove(this.props.colors, oldIndex, newIndex)
     )
-    this.props.onClickColor(newIndex)
   }
 
   handleInputName = (ev: React.FormEvent<HTMLInputElement>) => {
