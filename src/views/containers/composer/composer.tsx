@@ -18,12 +18,12 @@ interface State {
 }
 
 const defaultPalette = [
-  { r: 231, g: 218, b: 253 },
-  { r: 105, g: 87, b: 200 },
-  { r: 80, g: 64, b: 166 },
-  { r: 67, g: 50, b: 160 },
-  { r: 41, g: 26, b: 124 },
-  { r: 20, g: 6, b: 100 }
+  { r: 23, g: 63, b: 95 },
+  { r: 32, g: 99, b: 155 },
+  { r: 60, g: 174, b: 163 },
+  { r: 246, g: 213, b: 92 },
+  { r: 237, g: 85, b: 59 },
+  { r: 23, g: 154, b: 209 }
 ]
 
 export class ComposerContainer extends React.PureComponent<any, State> {
