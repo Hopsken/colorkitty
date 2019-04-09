@@ -32,13 +32,13 @@ export function getRandomColor(): RGBColor {
 }
 
 function analogous(color: Color): string[] {
-  const tinycolor = new TinyColor(toHex(color))
+  const tinycolor = new TinyColor(color)
 
   return tinycolor.analogous(4).slice(1).map(c => c.toHexString())
 }
 
 function monochromatic(color: Color): string[] {
-  const tinycolor = new TinyColor(toHex(color))
+  const tinycolor = new TinyColor(color)
   const result = tinycolor.monochromatic(7).slice(1)
   result.sort((a, b) => b.toHsl().l - a.toHsl().l)
 
@@ -46,27 +46,41 @@ function monochromatic(color: Color): string[] {
 }
 
 function splitcomplement(color: Color): string[] {
-  const tinycolor = new TinyColor(toHex(color))
+  const tinycolor = new TinyColor(color)
 
   return tinycolor.splitcomplement().map(c => c.toHexString())
 }
 
 function triad(color: Color): string[] {
-  const tinycolor = new TinyColor(toHex(color))
+  const tinycolor = new TinyColor(color)
 
   return tinycolor.triad().map(c => c.toHexString())
 }
 
 function tetrad(color: Color): string[] {
-  const tinycolor = new TinyColor(toHex(color))
+  const tinycolor = new TinyColor(color)
 
   return tinycolor.tetrad().map(c => c.toHexString())
 }
 
 function complement(color: Color): string[] {
-  const tinycolor = new TinyColor(toHex(color))
+  const tinycolor = new TinyColor(color)
 
   return [toHex(color), tinycolor.complement().toHexString()]
+}
+
+function shades(color: Color): string[] {
+  const tinycolor = new TinyColor(color)
+
+  return [
+    tinycolor.tint(90).toHexString(),
+    tinycolor.tint(60).toHexString(),
+    tinycolor.tint(30).toHexString(),
+    tinycolor.toHexString(),
+    tinycolor.shade(30).toHexString(),
+    tinycolor.shade(60).toHexString(),
+    tinycolor.shade(90).toHexString(),
+  ]
 }
 
 export const colorCombinations = {
@@ -75,8 +89,9 @@ export const colorCombinations = {
   splitcomplement,
   triad,
   tetrad,
-  complement
+  complement,
+  shades,
 }
 
 export type ColorCombinationType = 'analogous' | 'monochromatic' | 'splitcomplement' |
-  'triad' | 'tetrad' | 'complement'
+  'triad' | 'tetrad' | 'complement' | 'shades'

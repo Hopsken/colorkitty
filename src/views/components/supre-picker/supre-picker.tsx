@@ -83,6 +83,7 @@ class SuprePickerComp extends React.PureComponent<SuprePickerProps, SuprePickerS
       onChange={ this.handleChangeCombineType }
       getPopupContainer={ this.getContainer }
     >
+      <Option value='monochromatic'>Monochromatic</Option>
       <Option value='analogous'>Analogous</Option>
       <Option value='triad'>Triad</Option>
       <Option value='tetrad'>Tetrad</Option>
@@ -144,7 +145,7 @@ class SuprePickerComp extends React.PureComponent<SuprePickerProps, SuprePickerS
         <SuppressibleCard className={ styles['card'] } size='small' type='inner' title='Shades'>
           <CombinationComp
             hex={ this.props.hex }
-            type='monochromatic'
+            type='shades'
           />
         </SuppressibleCard>
 
