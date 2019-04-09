@@ -69,6 +69,7 @@ export class ComposerContainer extends React.PureComponent<any, State> {
           onChangePaletteName={ this.handleInputName }
           onClickColor={ this.handleClickColor }
           onUploadImage={ this.handleUploadImage }
+          currentIndex={ currentIndex }
         />
 
         <Painter

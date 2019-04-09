@@ -12,6 +12,7 @@ import { PaletteToolbox } from './palette-toolbox'
 interface Props {
   colors: RGBColor[]
   paletteName: string
+  currentIndex: number
 
   updateColors: (colors: RGBColor[]) => void
   onChangeColorsCount: (count: number) => void
@@ -26,14 +27,16 @@ const cx = require('classnames/bind').bind(styles)
 const SortableColorItem = SortableElement<{
   color: RGBColor,
   length: number,
+  isActive: boolean
   handleClickColor: () => void
 }>(({
   color,
   length,
+  isActive,
   handleClickColor
 }) => (
     <div
-      className={ cx('c', `c-${length}`) }
+      className={ cx('c', `c-${length}`, { active: isActive }) }
       style={ { backgroundColor: toRGBString(color) } }
       onClick={ handleClickColor }
     >
@@ -44,16 +47,19 @@ const SortableColorItem = SortableElement<{
 
 const SortableColorList = SortableContainer<{
   colors: RGBColor[],
-  handleClick: (index: number) => () => void
+  handleClick: (index: number) => () => void,
+  currentIndex: number
 }>(({
   colors,
   handleClick,
+  currentIndex,
 }) => {
-  const items = colors.map((color: any, index: any, all: any) => (
+  const items = colors.map((color: any, index: number, all: any) => (
     <SortableColorItem
       key={ `color-${index}` }
       index={ index }
       color={ color }
+      isActive={ currentIndex === index }
       length={ all.length }
       handleClickColor={ handleClick(index) }
     />)
@@ -86,6 +92,7 @@ export class Palette extends React.PureComponent<Props> {
     <SortableColorList
       axis='x'
       lockAxis='x'
+      currentIndex={ this.props.currentIndex }
       colors={ this.props.colors }
       handleClick={ this.handleClickColor }
       onSortEnd={ this.handleDragColorEnd }
