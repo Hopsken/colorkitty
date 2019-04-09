@@ -1,5 +1,5 @@
+import { mostReadable } from '@ctrl/tinycolor'
 import { saveAs } from 'file-saver'
-import tinyColor from 'tinycolor2'
 import { RGBColor } from 'react-color'
 
 import { toHex } from './color'
@@ -37,12 +37,12 @@ function drawColor(ctx: CanvasRenderingContext2D, color: string, index: number, 
       h
   })
 
-  const textColor = tinyColor.mostReadable(color,
+  const textColor = mostReadable(color,
       ['#fff', '#4A4A4A'],
       {
         includeFallbackColors: true
       }
-    ).toHexString()
+    )!.toHexString()
 
   drawText(
       ctx,

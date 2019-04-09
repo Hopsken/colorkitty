@@ -1,6 +1,6 @@
 import { Color, HSLColor, RGBColor } from 'react-color'
 import QixColor from 'color'
-import tinyColor from 'tinycolor2'
+import { TinyColor } from '@ctrl/tinycolor'
 
 function removeAlpha(color: Color) {
   if (isRGBColor(color) || isHSLColor(color)) {
@@ -28,7 +28,7 @@ export function hslToRgb(color: HSLColor): RGBColor {
 
 export function isHexColor(hex: string) {
   const lh = (String(hex).charAt(0) === '#') ? 1 : 0
-  return hex.length !== (4 + lh) && hex.length < (7 + lh) && tinyColor(hex).isValid()
+  return hex.length !== (4 + lh) && hex.length < (7 + lh) && (new TinyColor(hex)).isValid
 }
 
 export function isRGBColor(color: Color): color is RGBColor {
@@ -49,13 +49,13 @@ export function getRandomColor(): RGBColor {
 }
 
 function analogous(color: Color): string[] {
-  const tinycolor = tinyColor(toHex(color))
+  const tinycolor = new TinyColor(toHex(color))
 
   return tinycolor.analogous(4).slice(1).map(c => c.toHexString())
 }
 
 function monochromatic(color: Color): string[] {
-  const tinycolor = tinyColor(toHex(color))
+  const tinycolor = new TinyColor(toHex(color))
   const result = tinycolor.monochromatic(7).slice(1)
   result.sort((a, b) => b.toHsl().l - a.toHsl().l)
 
@@ -63,25 +63,25 @@ function monochromatic(color: Color): string[] {
 }
 
 function splitcomplement(color: Color): string[] {
-  const tinycolor = tinyColor(toHex(color))
+  const tinycolor = new TinyColor(toHex(color))
 
   return tinycolor.splitcomplement().map(c => c.toHexString())
 }
 
 function triad(color: Color): string[] {
-  const tinycolor = tinyColor(toHex(color))
+  const tinycolor = new TinyColor(toHex(color))
 
   return tinycolor.triad().map(c => c.toHexString())
 }
 
 function tetrad(color: Color): string[] {
-  const tinycolor = tinyColor(toHex(color))
+  const tinycolor = new TinyColor(toHex(color))
 
   return tinycolor.tetrad().map(c => c.toHexString())
 }
 
 function complement(color: Color): string[] {
-  const tinycolor = tinyColor(toHex(color))
+  const tinycolor = new TinyColor(toHex(color))
 
   return [toHex(color), tinycolor.complement().toHexString()]
 }

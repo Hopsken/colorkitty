@@ -1,11 +1,11 @@
 import { InjectedColorProps, ChromePicker, CustomPicker } from 'react-color'
 import { Select, Card, message, Col, Row } from 'antd'
+import { readability } from '@ctrl/tinycolor'
+import isFunction from 'lodash/isFunction'
 import { Color } from 'react-color'
-import tinycolor from 'tinycolor2'
 import * as React from 'react'
 
 import { colorCombinations, ColorCombinationType } from '@/utilities'
-import isFunction from 'lodash/isFunction'
 import { SuppressibleCard } from '../suppressible-card'
 
 const Option = Select.Option
@@ -97,8 +97,8 @@ class SuprePickerComp extends React.PureComponent<SuprePickerProps, SuprePickerS
       return null
     }
 
-    const contrast2White = tinycolor.readability(hex, '#fff')
-    const contrast2Black = tinycolor.readability(hex, '#000')
+    const contrast2White = readability(hex, '#fff')
+    const contrast2Black = readability(hex, '#000')
 
     return (
       <div className={ styles['contrast'] }>

@@ -1,4 +1,4 @@
-import tinyColor from 'tinycolor2'
+import { TinyColor } from '@ctrl/tinycolor'
 import { RGBColor } from 'react-color'
 
 export function parseColorsFromUrl() {
@@ -7,8 +7,8 @@ export function parseColorsFromUrl() {
 
     const hexColors = pathname.slice(1).split('-')
     const rgbColors = hexColors.map(one => {
-        const color = new tinyColor(one)
-        if (!color.isValid()) {
+        const color = new TinyColor(one)
+        if (!color.isValid) {
             isValid = false
         }
         return color.toRgb() as RGBColor

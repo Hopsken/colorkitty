@@ -158,6 +158,11 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
+"@ctrl/tinycolor@^2.4.0":
+  version "2.4.0"
+  resolved "http://registry.npm.taobao.org/@ctrl/tinycolor/download/@ctrl/tinycolor-2.4.0.tgz#0b806ffd71c9c4b28044fa1f6064e8c033a42b9d"
+  integrity sha1-C4Bv/XHJxLKARPofYGTowDOkK50=
+
 "@icons/material@^0.2.4":
   version "0.2.4"
   resolved "http://registry.npm.taobao.org/@icons/material/download/@icons/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
@@ -249,11 +254,6 @@
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
-
-"@types/tinycolor2@^1.4.1":
-  version "1.4.1"
-  resolved "http://registry.npm.taobao.org/@types/tinycolor2/download/@types/tinycolor2-1.4.1.tgz#2f5670c9d1d6e558897a810ed284b44918fc1253"
-  integrity sha1-L1ZwydHW5ViJeoEO0oS0SRj8ElM=
 
 "@webassemblyjs/ast@1.8.5":
   version "1.8.5"
