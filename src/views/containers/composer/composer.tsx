@@ -91,6 +91,7 @@ export class ComposerContainer extends React.PureComponent<any, State> {
           <SuprePicker
             color={ colors[currentIndex] }
             onChange={ this.handleChangeColor }
+            colors={ this.colors }
           />
         </Drawer>
       </section>

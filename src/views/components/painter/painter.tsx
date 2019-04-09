@@ -98,7 +98,7 @@ export class Painter extends React.PureComponent<Props, State> {
         className={ styles['painter'] }
         style={ { display: file ? 'block' : 'none' } }
       >
-        { hidden && <Spin tip='Processing...' indicator={ loadingIcon } /> }
+        { hidden && <Spin indicator={ loadingIcon } /> }
         <div
           className={ styles['painting'] }
           style={ { display: hidden ? 'none' : 'block' } }

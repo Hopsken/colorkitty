@@ -1,17 +1,19 @@
 import { InjectedColorProps, ChromePicker, CustomPicker } from 'react-color'
-import { Select, Card, message, Col, Row } from 'antd'
-import { readability } from '@ctrl/tinycolor'
+import { Select, Card, message } from 'antd'
 import isFunction from 'lodash/isFunction'
 import { Color } from 'react-color'
 import * as React from 'react'
 
 import { colorCombinations, ColorCombinationType, readable } from '@/utilities'
 import { SuppressibleCard } from '../suppressible-card'
+import { ContrastTable } from './contrast-table'
 
 const Option = Select.Option
 const styles = require('./supre-picker.styl')
 
-interface SuprePickerProps extends InjectedColorProps {}
+interface SuprePickerProps extends InjectedColorProps {
+  colors: Color[]
+}
 
 interface SuprePickerState {
   combinationType: ColorCombinationType
@@ -70,8 +72,8 @@ export function CombinationComp({
 
 class SuprePickerComp extends React.PureComponent<SuprePickerProps, SuprePickerState> {
 
-  state: SuprePickerState = {
-    combinationType: 'analogous'
+  state = {
+    combinationType: 'analogous' as ColorCombinationType,
   }
 
   getContainer = () => document.getElementById('sidebar')!
@@ -91,46 +93,6 @@ class SuprePickerComp extends React.PureComponent<SuprePickerProps, SuprePickerS
       <Option value='splitcomplement'>Split Complement</Option>
     </Select>
   )
-
-  renderContrast = () => {
-    const { hex } = this.props
-    if (!hex) {
-      return null
-    }
-
-    const contrast2White = readability(hex, '#fff')
-    const contrast2Black = readability(hex, '#000')
-
-    return (
-      <div className={ styles['contrast'] }>
-        <Row>
-          <Col span={ 8 }>&nbsp;</Col>
-          <Col span={ 8 }>White</Col>
-          <Col span={ 8 }>Black</Col>
-        </Row>
-        <Row>
-          <Col span={ 8 }>AA</Col>
-          <Col span={ 8 }>{ contrast2White >= 4.5 ? '✓' : ' ' }</Col>
-          <Col span={ 8 }>{ contrast2Black >= 4.5 ? '✓' : ' ' }</Col>
-        </Row>
-        <Row>
-          <Col span={ 8 }>AAA</Col>
-          <Col span={ 8 }>{ contrast2White >= 7 ? '✓' : ' ' }</Col>
-          <Col span={ 8 }>{ contrast2Black >= 7 ? '✓' : ' ' }</Col>
-        </Row>
-        <Row>
-          <Col span={ 8 }>Lg AA</Col>
-          <Col span={ 8 }>{ contrast2White >= 3 ? '✓' : ' ' }</Col>
-          <Col span={ 8 }>{ contrast2Black >= 3 ? '✓' : ' ' }</Col>
-        </Row>
-        <Row>
-          <Col span={ 8 }>Lg AAA</Col>
-          <Col span={ 8 }>{ contrast2White >= 4.5 ? '✓' : ' ' }</Col>
-          <Col span={ 8 }>{ contrast2Black >= 4.5 ? '✓' : ' ' }</Col>
-        </Row>
-      </div>
-    )
-  }
 
   render() {
     return (
@@ -158,7 +120,7 @@ class SuprePickerComp extends React.PureComponent<SuprePickerProps, SuprePickerS
         </SuppressibleCard>
 
         <SuppressibleCard className={ styles['card'] }  size='small' type='inner' title='Contrast'>
-          { this.renderContrast() }
+          <ContrastTable colors={ this.props.colors } activeColor={ this.props.hex! } />
         </SuppressibleCard>
       </div>
     )
