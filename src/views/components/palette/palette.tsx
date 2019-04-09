@@ -25,17 +25,25 @@ interface Props {
 const styles = require('./palette.styl')
 const cx = require('classnames/bind').bind(styles)
 
-const SortableColorItem = SortableElement<{
-  color: RGBColor,
-  length: number,
+interface SortableColorItemProps {
+  color: RGBColor
+  length: number
   isActive: boolean
   handleClickColor: () => void
-}>(({
+}
+
+interface SortableColorListProps {
+  colors: RGBColor[]
+  currentIndex: number
+  handleClick: (index: number) => () => void
+}
+
+const SortableColorItem = SortableElement(({
   color,
   length,
   isActive,
   handleClickColor
-}) => (
+}: SortableColorItemProps) => (
     <div
       className={ cx('c', `c-${length}`, { active: isActive }) }
       style={ { backgroundColor: toRGBString(color) } }
@@ -46,15 +54,11 @@ const SortableColorItem = SortableElement<{
   )
 )
 
-const SortableColorList = SortableContainer<{
-  colors: RGBColor[],
-  handleClick: (index: number) => () => void,
-  currentIndex: number
-}>(({
+const SortableColorList = SortableContainer(({
   colors,
   handleClick,
   currentIndex,
-}) => {
+}: SortableColorListProps) => {
   const items = colors.map((color: any, index: number, all: any) => (
     <SortableColorItem
       key={ `color-${index}` }
