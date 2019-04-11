@@ -1,27 +1,25 @@
+@require '~@/styles'
+
 // to override default styles
 :global(.chrome-picker)
   box-shadow: 0 2px 4px 0 rgba(62,57,107,0.2) !important
   width: 100% !important
 
 .card
-  margin-top: 1.25rem
-
-.slide-wrapper
-  h3
-    margin: .5rem 0
+  margin-top: qu(4)
 
 .slides
   display: flex
   flex-direction: row
-  height: 2rem
+  height: qu(7)
   width: 100%
 
   .slide
-    flex: 1 1 0%
+    flex: 1 1 auto
     margin-right: 1px
     text-align: center
     color: #fff
-    line-height: 2rem
+    line-height: qu(7)
 
     &:last-child
       margin-right: 0

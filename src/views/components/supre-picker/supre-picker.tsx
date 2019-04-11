@@ -70,10 +70,8 @@ export function CombinationComp({
   })
 
   return (
-    <div className={ styles['slide-wrapper'] }>
-      <div className={ styles['slides'] }>
-        { colorSlides }
-      </div>
+    <div className={ styles['slides'] }>
+      { colorSlides }
     </div>
   )
 }
