@@ -44,6 +44,14 @@ ${ colors.map(one => toHex(one)).join('\n') }
     return text
 }
 
+export enum ExportMethod {
+    URL = 'url',
+    PNG = 'png',
+    SCSS = 'scss',
+    JSON = 'json',
+    HEX = 'hex'
+}
+
 export const exportMethods = {
     url: exportURL,
     png: exportPNG,

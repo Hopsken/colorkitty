@@ -1,14 +1,10 @@
 import { SortableContainer, SortableElement } from 'react-sortable-hoc'
+import { Button, Upload, Tooltip } from 'antd'
 import arrayMove from 'array-move'
 import { RGBColor } from 'react-color'
 import * as React from 'react'
-import {
-  Button, Slider,
-  Popover, Upload, Tooltip
-} from 'antd'
 
 import { toHex, toRGBString, readable } from '@/utilities'
-import { PaletteToolbox } from './palette-toolbox'
 
 interface Props {
   colors: RGBColor[]
@@ -16,8 +12,6 @@ interface Props {
   currentIndex: number
 
   updateColors: (colors: RGBColor[]) => void
-  onChangeColorsCount: (count: number) => void
-  onChangePaletteName: (name: string) => void
   onClickColor: (index: number) => void
   onUploadImage: (file: File) => boolean
 }
@@ -106,42 +100,11 @@ export class Palette extends React.PureComponent<Props> {
     />
   )
 
-  renderControls = () => {
-    const { colors, onChangeColorsCount } = this.props
-
-    return (
-      <div className={ styles['palette-settings'] }>
-        <span className={ styles['palette-slider-title'] }>COUNT</span>
-        <div className={ styles['palette-slider'] }>
-          <span className={ styles['palette-slider-tip'] }>1</span>
-          <Slider
-            value={ colors.length }
-            step={ 1 }
-            max={ 6 }
-            min={ 1 }
-            onChange={ onChangeColorsCount }
-          />
-          <span className={ styles['palette-slider-tip'] }>6</span>
-        </div>
-      </div>
-    )
-  }
-
   renderBottom = () => (
     <div className={ styles['palette-info'] }>
-      <input
-        className={ styles['palette-name'] }
-        value={ this.props.paletteName }
-        onChange={ this.handleInputName }
-        placeholder='NEW PALETTE'
-      />
+      <span className={ styles['palette-name'] }>{ this.props.paletteName || 'NEW PALETEE' }</span>
 
       <div className={ styles['palette-control'] }>
-        <Popover placement='bottom' content={ this.renderControls() } trigger={ 'click' }>
-          <Tooltip title='Settings'>
-            <Button icon='sliders' />
-          </Tooltip>
-        </Popover>
         <Upload
           accept={ 'image/*' }
           beforeUpload={ this.props.onUploadImage  }
@@ -160,10 +123,6 @@ export class Palette extends React.PureComponent<Props> {
       <section className={ styles['palette'] }>
         { this.renderPalette() }
         { this.renderBottom() }
-        <PaletteToolbox
-          colors={ this.props.colors }
-          paletteName={ this.props.paletteName }
-        />
       </section>
     )
   }
@@ -179,10 +138,5 @@ export class Palette extends React.PureComponent<Props> {
     this.props.updateColors(
       arrayMove(this.props.colors, oldIndex, newIndex)
     )
-  }
-
-  handleInputName = (ev: React.FormEvent<HTMLInputElement>) => {
-    const target = ev.target as HTMLInputElement
-    this.props.onChangePaletteName(target.value)
   }
 }

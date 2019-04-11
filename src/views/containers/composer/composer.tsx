@@ -2,7 +2,7 @@ import { RGBColor, ColorResult } from 'react-color'
 import { message, Layout } from 'antd'
 import * as React from 'react'
 
-import { SuprePicker, Painter, Palette, Footer } from '@/views/components'
+import { SuprePicker, Painter, Palette, Footer, LeftPad } from '@/views/components'
 import { parseColorsFromUrl } from '@/utilities'
 
 const styles = require('./composer.styl')
@@ -66,7 +66,14 @@ export class ComposerContainer extends React.PureComponent<any, State> {
 
     return (
       <Layout className={ styles['container'] }>
-        <Layout.Sider width={ 280 } className={ styles['sidebar'] }>SOME</Layout.Sider>
+        <Layout.Sider width={ 280 } className={ styles['sidebar'] }>
+          <LeftPad
+            colors={ this.colors }
+            paletteName={ this.state.paletteName }
+            onChangeColorsCount={ this.handleChangeNumbers }
+            onInputPaletteName={ this.handleInputName }
+          />
+        </Layout.Sider>
 
         <Layout.Content className={ styles['content'] }>
           <Palette
@@ -84,7 +91,7 @@ export class ComposerContainer extends React.PureComponent<any, State> {
             colors={ this.colors }
             file={ rawImage }
             updateColors={ this.handleUpdateColors }
-            updateCurrentIndex={ this.handleClickColor }
+            updateCurrentIndex={ this.handleUpdateCurrentIndex }
           />
           <Footer />
         </Layout.Content>
@@ -135,9 +142,10 @@ export class ComposerContainer extends React.PureComponent<any, State> {
     })
   }
 
-  handleInputName = (paletteName: string) => {
+  handleInputName = (ev: React.FormEvent<HTMLInputElement>) => {
+    const target = ev.target as HTMLInputElement
     this.setState({
-      paletteName
+      paletteName: target.value
     })
   }
 

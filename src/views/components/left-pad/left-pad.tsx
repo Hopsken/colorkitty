@@ -1,31 +1,14 @@
-import * as React from 'react'
 import { RGBColor } from 'react-color'
+import * as React from 'react'
 import {
-  Button, Icon,
-  Modal, Card, Input, message
+  Card, Form, Input, Slider,
+  Button, Checkbox, Icon,
+  Modal, message
 } from 'antd'
 
-import { exportMethods } from '@/utilities'
+import { ExportMethod, exportMethods } from '@/utilities'
 
-interface Props {
-  colors: RGBColor[]
-  paletteName: string
-}
-
-interface State {
-  showModal: boolean
-  content: string
-}
-
-enum ExportMethod {
-  URL = 'url',
-  PNG = 'png',
-  SCSS = 'scss',
-  JSON = 'json',
-  HEX = 'hex'
-}
-
-const styles = require('./palette-toolbox.styl')
+const styles = require('./left-pad.styl')
 const twitterShareUrl = 'https://twitter.com/intent/tweet?'
   + 'button_hashtag=colorkitty'
   + '&url=__URL__&text=Palette: __PALETTE_NAME__.'
@@ -48,7 +31,20 @@ const exportMethodsArray = [
   }
 ]
 
-export class PaletteToolbox extends React.PureComponent<Props, State> {
+interface LeftPadProps {
+    paletteName: string
+    colors: RGBColor[]
+
+    onInputPaletteName: (ev: React.FormEvent<HTMLInputElement>) => void
+    onChangeColorsCount: (count: number) => void
+}
+
+interface LeftPadState {
+  showModal: boolean
+  content: string
+}
+
+export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
 
   state = {
     showModal: false,
@@ -89,20 +85,45 @@ export class PaletteToolbox extends React.PureComponent<Props, State> {
     )
   }
 
+  renderPaletteSection = () => (
+    <Card className={ styles['card'] } type='inner' size='small' title='Palette'>
+      <Form labelCol={ { span: 6 } } wrapperCol={ { span: 18 } }>
+        <Form.Item className={ styles['form-item'] } label='Name'>
+          <Input
+            placeholder='NEW PALETTE'
+            value={ this.props.paletteName }
+            onChange={ this.props.onInputPaletteName }
+          />
+        </Form.Item>
+        <Form.Item className={ styles['form-item'] } label='Count'>
+          <Slider
+            value={ this.props.colors.length }
+            step={ 1 }
+            max={ 6 }
+            min={ 1 }
+            onChange={ this.props.onChangeColorsCount }
+            marks={ { 1: '1', 6 : '6' } }
+          />
+        </Form.Item>
+      </Form>
+    </Card>
+  )
+
+  renderExportSection = () => (
+    <Card className={ styles['card'] } type='inner' size='small' title='Export'>
+      <Checkbox defaultChecked={ true }>Include Shades</Checkbox><br /><br />
+      <Button block={ true } onClick={ this.toggleModal }><Icon type='picture' />Export</Button>
+      <Button block={ true } onClick={ this.handleTweet }><Icon type='twitter' />Tweet</Button>
+    </Card>
+  )
+
   render() {
     return (
-      <div className={ styles['toolbox'] }>
-        <Button
-          onClick={ this.toggleModal }
-        >
-          <Icon type='picture' />Export
-        </Button>
-        <Button onClick={ this.handleTweet }>
-          <Icon type='twitter' />Tweet
-        </Button>
-
+      <React.Fragment>
+        { this.renderPaletteSection() }
+        { this.renderExportSection() }
         { this.renderExportModal() }
-      </div>
+      </React.Fragment>
     )
   }
 
