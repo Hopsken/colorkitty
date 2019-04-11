@@ -1,6 +1,7 @@
 .contrast
   width: 100%
   text-align: center
+  border-collapse: collapse
 
   td:first-child
     text-align: left
@@ -8,11 +9,11 @@
   th, td
     padding: 5px
     border: 1px solid rgba(216, 216, 216, 0.4)
-    border-collapse: collapse
   
   &-swatch
     margin: 8px auto
-    width: 45px
+    min-width: 45px
+    max-width: 60px
     padding: 5px
     background: #fff
     cursor: pointer

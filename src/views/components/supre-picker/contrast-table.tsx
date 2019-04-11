@@ -55,7 +55,7 @@ export class ContrastTable extends React.PureComponent<ContrastTableProps, Contr
                     overlay={ <TwitterPicker { ...pickProps } onChangeComplete={ this.handleChangeColor(index) } color={ color } /> }
                 >
                     <div className={ styles['contrast-swatch'] }>
-                    <div style={ { background: toHex(color) } } />
+                        <div style={ { background: toHex(color) } } />
                     </div>
                 </Dropdown>
             </th>)
@@ -63,6 +63,14 @@ export class ContrastTable extends React.PureComponent<ContrastTableProps, Contr
 
         return (
             <thead>
+                <tr>
+                    <th>Foreground</th>
+                    <th colSpan={ 2 }>
+                        <div className={ styles['contrast-swatch'] }>
+                            <div style={ { background: toHex(this.props.activeColor) } } />
+                        </div>
+                    </th>
+                </tr>
                 <tr>
                     <th>Background</th>
                     { ths }
