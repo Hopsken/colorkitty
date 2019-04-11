@@ -1,11 +1,11 @@
 import * as React from 'react'
-import { Icon } from 'antd'
+import { Icon, Layout } from 'antd'
 
 const brandImg = require('@/views/assets/colorkitty.png')
 const styles = require('./header.styl')
 
 export const Header = () => (
-    <header className={ styles['header'] } >
+    <Layout.Header className={ styles['header'] } >
       <img alt='colorkitty' src={ brandImg } />
       <span>Find perfect palettes from delicious pictures</span>
 
@@ -14,4 +14,4 @@ export const Header = () => (
         <a target='_blank' href='https://twitter.com/@colorkitty_com/'><Icon type='twitter' /></a>
         <a href='mailto:oscar@mg.colorkitty.com'><Icon type='mail' /></a>
       </div>
-    </header>)
+    </Layout.Header>)

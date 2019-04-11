@@ -1,8 +1,8 @@
 import { RGBColor, ColorResult } from 'react-color'
-import { message, Drawer } from 'antd'
+import { message, Layout } from 'antd'
 import * as React from 'react'
 
-import { SuprePicker, Painter, Palette } from '@/views/components'
+import { SuprePicker, Painter, Palette, Footer } from '@/views/components'
 import { parseColorsFromUrl } from '@/utilities'
 
 const styles = require('./composer.styl')
@@ -58,43 +58,41 @@ export class ComposerContainer extends React.PureComponent<any, State> {
 
   render() {
     const { paletteName, colors, currentIndex, rawImage, showDrawer } = this.state
+    const rightSide = showDrawer && (<SuprePicker
+      color={ colors[currentIndex] }
+      onChange={ this.handleChangeColor }
+      colors={ this.colors }
+    />)
 
     return (
-      <section className={ styles['container'] } ref={ this.drawerContainer }>
-        <Palette
-          colors={ this.colors }
-          paletteName={ paletteName }
-          updateColors={ this.handleUpdateColors }
-          onChangeColorsCount={ this.handleChangeNumbers }
-          onChangePaletteName={ this.handleInputName }
-          onClickColor={ this.handleClickColor }
-          onUploadImage={ this.handleUploadImage }
-          currentIndex={ currentIndex }
-        />
+      <Layout className={ styles['container'] }>
+        <Layout.Sider width={ 280 } className={ styles['sidebar'] }>SOME</Layout.Sider>
 
-        <Painter
-          colors={ this.colors }
-          file={ rawImage }
-          updateColors={ this.handleUpdateColors }
-          updateCurrentIndex={ this.handleUpdateCurrentIndex }
-        />
-
-        <Drawer
-          mask={ false }
-          visible={ showDrawer }
-          getContainer={ this.getDrawerContainer }
-          title='Color Picker'
-          onClose={ this.handleCloseDrawer }
-          width={ 300 }
-          destroyOnClose={ true }
-        >
-          <SuprePicker
-            color={ colors[currentIndex] }
-            onChange={ this.handleChangeColor }
+        <Layout.Content className={ styles['content'] }>
+          <Palette
             colors={ this.colors }
+            paletteName={ paletteName }
+            updateColors={ this.handleUpdateColors }
+            onChangeColorsCount={ this.handleChangeNumbers }
+            onChangePaletteName={ this.handleInputName }
+            onClickColor={ this.handleClickColor }
+            onUploadImage={ this.handleUploadImage }
+            currentIndex={ currentIndex }
           />
-        </Drawer>
-      </section>
+
+          <Painter
+            colors={ this.colors }
+            file={ rawImage }
+            updateColors={ this.handleUpdateColors }
+            updateCurrentIndex={ this.handleClickColor }
+          />
+          <Footer />
+        </Layout.Content>
+
+        <Layout.Sider width={ 280 } className={ styles['sidebar'] }>
+          { rightSide }
+        </Layout.Sider>
+      </Layout>
     )
   }
 

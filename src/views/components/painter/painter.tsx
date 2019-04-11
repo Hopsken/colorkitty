@@ -96,7 +96,7 @@ export class Painter extends React.PureComponent<Props, State> {
     return (
       <section
         className={ styles['painter'] }
-        style={ { display: file ? 'block' : 'none' } }
+        style={ { visibility: file ? 'visible' : 'hidden' } }
       >
         { hidden && <Spin indicator={ loadingIcon } /> }
         <div
