@@ -7,6 +7,7 @@ import {
 } from 'antd'
 
 import { ExportMethod, exportMethods } from '@/utilities'
+import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 
 const styles = require('./left-pad.styl')
 const twitterShareUrl = 'https://twitter.com/intent/tweet?'
@@ -42,13 +43,15 @@ interface LeftPadProps {
 interface LeftPadState {
   showModal: boolean
   content: string
+  includeShades: boolean
 }
 
 export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
 
   state = {
     showModal: false,
-    content: ''
+    content: '',
+    includeShades: false,
   }
 
   renderExportModal = () => {
@@ -111,7 +114,7 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
 
   renderExportSection = () => (
     <Card className={ styles['card'] } type='inner' size='small' title='Export'>
-      <Checkbox defaultChecked={ true }>Include Shades</Checkbox><br /><br />
+      <Checkbox checked={ this.state.includeShades } onChange={ this.toggleIncludeShades }>Include Shades</Checkbox><br /><br />
       <Button block={ true } onClick={ this.toggleModal }><Icon type='picture' />Export</Button>
       <Button block={ true } onClick={ this.handleTweet }><Icon type='twitter' />Tweet</Button>
     </Card>
@@ -133,9 +136,18 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
     })
   }
 
+  toggleIncludeShades = (ev: CheckboxChangeEvent) => {
+    this.setState({
+      includeShades: ev.target.checked
+    })
+  }
+
   handleExport = (method: ExportMethod) => () => {
     const { colors, paletteName } = this.props
-    const content = (exportMethods[method] as (colors: RGBColor[], name: string) => string)(colors, paletteName || 'New Palette')
+    const { includeShades } = this.state
+    const content = (
+      exportMethods[method] as (colors: RGBColor[], name: string, includeShades: boolean) => string
+    )(colors, paletteName || 'New Palette', includeShades)
 
     if (content) {
       this.setState({
@@ -157,7 +169,7 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
 
     const win = window.open(
       twitterShareUrl
-        .replace('__URL__', exportMethods['url'](colors))
+        .replace('__URL__', exportMethods['url'](colors, paletteName))
         .replace('__PALETTE_NAME__', paletteName || 'New Palette')
     )
 

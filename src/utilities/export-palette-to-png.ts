@@ -1,7 +1,7 @@
 import { saveAs } from 'file-saver'
 import { RGBColor } from 'react-color'
 
-import { toHex, readable } from './color'
+import { toHex, readable, colorCombinations } from './color'
 
 const logo = require('@/views/assets/colorkitty.png')
 
@@ -47,10 +47,22 @@ function drawColor(ctx: CanvasRenderingContext2D, color: string, index: number, 
   )
 }
 
-function init(ctx: CanvasRenderingContext2D, name: string) {
+function drawShades(ctx: CanvasRenderingContext2D, color: string, index: number) {
+  const w = 55, h = 30
+  const shades = colorCombinations['shades'](color)
+
+  shades.map((shade, idx) => drawRect(ctx, shade, {
+    x: 75 + (w + 15) * idx,
+    y: 505 + 50 * index,
+    w,
+    h
+  }))
+}
+
+function init(ctx: CanvasRenderingContext2D, name: string, canvas: HTMLCanvasElement) {
   // bg
   ctx.fillStyle = '#fff'
-  ctx.fillRect(0, 0, 630, 540)
+  ctx.fillRect(0, 0, canvas.width, canvas.height)
 
   // shadow
   ctx.rect(75, 75, 480, 390)
@@ -86,18 +98,21 @@ function init(ctx: CanvasRenderingContext2D, name: string) {
   )
 }
 
-export function exportPNG(colors: RGBColor[], name: string) {
+export function exportPNG(colors: RGBColor[], name: string, includeShades = false) {
 
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')!
   const ratio = window.devicePixelRatio || 1
 
   canvas.width = 1260
-  canvas.height = 1080
+  canvas.height = includeShades ? 1080 + 40 * 2 + colors.length * (30 + 20) : 1080
   ctx.scale(ratio, ratio)
-  init(ctx, name)
+  init(ctx, name, canvas)
 
   colors.map((color, index, all) => drawColor(ctx, toHex(color), index, all.length))
+  if (includeShades) {
+    colors.map((color, index) => drawShades(ctx, toHex(color), index))
+  }
 
   const avatar = new Image(52, 52)
   avatar.crossOrigin = ''
