@@ -5,7 +5,7 @@ import * as React from 'react'
 
 import {
   toRGBString,
-  getImageBase64,
+  getImageDataUrlAsync,
   getColorsFromImage,
   getPaletteFromImage,
   findNearestColorOfPalette,
@@ -135,33 +135,33 @@ export class Painter extends React.PureComponent<Props, State> {
     )
   }
 
-  handleLoadImage = (file: File | null) => {
+  handleLoadImage = async (file: File | null) => {
     if (!this.canvas.current || !file) {
       return null
     }
 
+    // 多次上传时，隐藏之前图片，显示 loading
     this.setState({
       hidden: true
     })
 
     const ctx = this.canvas.current.getContext('2d')
-    getImageBase64(file!, (imageUrl: string) => {
-      const img = new Image()
-      img.onload = () => {
-        this.setCanvasSize(img.height, img.width)
-        this.forceUpdate()
-        this.setState({
-          hidden: false
-        }, () => {
-          ctx!.drawImage(img, 0, 0, this.canvasSize.width, this.canvasSize.height)
+    const imageUrl = await getImageDataUrlAsync(file!)
 
-          const imageData = ctx!.getImageData(0, 0, this.canvasSize.width, this.canvasSize.height)
-          this.loadColorsFromImageData(imageData)
-        })
-      }
+    // 绘制图片至 canvas
+    const img = new Image()
+    img.onload = () => {
+      this.setCanvasSize(img.height, img.width)
+      this.setState({
+        hidden: false
+      }, () => {
+        ctx!.drawImage(img, 0, 0, this.canvasSize.width, this.canvasSize.height)
 
-      img.src = imageUrl!
-    })
+        const imageData = ctx!.getImageData(0, 0, this.canvasSize.width, this.canvasSize.height)
+        this.loadColorsFromImageData(imageData)
+      })
+    }
+    img.src = imageUrl!
 
     return false
   }
