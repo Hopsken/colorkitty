@@ -103,7 +103,7 @@ export class ComposerContainer extends React.PureComponent<any, State> {
                 colors={ this.colors }
                 file={ rawImage }
                 updateColors={ this.handleUpdateColors }
-                updateCurrentIndex={ this.handleUpdateCurrentIndex }
+                updateCurrentIndex={ this.handleClickColor }
               />
             </section>
             <Footer />
