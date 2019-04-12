@@ -1,29 +1,51 @@
 @require '~@/styles'
 
-// .container
-//   min-height: 100vh
+.container
+  margin-top: 72px
+
+  @media screen and (min-width 768px)
+    .notice-bar
+      display: none
 
 .content
   display: flex
   flex-direction: column
   align-items: center
   overflow-y: initial
-  padding-top: 90px
-  margin-top: 72px
   margin-left: 280px
   margin-right: 280px
+
+  @media screen and (max-width 992px)
+    margin-left: 0
+    margin-right: 0
+
+.core
+  display: flex
+  flex-direction: column
+  align-items: center
+  padding: 90px 56px
   min-height: 100vh
 
 .sidebar
   background: #f9fafb
-  padding: 24px 16px
   position: fixed
   top: 72px
   bottom: 0
-  overflow: auto
   box-shadow: 0 1px 1px 0 rgba(62,57,107,0.2)
+  z-index: 200
 
   &:first-child
     left: 0
   &:last-child
     right: 0
+
+  &-wrapper
+    padding: 24px 16px
+    overflow: scroll
+    height: 100%
+
+  :global(.ant-layout-sider-zero-width-trigger)
+    top: 40px
+
+  :global(.ant-layout-sider-zero-width-trigger-right)
+    border-radius: 4px 0 0 4px

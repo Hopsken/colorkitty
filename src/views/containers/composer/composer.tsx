@@ -1,5 +1,5 @@
 import { RGBColor, ColorResult } from 'react-color'
-import { message, Layout } from 'antd'
+import { message, Layout, Alert, Icon } from 'antd'
 import * as React from 'react'
 
 import { SuprePicker, Painter, Palette, Footer, LeftPad } from '@/views/components'
@@ -65,41 +65,57 @@ export class ComposerContainer extends React.PureComponent<any, State> {
     />)
 
     return (
-      <Layout className={ styles['container'] }>
-        <Layout.Sider width={ 280 } className={ styles['sidebar'] }>
-          <LeftPad
-            colors={ this.colors }
-            paletteName={ this.state.paletteName }
-            onChangeColorsCount={ this.handleChangeNumbers }
-            onInputPaletteName={ this.handleInputName }
-          />
-        </Layout.Sider>
+      <section className={ styles['container'] }>
+        <Alert
+          type='info'
+          icon={ <Icon type='desktop' /> }
+          className={ styles['notice-bar'] }
+          message='We are better on desktop.'
+          banner={ true }
+          closable={ true }
+        />
+        <Layout>
+          <Layout.Sider breakpoint='lg' collapsedWidth='0' width={ 280 } className={ styles['sidebar'] }>
+            <div className={ styles['sidebar-wrapper'] }>
+              <LeftPad
+                colors={ this.colors }
+                paletteName={ this.state.paletteName }
+                onChangeColorsCount={ this.handleChangeNumbers }
+                onInputPaletteName={ this.handleInputName }
+              />
+            </div>
+          </Layout.Sider>
 
-        <Layout.Content className={ styles['content'] }>
-          <Palette
-            colors={ this.colors }
-            paletteName={ paletteName }
-            updateColors={ this.handleUpdateColors }
-            onChangeColorsCount={ this.handleChangeNumbers }
-            onChangePaletteName={ this.handleInputName }
-            onClickColor={ this.handleClickColor }
-            onUploadImage={ this.handleUploadImage }
-            currentIndex={ currentIndex }
-          />
+          <Layout.Content className={ styles['content'] }>
+            <section className={ styles['core'] }>
+              <Palette
+                colors={ this.colors }
+                paletteName={ paletteName }
+                updateColors={ this.handleUpdateColors }
+                onChangeColorsCount={ this.handleChangeNumbers }
+                onChangePaletteName={ this.handleInputName }
+                onClickColor={ this.handleClickColor }
+                onUploadImage={ this.handleUploadImage }
+                currentIndex={ currentIndex }
+              />
 
-          <Painter
-            colors={ this.colors }
-            file={ rawImage }
-            updateColors={ this.handleUpdateColors }
-            updateCurrentIndex={ this.handleUpdateCurrentIndex }
-          />
-          <Footer />
-        </Layout.Content>
+              <Painter
+                colors={ this.colors }
+                file={ rawImage }
+                updateColors={ this.handleUpdateColors }
+                updateCurrentIndex={ this.handleUpdateCurrentIndex }
+              />
+            </section>
+            <Footer />
+          </Layout.Content>
 
-        <Layout.Sider width={ 280 } className={ styles['sidebar'] }>
-          { rightSide }
+          <Layout.Sider reverseArrow={ true } breakpoint='lg' collapsedWidth='0' width={ 280 } className={ styles['sidebar'] }>
+          <div className={ styles['sidebar-wrapper'] }>
+            { rightSide }
+          </div>
         </Layout.Sider>
       </Layout>
+      </section>
     )
   }
 

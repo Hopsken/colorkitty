@@ -1,61 +1,11 @@
 @require '~@/styles'
 
 .palette
+  position: relative
   width: qu(105)
   border-radius: 4px
   box-shadow: 0 10px 40px 0 rgba(62,57,107,0.2), 0 2px 9px 0 rgba(62,57,107,0.2)
   background: #fff
-
-.palette-colors
-  display: flex
-  flex-direction: row
-  flex-wrap: nowrap
-
-  margin: 0
-  padding: 0
-  width: 100%
-  height: qu(65)
-
-  transition: all .2s timing-function(.8, .0, .2, 1)
-
-.active
-  transform: scale(1.02)
-  border-radius: 2px
-  z-index: 100
-  transform: transform .3s ease
-
-.c
-  position: relative
-  flex: 1 0 auto
-  text-align: center
-
-  &:first-of-type
-    border-radius: 4px 0 0 0
-  &:last-of-type
-    border-radius: 0 4px 0 0
-
-  &:hover span
-    opacity: 1
-
-  span
-    position: absolute
-    left: 0
-    right: 0
-    bottom: 0
-
-    display: inline-block
-    padding: qu(1) qu(1)
-
-    opacity: 0
-    line-height: 1.2
-    font-size: qu(4)
-    text-transform: uppercase
-    color: $G30
-    background-color: rgba(0, 0, 0, .1)
-    transition: all .2s timing-function(.8, .0, .2, 1)
-
-.palette
-  position: relative
 
   &-info
     display: flex
@@ -70,7 +20,69 @@
   &-name
     color: $DarkShade
     text-transform: uppercase
-    max-width: 200px
+    max-width: qu(50)
     text-overflow: ellipsis
     overflow: hidden
     white-space: nowrap
+
+  &-colors
+    display: flex
+    flex-direction: row
+    flex-wrap: nowrap
+
+    margin: 0
+    padding: 0
+    width: 100%
+    height: qu(65)
+
+    transition: all .2s timing-function(.8, .0, .2, 1)
+
+  @media screen and (max-width 767px)
+    width: qu(70)
+
+    &-info
+      height: qu(14)
+      padding: 0 qu(4)
+
+    &-name
+      max-width: qu(30)
+
+    &-colors
+      height: qu(43)
+
+  .active
+    transform: scale(1.02)
+    border-radius: 2px
+    z-index: 100
+    transform: transform .3s ease
+
+  .c
+    position: relative
+    flex: 1 0 auto
+    text-align: center
+
+    &:first-of-type
+      border-radius: 4px 0 0 0
+    &:last-of-type
+      border-radius: 0 4px 0 0
+
+    &:hover span
+      opacity: 1
+
+    span
+      position: absolute
+      left: 0
+      right: 0
+      bottom: 0
+
+      display: inline-block
+      padding: qu(1) qu(1)
+
+      opacity: 0
+      line-height: 1.2
+      font-size: qu(4)
+      text-transform: uppercase
+      color: $G30
+      background-color: rgba(0, 0, 0, .1)
+      transition: all .2s timing-function(.8, .0, .2, 1)
+

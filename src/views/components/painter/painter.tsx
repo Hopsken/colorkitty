@@ -39,11 +39,6 @@ export class Painter extends React.PureComponent<Props, State> {
   }
 
   private canvas = React.createRef<HTMLCanvasElement>()
-  private baseFontSize = parseInt(
-    window.getComputedStyle(document.body)
-      .getPropertyValue('font-size')
-      .substring(0, 2)
-  ) || 16
   private imageColors: RGBColor[] = []
   private colorsPosition: number[] = []
   private canvasSize = {
@@ -58,6 +53,12 @@ export class Painter extends React.PureComponent<Props, State> {
   }
 
   renderPickers() {
+    // 小屏幕上不显示
+    const viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+    if (viewportWidth < 768) {
+      return null
+    }
+
     const { colors } = this.props
     const bounds = {
       left: 0,
@@ -192,9 +193,12 @@ export class Painter extends React.PureComponent<Props, State> {
   }
 
   private setCanvasSize(rawHeight: number, rawWidth: number) {
+    const viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+    const canvasWidth = viewportWidth < 768 ? 300 : 560
+
     return this.canvasSize = {
-      width: this.baseFontSize * 40,
-      height: Math.floor(this.baseFontSize * 40 * (rawHeight / rawWidth))
+      width: canvasWidth,
+      height: Math.floor(canvasWidth * (rawHeight / rawWidth))
     }
   }
 }

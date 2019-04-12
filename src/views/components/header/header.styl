@@ -1,6 +1,8 @@
 @require '~@/styles'
 
 .header
+  display: flex
+  align-items: center
   position: fixed
   width: 100%
   padding: 0 qu(10)
@@ -22,10 +24,16 @@
     display: inline-block
     margin-left: 1.25em
     color: #c3c3c3
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+
+    @media screen and (max-width 768px)
+      display: none
 
   .social
     display: inline-block
-    float: right
+    margin-left: auto
 
     a
       margin-left: qu(4)
