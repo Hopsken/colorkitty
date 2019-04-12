@@ -14,7 +14,7 @@ interface State {
   currentIndex: number
   paletteName: string
   showDrawer: boolean
-  rawImage: File | null
+  rawImage: File | string | null
 }
 
 const defaultPalette = [
@@ -165,7 +165,7 @@ export class ComposerContainer extends React.PureComponent<any, State> {
     })
   }
 
-  handleUploadImage = (file: File) => {
+  handleUploadImage = (file: File | string) => {
     this.setState({
       rawImage: file
     })

@@ -1,10 +1,13 @@
 import { SortableContainer, SortableElement } from 'react-sortable-hoc'
-import { Button, Upload, Tooltip } from 'antd'
+import { Button, Upload, Tooltip, Modal, Input, Icon } from 'antd'
 import arrayMove from 'array-move'
 import { RGBColor } from 'react-color'
 import * as React from 'react'
 
 import { toHex, toRGBString, readable } from '@/utilities'
+
+const styles = require('./palette.styl')
+const cx = require('classnames/bind').bind(styles)
 
 interface Props {
   colors: RGBColor[]
@@ -13,11 +16,12 @@ interface Props {
 
   updateColors: (colors: RGBColor[]) => void
   onClickColor: (index: number) => void
-  onUploadImage: (file: File) => boolean
+  onUploadImage: (file: File | string) => boolean
 }
 
-const styles = require('./palette.styl')
-const cx = require('classnames/bind').bind(styles)
+interface State {
+  showUploadModal: boolean
+}
 
 interface SortableColorItemProps {
   color: RGBColor
@@ -70,7 +74,11 @@ const SortableColorList = SortableContainer(({
     </div>)
 })
 
-export class Palette extends React.PureComponent<Props> {
+export class Palette extends React.PureComponent<Props, State> {
+
+  state = {
+    showUploadModal: false
+  }
 
   renderColor = (
     color: RGBColor,
@@ -105,26 +113,52 @@ export class Palette extends React.PureComponent<Props> {
       <span className={ styles['palette-name'] }>{ this.props.paletteName || 'NEW PALETEE' }</span>
 
       <div className={ styles['palette-control'] }>
-        <Upload
-          accept={ 'image/*' }
-          beforeUpload={ this.props.onUploadImage  }
-          showUploadList={ false }
-        >
-          <Tooltip title='Pick colors from Image'>
-            <Button icon='camera' />
-          </Tooltip>
-        </Upload>
+        <Tooltip title='Pick colors from Image'>
+          <Button icon='camera' onClick={ this.toggleUploadModal } />
+        </Tooltip>
       </div>
     </div>
   )
+
+  renderUploadModal = () => {
+    return (
+      <Modal
+        footer={ null }
+        title='Pick colors from image'
+        visible={ this.state.showUploadModal }
+        onCancel={ this.toggleUploadModal }
+      >
+        <Upload.Dragger
+          accept={ 'image/*' }
+          beforeUpload={ this.handleUpload  }
+          showUploadList={ false }
+          className={ styles['upload-dragger'] }
+        >
+          <div className={ styles['upload-dragger-container'] }>
+            <Icon className={ styles['upload-dragger-icon'] } type='inbox' />
+            <p className={ styles['upload-dragger-info'] }>Browse or drag image</p>
+          </div>
+        </Upload.Dragger>
+        <p className={ styles['upload-remote-title'] }>Remote Image</p>
+        <Input.Search placeholder='https://' enterButton='Confirm' onSearch={ this.handleConfirmRemoteImage } />
+      </Modal>
+    )
+  }
 
   render() {
     return (
       <section className={ styles['palette'] }>
         { this.renderPalette() }
         { this.renderBottom() }
+        { this.renderUploadModal() }
       </section>
     )
+  }
+
+  toggleUploadModal = () => {
+    this.setState({
+      showUploadModal: !this.state.showUploadModal
+    })
   }
 
   handleClickColor = (index: number) => () => {
@@ -138,5 +172,16 @@ export class Palette extends React.PureComponent<Props> {
     this.props.updateColors(
       arrayMove(this.props.colors, oldIndex, newIndex)
     )
+  }
+
+  handleUpload = (file: File) => {
+    this.props.onUploadImage(file)
+    this.toggleUploadModal()
+    return false
+  }
+
+  handleConfirmRemoteImage = (url: string) => {
+    this.props.onUploadImage(url)
+    this.toggleUploadModal()
   }
 }

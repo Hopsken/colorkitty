@@ -1,6 +1,6 @@
 import Draggable, { DraggableData } from 'react-draggable'
 import { Color, RGBColor } from 'react-color'
-import { Icon, Spin } from 'antd'
+import { Icon, Spin, message } from 'antd'
 import * as React from 'react'
 
 import {
@@ -135,7 +135,7 @@ export class Painter extends React.PureComponent<Props, State> {
     )
   }
 
-  handleLoadImage = async (file: File | null) => {
+  handleLoadImage = async (file: File | string | null) => {
     if (!this.canvas.current || !file) {
       return null
     }
@@ -146,10 +146,11 @@ export class Painter extends React.PureComponent<Props, State> {
     })
 
     const ctx = this.canvas.current.getContext('2d')
-    const imageUrl = await getImageDataUrlAsync(file!)
+    const imageUrl = typeof file === 'string' ? file : await getImageDataUrlAsync(file!)
 
     // 绘制图片至 canvas
     const img = new Image()
+    img.crossOrigin = ''
     img.onload = () => {
       this.setCanvasSize(img.height, img.width)
       this.setState({
@@ -162,6 +163,7 @@ export class Painter extends React.PureComponent<Props, State> {
       })
     }
     img.src = imageUrl!
+    img.onerror = () => message.error('Error on loading image. Please try again.')
 
     return false
   }
