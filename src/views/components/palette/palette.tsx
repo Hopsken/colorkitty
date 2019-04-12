@@ -1,10 +1,10 @@
 import { SortableContainer, SortableElement } from 'react-sortable-hoc'
-import { Button, Upload, Tooltip, Modal, Input, Icon } from 'antd'
+import { Button, Upload, Tooltip, Modal, Input, Icon, message } from 'antd'
 import arrayMove from 'array-move'
 import { RGBColor } from 'react-color'
 import * as React from 'react'
 
-import { toHex, toRGBString, readable } from '@/utilities'
+import { toHex, toRGBString, readable, iSValidURL } from '@/utilities'
 
 const styles = require('./palette.styl')
 const cx = require('classnames/bind').bind(styles)
@@ -140,7 +140,12 @@ export class Palette extends React.PureComponent<Props, State> {
           </div>
         </Upload.Dragger>
         <p className={ styles['upload-remote-title'] }>Remote Image</p>
-        <Input.Search placeholder='https://' enterButton='Confirm' onSearch={ this.handleConfirmRemoteImage } />
+        <Input.Search
+          placeholder='https://'
+          enterButton='Confirm'
+          onSearch={ this.handleConfirmRemoteImage }
+          pattern='https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)'
+        />
       </Modal>
     )
   }
@@ -181,7 +186,11 @@ export class Palette extends React.PureComponent<Props, State> {
   }
 
   handleConfirmRemoteImage = (url: string) => {
-    this.props.onUploadImage(url)
-    this.toggleUploadModal()
+    if (iSValidURL(url)) {
+      this.props.onUploadImage(url)
+      this.toggleUploadModal()
+    } else {
+      message.warning('The image url is not valid.')
+    }
   }
 }

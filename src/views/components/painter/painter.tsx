@@ -163,7 +163,7 @@ export class Painter extends React.PureComponent<Props, State> {
       })
     }
     img.src = imageUrl!
-    img.onerror = () => message.error('Error on loading image. Please try again.')
+    img.onerror = () => message.error('Error on loading image. Please try another one.')
 
     return false
   }
