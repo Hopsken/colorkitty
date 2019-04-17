@@ -41,9 +41,13 @@ export class ComposerContainer extends React.PureComponent<any, State> {
 
   componentDidMount() {
     const palette = parseColorsFromUrl()
+    const urlParams = new URLSearchParams(window.location.search)
+    const name = urlParams.get('name')
     if (palette) {
       this.setState({
-        colors: palette
+        colors: palette.concat(this.state.colors.slice(palette.length)),
+        colorsCount: palette.length,
+        paletteName: name || ''
       })
     }
   }
