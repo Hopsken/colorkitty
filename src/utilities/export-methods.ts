@@ -56,7 +56,7 @@ function exportJSON(colors: RGBColor[], name: string, includeShades = true) {
     const text = JSON.stringify({
         paletteName: name,
         colors: includeShades ? getColorListShades(colors) : colors.map(one => toHex(one))
-    })
+    }, null, 4)
 
     saveTextToFile(text, name + '.json')
     return text
