@@ -31,6 +31,22 @@ const exportMethodsArray = [
     icon: 'file-text'
   }
 ]
+const PHLink = new Date() > new Date('2019-04-17 09:00:00 GMT-0700')
+? (
+  <a
+    href='https://www.producthunt.com/posts/colorkitty?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-colorkitty'
+    target='_blank'
+  >
+    <img
+      src='https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=151664&theme=light'
+      alt='ColorKitty - Find perfect palettes from great pictures. | Product Hunt Embed'
+      style={ { width: 250, height: 54 } }
+      width='250px'
+      height='54px'
+    />
+  </a>
+)
+: null
 
 interface LeftPadProps {
     paletteName: string
@@ -126,6 +142,7 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
         { this.renderPaletteSection() }
         { this.renderExportSection() }
         { this.renderExportModal() }
+        { PHLink }
       </React.Fragment>
     )
   }
