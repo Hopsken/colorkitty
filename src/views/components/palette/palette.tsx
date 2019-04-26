@@ -3,6 +3,7 @@ import { Button, Upload, Tooltip, Modal, Input, Icon, message } from 'antd'
 import arrayMove from 'array-move'
 import { RGBColor } from 'react-color'
 import * as React from 'react'
+import copy from 'copy-to-clipboard'
 
 import { toHex, toRGBString, readable, iSValidURL } from '@/utilities'
 
@@ -36,6 +37,11 @@ interface SortableColorListProps {
   handleClick: (index: number) => () => void
 }
 
+const copyColorToClipboard = (text: string) => () => {
+  if (copy(text)) {
+    message.success('Successfully copied!')
+  }
+}
 const SortableColorItem = SortableElement(({
   color,
   length,
@@ -47,7 +53,7 @@ const SortableColorItem = SortableElement(({
       style={ { backgroundColor: toRGBString(color) } }
       onClick={ handleClickColor }
     >
-      <span style={ { color: readable(color) } }>{ toHex(color).toUpperCase() }</span>
+      <span style={ { color: readable(color) } } onClick={ copyColorToClipboard(toHex(color)) }>{ toHex(color).toUpperCase() }</span>
     </div>
   )
 )
@@ -114,7 +120,7 @@ export class Palette extends React.PureComponent<Props, State> {
 
       <div className={ styles['palette-control'] }>
         <Tooltip title='Pick colors from Image'>
-          <Button icon='camera' onClick={ this.toggleUploadModal } />
+          <Button icon='camera' onClick={ this.toggleUploadModal }>Upload</Button>
         </Tooltip>
       </div>
     </div>
