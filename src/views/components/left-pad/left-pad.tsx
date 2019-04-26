@@ -99,6 +99,14 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
         <Card bordered={ false }>
           { methods }
           { textArea }
+          <ins
+            class='adsbygoogle'
+            style='display:block'
+            data-ad-client='ca-pub-7331136202684867'
+            data-ad-slot='1483853046'
+            data-ad-format='auto'
+            data-full-width-responsive='true'
+          />
         </Card>
       </Modal>
     )
