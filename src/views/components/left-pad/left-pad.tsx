@@ -31,22 +31,34 @@ const exportMethodsArray = [
     icon: 'file-text'
   }
 ]
-const PHLink = new Date() > new Date('2019-04-17 09:00:00 GMT-0700')
-? (
+// const PHLink = (
+//   <a
+//     href='https://www.producthunt.com/posts/colorkitty?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-colorkitty'
+//     target='_blank'
+//   >
+//     <img
+//       src='https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=151664&theme=light'
+//       alt='ColorKitty - Find perfect palettes from great pictures. | Product Hunt Embed'
+//       style={ { width: 250, height: 54 } }
+//       width='250px'
+//       height='54px'
+//     />
+//   </a>
+// )
+
+const buyMeCoffee = (
   <a
-    href='https://www.producthunt.com/posts/colorkitty?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-colorkitty'
+    className={ styles['bmc-button'] }
     target='_blank'
+    href='https://www.buymeacoffee.com/h3KbXumRq'
   >
     <img
-      src='https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=151664&theme=light'
-      alt='ColorKitty - Find perfect palettes from great pictures. | Product Hunt Embed'
-      style={ { width: 250, height: 54 } }
-      width='250px'
-      height='54px'
+      src='https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg'
+      alt='Buy me a coffee'
     />
+    <span>Buy me a coffee</span>
   </a>
 )
-: null
 
 interface LeftPadProps {
     paletteName: string
@@ -99,14 +111,6 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
         <Card bordered={ false }>
           { methods }
           { textArea }
-          <ins
-            class='adsbygoogle'
-            style='display:block'
-            data-ad-client='ca-pub-7331136202684867'
-            data-ad-slot='1483853046'
-            data-ad-format='auto'
-            data-full-width-responsive='true'
-          />
         </Card>
       </Modal>
     )
@@ -150,7 +154,8 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
         { this.renderPaletteSection() }
         { this.renderExportSection() }
         { this.renderExportModal() }
-        { PHLink }
+        { /* { PHLink } */ }
+        { buyMeCoffee }
       </React.Fragment>
     )
   }
