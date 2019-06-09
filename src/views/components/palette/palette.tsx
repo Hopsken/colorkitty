@@ -116,7 +116,7 @@ export class Palette extends React.PureComponent<Props, State> {
 
   renderBottom = () => (
     <div className={ styles['palette-info'] }>
-      <span className={ styles['palette-name'] }>{ this.props.paletteName || 'NEW PALETEE' }</span>
+      <span className={ styles['palette-name'] }>{ this.props.paletteName || 'NEW PALETTE' }</span>
 
       <div className={ styles['palette-control'] }>
         <Tooltip title='Pick colors from Image'>
