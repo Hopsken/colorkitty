@@ -34,4 +34,4 @@ yarn && yarn start
 
 ## LICENSE
 
-[GPL v3.0](https://github.com/Hopsken/colorkitty/blob/master/LICENSE)
+[MIT](https://github.com/Hopsken/colorkitty/blob/master/LICENSE)
