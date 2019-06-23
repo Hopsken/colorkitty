@@ -10,26 +10,18 @@
   line-height: qu(18)
   font-size: qu(4)
   background: rgba(255, 255, 255, 0.97)
-  box-shadow: 0 1px 0 #e5e5e5
+  box-shadow: 0 5px 10px 0 rgba(0,64,128,.05)
   z-index: 1000
-
-  @media screen and (max-width 800px)
-    padding: 0 qu(7)
 
   img
     height: qu(10)
     width: auto
   
-  span 
-    display: inline-block
-    margin-left: 1.25em
-    color: #c3c3c3
-    overflow: hidden
-    text-overflow: ellipsis
-    white-space: nowrap
-
-    @media screen and (max-width 768px)
-      display: none
+  .nav a
+    color: alpha(#383838, 0.8)
+    font-size: 16px
+    letter-spacing: 0.05rem
+    margin-right: 2rem
 
   .social
     display: inline-block
@@ -37,3 +29,14 @@
 
     a
       margin-left: qu(4)
+
+  @media screen and (max-width 767px)
+    padding: 0 qu(5)
+    img
+      height: qu(8)
+      width: auto
+    .nav a
+      margin-right: qu(4)
+
+    .social
+      display: none

@@ -1,0 +1,53 @@
+@require '~@/styles'
+
+.container
+  position: relative
+  display: flex
+  justify-content: center
+  margin-top: 72px
+  min-height: 100vh
+  background: #fdfdfd
+
+.feed-wrapper
+  display: flex
+  justify-content: center
+  padding: 20px 40px
+
+.feed
+  $item-width = qu(70)
+  flex-shrink: 1
+  width: 4 * ($item-width + qu(8))
+  margin-left: - qu(4)
+  margin-right: - qu(4)
+
+  .item
+    width: $item-width
+    height: $item-width * 0.8
+    margin: qu(4)
+
+  @media only screen and (max-width 1590px)
+    width: 3 * ($item-width + qu(8))
+  
+  @media only screen and (max-width 1280px)
+    $item-width = qu(60)
+    width: 3 * ($item-width + qu(8))
+    .item
+      width: $item-width
+      height: $item-width * 0.8
+    
+  @media only screen and (max-width 1023px)
+    $item-width = qu(54)
+    width: 3 * ($item-width + qu(6))
+    .item
+      // font-size: 10px
+      width: $item-width
+      height: $item-width * 0.8
+      margin: qu(3)
+  
+  @media only screen and (max-width 767px)
+    $item-width = qu(70)
+    width: $item-width + qu(8)
+    .item
+      // font-size: 10px
+      width: $item-width
+      height: $item-width * 0.8

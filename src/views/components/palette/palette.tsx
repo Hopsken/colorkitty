@@ -1,7 +1,7 @@
 import { SortableContainer, SortableElement } from 'react-sortable-hoc'
 import { Button, Upload, Tooltip, Modal, Input, Icon, message } from 'antd'
 import arrayMove from 'array-move'
-import { RGBColor } from 'react-color'
+import { Color } from 'react-color'
 import * as React from 'react'
 import copy from 'copy-to-clipboard'
 
@@ -11,11 +11,11 @@ const styles = require('./palette.styl')
 const cx = require('classnames/bind').bind(styles)
 
 interface Props {
-  colors: RGBColor[]
+  colors: Color[]
   paletteName: string
   currentIndex: number
 
-  updateColors: (colors: RGBColor[]) => void
+  updateColors: (colors: Color[]) => void
   onClickColor: (index: number) => void
   onUploadImage: (file: File | string) => boolean
 }
@@ -25,14 +25,14 @@ interface State {
 }
 
 interface SortableColorItemProps {
-  color: RGBColor
+  color: Color
   length: number
   isActive: boolean
   handleClickColor: () => void
 }
 
 interface SortableColorListProps {
-  colors: RGBColor[]
+  colors: Color[]
   currentIndex: number
   handleClick: (index: number) => () => void
 }
@@ -87,19 +87,19 @@ export class Palette extends React.PureComponent<Props, State> {
   }
 
   renderColor = (
-    color: RGBColor,
+    color: Color,
     index: number,
-    colors: RGBColor[]
+    colors: Color[]
   ) => (
-    <div
-      key={ index }
-      className={ cx('c', `c-${colors.length}`) }
-      style={ { backgroundColor: toRGBString(color) } }
-      onClick={ this.handleClickColor(index) }
-    >
-      <span>{ toHex(color).toUpperCase() }</span>
-    </div>
-  )
+      <div
+        key={ index }
+        className={ cx('c', `c-${colors.length}`) }
+        style={ { backgroundColor: toRGBString(color) } }
+        onClick={ this.handleClickColor(index) }
+      >
+        <span>{ toHex(color).toUpperCase() }</span>
+      </div>
+    )
 
   renderPalette = () => (
     <SortableColorList
@@ -136,7 +136,7 @@ export class Palette extends React.PureComponent<Props, State> {
       >
         <Upload.Dragger
           accept={ 'image/*' }
-          beforeUpload={ this.handleUpload  }
+          beforeUpload={ this.handleUpload }
           showUploadList={ false }
           className={ styles['upload-dragger'] }
         >
