@@ -19,7 +19,7 @@ interface Props {
     liked?: boolean
     className?: string
     onClickColor?: (index: number) => void
-    onClickLike?: () => void
+    onLike?: () => void
 }
 
 export class PaletteComponent extends React.PureComponent<Props, State> {
@@ -116,8 +116,8 @@ export class PaletteComponent extends React.PureComponent<Props, State> {
         e.preventDefault()
         e.stopPropagation()
 
-        if (this.props.onClickLike) {
-            this.props.onClickLike()
+        if (this.props.onLike) {
+            this.props.onLike()
         }
     }
 

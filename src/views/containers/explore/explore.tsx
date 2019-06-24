@@ -1,8 +1,10 @@
 import * as React from 'react'
-import { Skeleton, Input, Layout, Col, Row } from 'antd'
+import { Skeleton, Layout } from 'antd'
 import { RouteComponentProps } from 'react-router'
-
 import QS from 'querystring'
+
+import { saveLikeById, getLikeIds, removeLikeById } from '@/utilities'
+import { baseUrl } from '@/config'
 import { PaletteComponent } from './explore.palette'
 
 const styles = require('./explore.styl')
@@ -35,32 +37,30 @@ export class ExploreContainer extends React.PureComponent<Props, State> {
     page: 0,
     likes: [],
 
-    palettes: mockPalettes || [],
+    palettes: [],
   }
 
   componentDidMount() {
     const params = QS.parse(this.props.location.search)
     const sorts = (params.sorts || 'trendy') as FetchPalettesParams['sorts']
-    console.log(sorts)
     if (this.state.palettes.length === 0) {
       if (['trendy', 'newest', 'likes'].includes(sorts)) {
         this.fetchPalettes({ sorts })
       }
     }
+
+    this.setState({
+      likes: getLikeIds()
+    })
   }
 
   renderPalette = (palette: Palette) => {
-    const liked = palette.id in this.state.likes
+    const liked = this.state.likes.includes(palette.id)
     const onLike = liked
       ? this.unlike(palette.id)
       : this.like(palette.id)
 
     return (
-      // <Link
-      //   key={ index }
-      //   to={ `/palette/${ palette.id }` }
-      // >
-      // <Col span={ 8 }>
         <PaletteComponent
           key={ palette.id }
           className={ styles['item'] }
@@ -70,8 +70,6 @@ export class ExploreContainer extends React.PureComponent<Props, State> {
           liked={ liked }
           onLike={ onLike }
         />
-      // </Col>
-      // </Link>
     )
   }
 
@@ -101,7 +99,7 @@ export class ExploreContainer extends React.PureComponent<Props, State> {
   }
 
   private fetchPalettes(params: FetchPalettesParams) {
-    fetch(`https://colorkitty.herokuapp.com/palettes?${ QS.stringify(params) }`)
+    fetch(`${baseUrl}/palettes?${ QS.stringify(params) }`)
       .then(res => res.json())
       .then(res => {
         this.setState({
@@ -111,62 +109,30 @@ export class ExploreContainer extends React.PureComponent<Props, State> {
   }
 
   like = (id: number) => () => {
-    // this.props.likePalette(id)
+    fetch(`${baseUrl}/palette/${id}/like`, {
+      method: 'post'
+    })
+    .then(() => {
+      saveLikeById(id)
+      this.setState({
+        likes: this.state.likes.concat(id),
+        palettes: this.state.palettes.map(one => {
+          if (one.id === id) {
+            return {
+              ...one,
+              likes: ++one.likes
+            }
+          }
+          return one
+        })
+      })
+    })
   }
 
   unlike = (id: number) => () => {
-    // this.props.unlikePalette(id)
+    removeLikeById(id)
+    this.setState({
+      likes: this.state.likes.filter(one => id !== one)
+    })
   }
 }
-
-const mockPalettes = [
-  {
-    colors: ['#ffdada', '#777'],
-    id: 1,
-    name: 'ONE',
-    verified: true,
-    likes: 1,
-  },
-  {
-    colors: ['#ffdada', '#777'],
-    id: 2,
-    name: 'ONE',
-    verified: true,
-    likes: 1,
-  },
-  {
-    colors: ['#ffdada', '#777'],
-    id: 3,
-    name: 'ONE',
-    verified: true,
-    likes: 1,
-  },
-  {
-    colors: ['#ffdada', '#777'],
-    id: 4,
-    name: 'ONE',
-    verified: true,
-    likes: 1,
-  },
-  {
-    colors: ['#ffdada', '#777'],
-    id: 5,
-    name: 'ONE',
-    verified: true,
-    likes: 1,
-  }, {
-    colors: ['#ffdada', '#777'],
-    id: 6,
-    name: 'ONE',
-    verified: true,
-    likes: 1,
-  },
-
-  {
-    colors: ['#ffdada', '#777'],
-    id: 7,
-    name: 'ONE',
-    verified: true,
-    likes: 1,
-  },
-]
