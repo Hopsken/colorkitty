@@ -13,8 +13,8 @@ class App extends React.PureComponent {
     return (
       <Layout>
         <Header />
-        <Route exact={ true } path='/' component={ ComposerContainer } />
         <Route exact={ true } path='/explore' component={ ExploreContainer } />
+        <Route path='/' component={ ComposerContainer } />
       </Layout>
     )
   }
