@@ -68,6 +68,11 @@ export class ComposerContainer extends React.PureComponent<any, State> {
       colors={ this.colors }
     />)
 
+    // fixme
+    if (this.props.location.pathname === '/explore') {
+      return null
+    }
+
     return (
       <section className={ styles['container'] }>
         <Alert
