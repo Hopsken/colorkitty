@@ -1,12 +1,15 @@
 import { RGBColor, ColorResult } from 'react-color'
 import { message, Layout, Alert, Icon } from 'antd'
 import * as React from 'react'
+import { RouteComponentProps } from 'react-router'
 
 import { SuprePicker, Painter, Palette, Footer, LeftPad } from '@/views/components'
 import { parseColorsFromUrl } from '@/utilities'
 
 const styles = require('./composer.styl')
 const displayError = (content: string) => message.error(content)
+
+interface Props extends RouteComponentProps {}
 
 interface State {
   colors: RGBColor[]
@@ -26,7 +29,7 @@ const defaultPalette = [
   { r: 23, g: 154, b: 209 }
 ]
 
-export class ComposerContainer extends React.PureComponent<any, State> {
+export class ComposerContainer extends React.PureComponent<Props, State> {
 
   private drawerContainer = React.createRef<HTMLElement>()
 
@@ -40,20 +43,17 @@ export class ComposerContainer extends React.PureComponent<any, State> {
   }
 
   componentDidMount() {
-    const palette = parseColorsFromUrl()
-    const urlParams = new URLSearchParams(window.location.search)
-    const name = urlParams.get('name')
-    if (palette) {
-      this.setState({
-        colors: palette.concat(this.state.colors.slice(palette.length)),
-        colorsCount: palette.length,
-        paletteName: name || ''
-      })
-    }
+    this.loadUrlColors()
   }
 
   componentDidCatch() {
     displayError('Some unexpected error happen, please try again.')
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.location.pathname !== this.props.location.pathname) {
+      this.loadUrlColors()
+    }
   }
 
   getDrawerContainer = () => {
@@ -185,6 +185,19 @@ export class ComposerContainer extends React.PureComponent<any, State> {
     this.setState({
       currentIndex: index
     })
+  }
+
+  private loadUrlColors() {
+    const palette = parseColorsFromUrl()
+    const urlParams = new URLSearchParams(window.location.search)
+    const name = urlParams.get('name')
+    if (palette) {
+      this.setState({
+        colors: palette.concat(this.state.colors.slice(palette.length)),
+        colorsCount: palette.length,
+        paletteName: name || ''
+      })
+    }
   }
 
   private get colors() {

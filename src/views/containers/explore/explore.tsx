@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Skeleton, Layout } from 'antd'
 import { RouteComponentProps } from 'react-router'
 import QS from 'querystring'
+import { Link } from 'react-router-dom'
 
 import { saveLikeById, getLikeIds, removeLikeById } from '@/utilities'
 import { baseUrl } from '@/config'
@@ -61,8 +62,11 @@ export class ExploreContainer extends React.PureComponent<Props, State> {
       : this.like(palette.id)
 
     return (
+      <Link
+        key={ palette.id }
+        to={ `/${palette.colors.map(one => one.slice(1).toLowerCase()).join('-')}?name=${palette.name}` }
+      >
         <PaletteComponent
-          key={ palette.id }
           className={ styles['item'] }
           colors={ palette.colors }
           name={ palette.name }
@@ -70,6 +74,7 @@ export class ExploreContainer extends React.PureComponent<Props, State> {
           liked={ liked }
           onLike={ onLike }
         />
+      </Link>
     )
   }
 
