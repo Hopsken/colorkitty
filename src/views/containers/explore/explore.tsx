@@ -43,7 +43,7 @@ export class ExploreContainer extends React.PureComponent<Props, State> {
 
   componentDidMount() {
     const params = QS.parse(this.props.location.search)
-    const sorts = (params.sorts || 'trendy') as FetchPalettesParams['sorts']
+    const sorts = (params.sorts || 'likes') as FetchPalettesParams['sorts']
     if (this.state.palettes.length === 0) {
       if (['trendy', 'newest', 'likes'].includes(sorts)) {
         this.fetchPalettes({ sorts })
