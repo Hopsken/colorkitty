@@ -6511,10 +6511,10 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-webpack-bundle-analyzer@^3.2.0:
-  version "3.2.0"
-  resolved "http://registry.npm.taobao.org/webpack-bundle-analyzer/download/webpack-bundle-analyzer-3.2.0.tgz#0630d298e88511d036d7c823705d7b852593d5c4"
-  integrity sha1-BjDSmOiFEdA218gjcF17hSWT1cQ=
+webpack-bundle-analyzer@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.npm.taobao.org/webpack-bundle-analyzer/download/webpack-bundle-analyzer-3.3.2.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fwebpack-bundle-analyzer%2Fdownload%2Fwebpack-bundle-analyzer-3.3.2.tgz#3da733a900f515914e729fcebcd4c40dde71fc6f"
+  integrity sha1-PaczqQD1FZFOcp/OvNTEDd5x/G8=
   dependencies:
     acorn "^6.0.7"
     acorn-walk "^6.1.1"
