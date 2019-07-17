@@ -30,7 +30,7 @@ export class ExploreContainer extends React.PureComponent<Props> {
 
   componentDidMount() {
     const params = QS.parse(this.props.location.search)
-    const sorts = (params.sorts || 'likes') as FetchPalettesParams['sorts']
+    const sorts = (params.sorts || 'newest') as FetchPalettesParams['sorts']
     if (sorts === 'trendy') {
       if (this.props.popular.length === 0) {
         this.props.fetchPalettes({ sorts: 'likes' })
