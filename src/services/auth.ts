@@ -22,7 +22,7 @@ export const getUser = () => {
 export const login = (
   payload: LoginPayload
 ) => {
-  return request.post(
+  return request.post<any>(
     `${baseUrl}/login`,
     JSON.stringify(payload)
   )
@@ -35,7 +35,7 @@ export const logout = () => {
 export const signup = (
   payload: SignupPayload
 ) => {
-  return request.post(
+  return request.post<any>(
     `${baseUrl}/register`,
     JSON.stringify(payload)
   )

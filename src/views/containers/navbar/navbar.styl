@@ -1,0 +1,89 @@
+@require '~@/styles'
+
+.header
+  display: flex
+  align-items: center
+  position: fixed
+  box-sizing: border-box
+  width: 100%
+  padding: 0 qu(10)
+  height: qu(18)
+  line-height: qu(18)
+  font-size: qu(4)
+  background: rgba(255, 255, 255, 0.97)
+  box-shadow: 0 5px 10px 0 rgba(0,64,128,.05)
+  z-index: 1000
+
+  img
+    height: qu(10)
+    width: auto
+
+  .nav a
+    color: alpha(#383838, 0.8)
+    font-weight: 500
+    font-size: 16px
+    letter-spacing: 0.05rem
+    margin-right: 2rem
+
+  @media screen and (max-width 767px)
+    padding: 0 qu(5)
+    img
+      height: qu(8)
+      width: auto
+    .nav a
+      margin-right: qu(4)
+
+.menu
+  margin-left: auto
+
+  &-item
+    font-size: 16px
+    font-weight: 500
+    letter-spacing: .05em
+    padding: 0 qu(4)
+
+  .avatar
+    width: qu(10)
+    height: qu(10)
+    border: 1px solid rgba(0,0,0,.05)
+    border-radius: 50%
+
+  .loading
+    min-width: qu(15)
+    line-height: qu(15)
+
+.dropdown
+  min-width: qu(40)
+
+.modal-wrapper
+  display: flex
+  flex-direction: column
+  background: $G20
+  align-items: center
+
+  .modal-header
+    text-align: center
+
+    h3
+      font-weight: 600
+      color: $G100
+      font-size: $title-font-size
+
+    p
+      color: $G80
+
+  .input
+    margin-bottom: qu(4)
+
+  .tip
+    margin-top: qu(4)
+
+    a
+      display: inline-block
+      margin-left: qu(2)
+      color: $Main
+
+  .error
+    width: 100%
+    text-align: left
+    color: $R50

@@ -1,7 +1,6 @@
 export * from './footer'
 export * from './pickle'
 export * from './supre-picker'
-export * from './header'
 export * from './painter'
 export * from './palette'
 export * from './suppressible-card'
