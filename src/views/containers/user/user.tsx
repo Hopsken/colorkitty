@@ -6,7 +6,7 @@ import { Palette } from '@/types'
 import { UserPalettes } from './palettes'
 import { ProfileComp } from './profile'
 
-// const styles = require('./user.styl')
+const styles = require('./user.styl')
 
 interface Props extends RouteComponentProps<undefined> {
   user: any
@@ -43,7 +43,7 @@ export class UserContainer extends React.PureComponent<Props> {
     }
 
     return (
-      <section>
+      <section className={styles['wrapper']}>
         <ProfileComp
           username={this.props.user.username}
           logout={this.handleLogout}

@@ -18,21 +18,47 @@
   padding-left: qu(6)
 
   .title
-    display: flex
-
     &-name
       font-size: qu(10)
       font-weight: 700
       line-height: 1.2
 
     &-more
-      padding-top: qu(2.5)
-      padding-left: qu(6)
-
+      margin-top: qu(2)
       button
-        margin-left: qu(2)
+        margin-right: qu(2)
 
   .desc
+    margin-top: qu(2)
     font-size: $base-font-size
     line-height: 1.6
     color: $G100
+
+@media screen and (max-width: 750px) {
+  .profile {
+    height: qu(25)
+    padding: qu(5) 0
+  }
+
+  .avatar {
+    margin-left: auto
+    width: qu(16)
+    height: qu(16)
+  }
+
+  .info {
+    padding: 0
+    .title-name {
+        font-size: 16px
+        font-weight: 500
+        margin-right: qu(2)
+    }
+    .title-more {
+      padding: 0
+    }
+  }
+
+  .desc {
+    display: none
+  }
+}

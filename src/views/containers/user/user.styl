@@ -1,2 +1,17 @@
 @require '~@/styles'
 
+.wrapper
+  min-height: calc(100vh - 72px)
+  margin: 0 auto
+
+  @media screen and (min-width: qu(280))
+    max-width: qu(280)
+
+  @media screen and (max-width: 1120px)
+    width: qu(210)
+
+  @media screen and (max-width: 900px)
+    width: qu(140)
+
+  @media screen and (max-width: 600px)
+    width: qu(65)
