@@ -17,24 +17,24 @@ export class Account extends React.PureComponent<Props> {
 
   render() {
     return (
-      <section className={ styles['wrapper'] }>
+      <section className={styles['wrapper']}>
         <Tabs defaultActiveKey='1' tabPosition='left'>
           <Tabs.TabPane
-            tab={ <span><Icon type='user' />Profile</span> }
+            tab={<span><Icon type='user' />Profile</span>}
             key='1'
           >
             <ProfileForm
-              user={ this.props.user }
-              updateUserInfo={ this.props.updateUserInfo }
+              user={this.props.user}
+              updateUserInfo={this.props.updateUserInfo}
             />
           </Tabs.TabPane>
 
           <Tabs.TabPane
-            tab={ <span><Icon type='setting' />Settings</span> }
+            tab={<span><Icon type='setting' />Settings</span>}
             key='2'
           >
             <SettingsForm
-              updateUserInfo={ this.props.updateUserInfo }
+              updateUserInfo={this.props.updateUserInfo}
             />
           </Tabs.TabPane>
         </Tabs>

@@ -188,9 +188,13 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
   }
 
   private loadUrlColors() {
-    const palette = parseColorsFromUrl()
     const urlParams = new URLSearchParams(window.location.search)
     const name = urlParams.get('name')
+    const colors = urlParams.get('colors')
+    if (!colors) {
+      return
+    }
+    const palette = parseColorsFromUrl(colors)
     if (palette) {
       this.setState({
         colors: palette.concat(this.state.colors.slice(palette.length)),

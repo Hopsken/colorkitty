@@ -50,7 +50,7 @@ export class ExploreContainer extends React.PureComponent<Props> {
     return (
       <Link
         key={palette.palette_id}
-        to={`/${palette.colors.map(one => toHex(one).slice(1).toLowerCase()).join('-')}?name=${palette.name}`}
+        to={`/?colors=${palette.colors.map(one => toHex(one).slice(1).toLowerCase()).join('-')}&name=${palette.name}`}
       >
         <PaletteComponent
           className={styles['item']}
