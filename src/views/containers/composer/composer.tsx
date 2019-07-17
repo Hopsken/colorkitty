@@ -3,13 +3,13 @@ import { message, Layout, Alert, Icon } from 'antd'
 import * as React from 'react'
 import { RouteComponentProps } from 'react-router'
 
-import { SuprePicker, Painter, Palette, Footer, LeftPad } from '@/views/components'
+import { SuprePicker, Painter, SmartPalette, Footer, LeftPad } from '@/views/components'
 import { parseColorsFromUrl } from '@/utilities'
 
 const styles = require('./composer.styl')
 const displayError = (content: string) => message.error(content)
 
-interface Props extends RouteComponentProps {}
+interface Props extends RouteComponentProps { }
 
 interface State {
   colors: RGBColor[]
@@ -97,7 +97,7 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
 
           <Layout.Content className={styles['content']}>
             <section className={styles['core']}>
-              <Palette
+              <SmartPalette
                 colors={this.colors}
                 paletteName={paletteName}
                 updateColors={this.handleUpdateColors}
@@ -119,11 +119,11 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
           </Layout.Content>
 
           <Layout.Sider reverseArrow={true} breakpoint='lg' collapsedWidth='0' width={280} className={styles['sidebar']}>
-          <div className={styles['sidebar-wrapper']}>
-            {rightSide}
-          </div>
-        </Layout.Sider>
-      </Layout>
+            <div className={styles['sidebar-wrapper']}>
+              {rightSide}
+            </div>
+          </Layout.Sider>
+        </Layout>
       </section>
     )
   }
@@ -144,7 +144,7 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
     const { colors, currentIndex } = this.state
     this.handleUpdateColors(
       colors.map((value, index) => {
-        if (index === currentIndex ) {
+        if (index === currentIndex) {
           return color.rgb
         } else {
           return value

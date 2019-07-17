@@ -1,0 +1,38 @@
+@require '~@/styles'
+
+.profile
+  height: qu(75)
+  padding: qu(17.5) 0 qu(20) 0
+
+.avatar
+  display: block
+  margin-left: auto
+  margin-right: qu(8)
+
+  height: qu(37.5)
+  width: qu(37.5)
+  border-radius: 50%
+  border: 1px solid alpha(black, 0.05)
+
+.info
+  padding-left: qu(6)
+
+  .title
+    display: flex
+
+    &-name
+      font-size: qu(10)
+      font-weight: 700
+      line-height: 1.2
+
+    &-more
+      padding-top: qu(2.5)
+      padding-left: qu(6)
+
+      button
+        margin-left: qu(2)
+
+  .desc
+    font-size: $base-font-size
+    line-height: 1.6
+    color: $G100

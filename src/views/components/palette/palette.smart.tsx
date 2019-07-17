@@ -7,7 +7,7 @@ import copy from 'copy-to-clipboard'
 
 import { toHex, toRGBString, readable, iSValidURL } from '@/utilities'
 
-const styles = require('./palette.styl')
+const styles = require('./palette.smart.styl')
 const cx = require('classnames/bind').bind(styles)
 
 interface Props {
@@ -80,7 +80,7 @@ const SortableColorList = SortableContainer(({
     </div>)
 })
 
-export class Palette extends React.PureComponent<Props, State> {
+export class SmartPalette extends React.PureComponent<Props, State> {
 
   state = {
     showUploadModal: false

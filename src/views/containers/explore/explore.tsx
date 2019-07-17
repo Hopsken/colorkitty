@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import { Palette } from '@/types'
 import { GetPalettesParams } from '@/services'
 import { toHex } from '@/utilities'
-import { PaletteComponent } from './explore.palette'
+import { PaletteComponent } from '@/views/components'
 
 const styles = require('./explore.styl')
 
@@ -54,10 +54,7 @@ export class ExploreContainer extends React.PureComponent<Props> {
       >
         <PaletteComponent
           className={styles['item']}
-          colors={palette.colors}
-          name={palette.name}
-          likes={palette.likes}
-          liked={palette.liked}
+          palette={palette}
           onLike={onLike}
         />
       </Link>

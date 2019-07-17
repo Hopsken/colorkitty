@@ -4,7 +4,6 @@
   position: relative
   display: flex
   justify-content: center
-  margin-top: 72px
   min-height: 100vh
   background: #fdfdfd
 
@@ -27,14 +26,14 @@
 
   @media only screen and (max-width 1590px)
     width: 3 * ($item-width + qu(8))
-  
+
   @media only screen and (max-width 1280px)
     $item-width = qu(60)
     width: 3 * ($item-width + qu(8))
     .item
       width: $item-width
       height: $item-width * 0.8
-    
+
   @media only screen and (max-width 1023px)
     $item-width = qu(54)
     width: 3 * ($item-width + qu(6))
@@ -43,7 +42,7 @@
       width: $item-width
       height: $item-width * 0.8
       margin: qu(3)
-  
+
   @media only screen and (max-width 767px)
     $item-width = qu(70)
     width: $item-width + qu(8)
