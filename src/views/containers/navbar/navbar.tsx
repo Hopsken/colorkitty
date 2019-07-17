@@ -141,7 +141,7 @@ export class NavbarContianer extends React.PureComponent<Props, State> {
 
     return (
       <form className={styles['modal-wrapper']}>
-        <div className={styles['header']}>
+        <div className={styles['modal-header']}>
           <h3>Join Now!</h3>
           <p>Sign up to compose your palettes.</p>
         </div>
