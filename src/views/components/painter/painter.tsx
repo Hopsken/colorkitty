@@ -30,7 +30,7 @@ const pickleStyle = {
   top: -55,
   left: -20
 }
-const loadingIcon = <Icon type='loading' style={ { fontSize: 48 } } spin={ true } />
+const loadingIcon = <Icon type='loading' style={{ fontSize: 48 }} spin={true} />
 
 export class Painter extends React.PureComponent<Props, State> {
 
@@ -72,18 +72,18 @@ export class Painter extends React.PureComponent<Props, State> {
       const { offsetX, offsetY } = this.getPickleOffset(position)
       return (
         <Draggable
-          key={ position }
-          bounds={ bounds }
-          defaultPosition={ { x: offsetX, y: offsetY } }
-          onStart={ this.handleDragStart(index) }
-          onDrag={ this.handleDragPickle(index) }
-          onStop={ this.handleDragPickle(index) }
+          key={position}
+          bounds={bounds}
+          defaultPosition={{ x: offsetX, y: offsetY }}
+          onStart={this.handleDragStart(index)}
+          onDrag={this.handleDragPickle(index)}
+          onStop={this.handleDragPickle(index)}
         >
           <Pickle
-            size={ 40 }
-            color={ toRGBString(colors[index]) }
-            style={ pickleStyle }
-            index={ index + 1 }
+            size={40}
+            color={toRGBString(colors[index])}
+            style={pickleStyle}
+            index={index + 1}
           />
         </Draggable>
       )
@@ -96,19 +96,19 @@ export class Painter extends React.PureComponent<Props, State> {
 
     return (
       <section
-        className={ styles['painter'] }
-        style={ { visibility: file ? 'visible' : 'hidden' } }
+        className={styles['painter']}
+        style={{ visibility: file ? 'visible' : 'hidden' }}
       >
-        { hidden && <Spin indicator={ loadingIcon } /> }
+        {hidden && <Spin indicator={loadingIcon} />}
         <div
-          className={ styles['painting'] }
-          style={ { display: hidden ? 'none' : 'block' } }
+          className={styles['painting']}
+          style={{ display: hidden ? 'none' : 'block' }}
         >
           <canvas
-            ref={ this.canvas }
-            { ...this.canvasSize }
+            ref={this.canvas}
+            {...this.canvasSize}
           />
-          { this.renderPickers() }
+          {this.renderPickers()}
         </div>
       </section>
     )

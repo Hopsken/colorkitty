@@ -48,7 +48,7 @@ const exportMethodsArray = [
 
 const buyMeCoffee = (
   <a
-    className={ styles['bmc-button'] }
+    className={styles['bmc-button']}
     target='_blank'
     href='https://www.buymeacoffee.com/hopsken'
   >
@@ -85,55 +85,55 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
   renderExportModal = () => {
     const methods = exportMethodsArray.map(method => (
       <Card.Grid
-        key={ method.name }
-        className={ styles['export-item'] }
+        key={method.name}
+        className={styles['export-item']}
         // @ts-ignore
-        onClick={ this.handleExport(method.name) }
+        onClick={this.handleExport(method.name)}
       >
-        <Icon type={ method.icon } className={ styles['export-icon'] } />
-        { method.name.toUpperCase() }
+        <Icon type={method.icon} className={styles['export-icon']} />
+        {method.name.toUpperCase()}
       </Card.Grid>
     ))
     const textArea = this.state.content && (
       <Input.TextArea
-        className={ styles['export-textarea'] }
-        value={ this.state.content }
-        rows={ 4 }
+        className={styles['export-textarea']}
+        value={this.state.content}
+        rows={4}
       />)
 
     return (
       <Modal
-        visible={ this.state.showModal }
-        onCancel={ this.toggleModal }
-        footer={ null }
+        visible={this.state.showModal}
+        onCancel={this.toggleModal}
+        footer={null}
         title='Export'
       >
-        <Card bordered={ false }>
-          { methods }
-          { textArea }
+        <Card bordered={false}>
+          {methods}
+          {textArea}
         </Card>
       </Modal>
     )
   }
 
   renderPaletteSection = () => (
-    <Card className={ styles['card'] } type='inner' size='small' title='Palette'>
-      <Form labelCol={ { span: 6 } } wrapperCol={ { span: 18 } }>
-        <Form.Item className={ styles['form-item'] } label='Name'>
+    <Card className={styles['card']} type='inner' size='small' title='Palette'>
+      <Form labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
+        <Form.Item className={styles['form-item']} label='Name'>
           <Input
             placeholder='NEW PALETTE'
-            value={ this.props.paletteName }
-            onChange={ this.props.onInputPaletteName }
+            value={this.props.paletteName}
+            onChange={this.props.onInputPaletteName}
           />
         </Form.Item>
-        <Form.Item className={ styles['form-item'] } label='Count'>
+        <Form.Item className={styles['form-item']} label='Count'>
           <Slider
-            value={ this.props.colors.length }
-            step={ 1 }
-            max={ 6 }
-            min={ 1 }
-            onChange={ this.props.onChangeColorsCount }
-            marks={ { 1: '1', 6 : '6' } }
+            value={this.props.colors.length}
+            step={1}
+            max={6}
+            min={1}
+            onChange={this.props.onChangeColorsCount}
+            marks={{ 1: '1', 6 : '6' }}
           />
         </Form.Item>
       </Form>
@@ -141,21 +141,21 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
   )
 
   renderExportSection = () => (
-    <Card className={ styles['card'] } type='inner' size='small' title='Export'>
-      <Checkbox checked={ this.state.includeShades } onChange={ this.toggleIncludeShades }>Include Shades</Checkbox><br /><br />
-      <Button block={ true } onClick={ this.toggleModal }><Icon type='picture' />Export</Button>
-      <Button block={ true } onClick={ this.handleTweet }><Icon type='twitter' />Tweet</Button>
+    <Card className={styles['card']} type='inner' size='small' title='Export'>
+      <Checkbox checked={this.state.includeShades} onChange={this.toggleIncludeShades}>Include Shades</Checkbox><br /><br />
+      <Button block={true} onClick={this.toggleModal}><Icon type='picture' />Export</Button>
+      <Button block={true} onClick={this.handleTweet}><Icon type='twitter' />Tweet</Button>
     </Card>
   )
 
   render() {
     return (
       <React.Fragment>
-        { this.renderPaletteSection() }
-        { this.renderExportSection() }
-        { this.renderExportModal() }
-        { /* { PHLink } */ }
-        { buyMeCoffee }
+        {this.renderPaletteSection()}
+        {this.renderExportSection()}
+        {this.renderExportModal()}
+        {/* { PHLink } */}
+        {buyMeCoffee}
       </React.Fragment>
     )
   }

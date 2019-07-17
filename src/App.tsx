@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom'
 import * as React from 'react'
 import { Layout } from 'antd'
 
-import { ComposerContainer, ExploreContainer } from '@/views/containers'
+import { ComposerContainer, Explore } from '@/views/containers'
 import { Header } from '@/views/components'
 
 require('./app.styl')
@@ -13,8 +13,8 @@ class App extends React.PureComponent {
     return (
       <Layout>
         <Header />
-        <Route exact={ true } path='/explore' component={ ExploreContainer } />
-        <Route path='/' component={ ComposerContainer } />
+        <Route exact={true} path='/explore' component={Explore} />
+        <Route path='/' component={ComposerContainer} />
       </Layout>
     )
   }

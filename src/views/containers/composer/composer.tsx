@@ -63,9 +63,9 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
   render() {
     const { paletteName, colors, currentIndex, rawImage, showDrawer } = this.state
     const rightSide = showDrawer && (<SuprePicker
-      color={ colors[currentIndex] }
-      onChange={ this.handleChangeColor }
-      colors={ this.colors }
+      color={colors[currentIndex]}
+      onChange={this.handleChangeColor}
+      colors={this.colors}
     />)
 
     // fixme
@@ -74,53 +74,53 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
     }
 
     return (
-      <section className={ styles['container'] }>
+      <section className={styles['container']}>
         <Alert
           type='info'
-          icon={ <Icon type='desktop' /> }
-          className={ styles['notice-bar'] }
+          icon={<Icon type='desktop' />}
+          className={styles['notice-bar']}
           message='We are better on desktop.'
-          banner={ true }
-          closable={ true }
+          banner={true}
+          closable={true}
         />
         <Layout>
-          <Layout.Sider breakpoint='lg' collapsedWidth='0' width={ 280 } className={ styles['sidebar'] }>
-            <div className={ styles['sidebar-wrapper'] }>
+          <Layout.Sider breakpoint='lg' collapsedWidth='0' width={280} className={styles['sidebar']}>
+            <div className={styles['sidebar-wrapper']}>
               <LeftPad
-                colors={ this.colors }
-                paletteName={ this.state.paletteName }
-                onChangeColorsCount={ this.handleChangeNumbers }
-                onInputPaletteName={ this.handleInputName }
+                colors={this.colors}
+                paletteName={this.state.paletteName}
+                onChangeColorsCount={this.handleChangeNumbers}
+                onInputPaletteName={this.handleInputName}
               />
             </div>
           </Layout.Sider>
 
-          <Layout.Content className={ styles['content'] }>
-            <section className={ styles['core'] }>
+          <Layout.Content className={styles['content']}>
+            <section className={styles['core']}>
               <Palette
-                colors={ this.colors }
-                paletteName={ paletteName }
-                updateColors={ this.handleUpdateColors }
-                onChangeColorsCount={ this.handleChangeNumbers }
-                onChangePaletteName={ this.handleInputName }
-                onClickColor={ this.handleClickColor }
-                onUploadImage={ this.handleUploadImage }
-                currentIndex={ currentIndex }
+                colors={this.colors}
+                paletteName={paletteName}
+                updateColors={this.handleUpdateColors}
+                onChangeColorsCount={this.handleChangeNumbers}
+                onChangePaletteName={this.handleInputName}
+                onClickColor={this.handleClickColor}
+                onUploadImage={this.handleUploadImage}
+                currentIndex={currentIndex}
               />
 
               <Painter
-                colors={ this.colors }
-                file={ rawImage }
-                updateColors={ this.handleUpdateColors }
-                updateCurrentIndex={ this.handleClickColor }
+                colors={this.colors}
+                file={rawImage}
+                updateColors={this.handleUpdateColors}
+                updateCurrentIndex={this.handleClickColor}
               />
             </section>
             <Footer />
           </Layout.Content>
 
-          <Layout.Sider reverseArrow={ true } breakpoint='lg' collapsedWidth='0' width={ 280 } className={ styles['sidebar'] }>
-          <div className={ styles['sidebar-wrapper'] }>
-            { rightSide }
+          <Layout.Sider reverseArrow={true} breakpoint='lg' collapsedWidth='0' width={280} className={styles['sidebar']}>
+          <div className={styles['sidebar-wrapper']}>
+            {rightSide}
           </div>
         </Layout.Sider>
       </Layout>

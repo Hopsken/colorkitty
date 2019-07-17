@@ -48,14 +48,14 @@ export class ContrastTable extends React.PureComponent<ContrastTableProps, Contr
             colors: ['#fafafa', '#000'].concat(this.props.colors.map(one => toHex(one)))
         }
         const ths = [fstColor, secColor].map((color, index) => (
-            <th key={ index }>
+            <th key={index}>
                 <Dropdown
-                    trigger={ ['click'] }
-                    getPopupContainer={ this.getPopupContainer }
-                    overlay={ <TwitterPicker { ...pickProps } onChangeComplete={ this.handleChangeColor(index) } color={ color } /> }
+                    trigger={['click']}
+                    getPopupContainer={this.getPopupContainer}
+                    overlay={<TwitterPicker {...pickProps} onChangeComplete={this.handleChangeColor(index)} color={color} />}
                 >
-                    <div className={ styles['contrast-swatch'] }>
-                        <div style={ { background: toHex(color) } } />
+                    <div className={styles['contrast-swatch']}>
+                        <div style={{ background: toHex(color) }} />
                     </div>
                 </Dropdown>
             </th>)
@@ -65,15 +65,15 @@ export class ContrastTable extends React.PureComponent<ContrastTableProps, Contr
             <thead>
                 <tr>
                     <th>Foreground</th>
-                    <th colSpan={ 2 }>
-                        <div className={ styles['contrast-swatch'] }>
-                            <div style={ { background: toHex(this.props.activeColor) } } />
+                    <th colSpan={2}>
+                        <div className={styles['contrast-swatch']}>
+                            <div style={{ background: toHex(this.props.activeColor) }} />
                         </div>
                     </th>
                 </tr>
                 <tr>
                     <th>Background</th>
-                    { ths }
+                    {ths}
                 </tr>
             </thead>
         )
@@ -86,14 +86,14 @@ export class ContrastTable extends React.PureComponent<ContrastTableProps, Contr
         const contrastSecColor = readability(activeColor, secColor)
 
         const rows = readabilityStandard.map(standard => (
-            <tr key={ standard.level }>
-                <td>{ standard.level }</td>
-                <td>{ contrastFstColor >= standard.score ? '✓' : '' }</td>
-                <td>{ contrastSecColor >= standard.score ? '✓' : '' }</td>
+            <tr key={standard.level}>
+                <td>{standard.level}</td>
+                <td>{contrastFstColor >= standard.score ? '✓' : ''}</td>
+                <td>{contrastSecColor >= standard.score ? '✓' : ''}</td>
             </tr>
         ))
 
-        return <tbody>{ rows }</tbody>
+        return <tbody>{rows}</tbody>
     }
 
     render() {
@@ -103,9 +103,9 @@ export class ContrastTable extends React.PureComponent<ContrastTableProps, Contr
         }
 
         return (
-          <table className={ styles['contrast'] }>
-            { this.renderHead() }
-            { this.renderBoby() }
+          <table className={styles['contrast']}>
+            {this.renderHead()}
+            {this.renderBoby()}
           </table>
         )
     }

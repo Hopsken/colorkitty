@@ -33,16 +33,16 @@ export class PaletteComponent extends React.PureComponent<Props, State> {
 
         return (
             <div
-                key={ index }
-                className={ styles['c'] }
-                style={ { backgroundColor: toRGBString(color) } }
-                onClick={ this.handleClickColor(index) }
+                key={index}
+                className={styles['c']}
+                style={{ backgroundColor: toRGBString(color) }}
+                onClick={this.handleClickColor(index)}
             >
                 <Tooltip
-                    title={ tooltip }
-                    onVisibleChange={ this.handleTooltipChange }
+                    title={tooltip}
+                    onVisibleChange={this.handleTooltipChange}
                 >
-                    <span onClick={ this.handleClick.bind(this, color) }>{ toHex(color).toUpperCase() }</span>
+                    <span onClick={this.handleClick.bind(this, color)}>{toHex(color).toUpperCase()}</span>
                 </Tooltip>
             </div>
         )
@@ -53,25 +53,25 @@ export class PaletteComponent extends React.PureComponent<Props, State> {
 
         const Stars = likes != null && (
             <Button
-                className={ styles['bottom-fav'] }
-                onClick={ this.handleClickLike }
+                className={styles['bottom-fav']}
+                onClick={this.handleClickLike}
             >
                 <Icon
                     type='heart'
                     theme='filled'
-                    className={ cx({ 'active': liked }) }
+                    className={cx({ 'active': liked })}
                 />
-                { likes != 0 && <span>{ likes }</span> }
+                {likes != 0 && <span>{likes}</span>}
             </Button>
         )
 
         return (
-            <div className={ styles['bottom'] }>
-                <div className={ styles['bottom-info'] }>
-                    { name && <span className={ styles['bottom-name'] }>{ name }</span> }
-                    { time && <span className={ styles['bottom-date'] }>{ time }</span> }
+            <div className={styles['bottom']}>
+                <div className={styles['bottom-info']}>
+                    {name && <span className={styles['bottom-name']}>{name}</span>}
+                    {time && <span className={styles['bottom-date']}>{time}</span>}
                 </div>
-                { Stars }
+                {Stars}
             </div>
         )
     }
@@ -88,11 +88,11 @@ export class PaletteComponent extends React.PureComponent<Props, State> {
         })
 
         return (
-            <div className={ cx({ palette: true, [className!]: !!className }) }>
-                <div className={ styles['colors'] }>
-                    { colorCards }
+            <div className={cx({ palette: true, [className!]: !!className })}>
+                <div className={styles['colors']}>
+                    {colorCards}
                 </div>
-                { this.props.children ? this.props.children : this.renderBottom() }
+                {this.props.children ? this.props.children : this.renderBottom()}
             </div>
         )
     }

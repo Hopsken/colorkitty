@@ -15,8 +15,8 @@ export class SuppressibleCard extends React.PureComponent<CardProps, State> {
     render() {
         const { visible } = this.state
         const icon = (<Icon
-            type={ visible ? 'eye' : 'eye-invisible' }
-            onClick={ this.toggleVisible }
+            type={visible ? 'eye' : 'eye-invisible'}
+            onClick={this.toggleVisible}
         />)
         const bodyStyle = {
             ...this.props.bodyStyle,
@@ -24,8 +24,8 @@ export class SuppressibleCard extends React.PureComponent<CardProps, State> {
         }
 
         return (
-            <Card { ...this.props } bodyStyle={ bodyStyle } extra={ icon }>
-                { visible ? this.props.children : null }
+            <Card {...this.props} bodyStyle={bodyStyle} extra={icon}>
+                {visible ? this.props.children : null}
             </Card>
         )
     }

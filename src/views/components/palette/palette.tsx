@@ -49,11 +49,11 @@ const SortableColorItem = SortableElement(({
   handleClickColor
 }: SortableColorItemProps) => (
     <div
-      className={ cx('c', `c-${length}`, { active: isActive }) }
-      style={ { backgroundColor: toRGBString(color) } }
-      onClick={ handleClickColor }
+      className={cx('c', `c-${length}`, { active: isActive })}
+      style={{ backgroundColor: toRGBString(color) }}
+      onClick={handleClickColor}
     >
-      <span style={ { color: readable(color) } } onClick={ copyColorToClipboard(toHex(color)) }>{ toHex(color).toUpperCase() }</span>
+      <span style={{ color: readable(color) }} onClick={copyColorToClipboard(toHex(color))}>{toHex(color).toUpperCase()}</span>
     </div>
   )
 )
@@ -65,18 +65,18 @@ const SortableColorList = SortableContainer(({
 }: SortableColorListProps) => {
   const items = colors.map((color: any, index: number, all: any) => (
     <SortableColorItem
-      key={ `color-${index}` }
-      index={ index }
-      color={ color }
-      isActive={ currentIndex === index }
-      length={ all.length }
-      handleClickColor={ handleClick(index) }
+      key={`color-${index}`}
+      index={index}
+      color={color}
+      isActive={currentIndex === index}
+      length={all.length}
+      handleClickColor={handleClick(index)}
     />)
   )
 
   return (
-    <div className={ styles['palette-colors'] } >
-      { items }
+    <div className={styles['palette-colors']} >
+      {items}
     </div>)
 })
 
@@ -92,12 +92,12 @@ export class Palette extends React.PureComponent<Props, State> {
     colors: Color[]
   ) => (
       <div
-        key={ index }
-        className={ cx('c', `c-${colors.length}`) }
-        style={ { backgroundColor: toRGBString(color) } }
-        onClick={ this.handleClickColor(index) }
+        key={index}
+        className={cx('c', `c-${colors.length}`)}
+        style={{ backgroundColor: toRGBString(color) }}
+        onClick={this.handleClickColor(index)}
       >
-        <span>{ toHex(color).toUpperCase() }</span>
+        <span>{toHex(color).toUpperCase()}</span>
       </div>
     )
 
@@ -105,22 +105,22 @@ export class Palette extends React.PureComponent<Props, State> {
     <SortableColorList
       axis='x'
       lockAxis='x'
-      currentIndex={ this.props.currentIndex }
-      colors={ this.props.colors }
-      handleClick={ this.handleClickColor }
-      onSortEnd={ this.handleDragColorEnd }
-      distance={ 10 }
-      lockToContainerEdges={ true }
+      currentIndex={this.props.currentIndex}
+      colors={this.props.colors}
+      handleClick={this.handleClickColor}
+      onSortEnd={this.handleDragColorEnd}
+      distance={10}
+      lockToContainerEdges={true}
     />
   )
 
   renderBottom = () => (
-    <div className={ styles['palette-info'] }>
-      <span className={ styles['palette-name'] }>{ this.props.paletteName || 'NEW PALETTE' }</span>
+    <div className={styles['palette-info']}>
+      <span className={styles['palette-name']}>{this.props.paletteName || 'NEW PALETTE'}</span>
 
-      <div className={ styles['palette-control'] }>
+      <div className={styles['palette-control']}>
         <Tooltip title='Pick colors from Image'>
-          <Button icon='camera' onClick={ this.toggleUploadModal }>Upload</Button>
+          <Button icon='camera' onClick={this.toggleUploadModal}>Upload</Button>
         </Tooltip>
       </div>
     </div>
@@ -129,27 +129,27 @@ export class Palette extends React.PureComponent<Props, State> {
   renderUploadModal = () => {
     return (
       <Modal
-        footer={ null }
+        footer={null}
         title='Pick colors from image'
-        visible={ this.state.showUploadModal }
-        onCancel={ this.toggleUploadModal }
+        visible={this.state.showUploadModal}
+        onCancel={this.toggleUploadModal}
       >
         <Upload.Dragger
-          accept={ 'image/*' }
-          beforeUpload={ this.handleUpload }
-          showUploadList={ false }
-          className={ styles['upload-dragger'] }
+          accept={'image/*'}
+          beforeUpload={this.handleUpload}
+          showUploadList={false}
+          className={styles['upload-dragger']}
         >
-          <div className={ styles['upload-dragger-container'] }>
-            <Icon className={ styles['upload-dragger-icon'] } type='inbox' />
-            <p className={ styles['upload-dragger-info'] }>Browse or drag image</p>
+          <div className={styles['upload-dragger-container']}>
+            <Icon className={styles['upload-dragger-icon']} type='inbox' />
+            <p className={styles['upload-dragger-info']}>Browse or drag image</p>
           </div>
         </Upload.Dragger>
-        <p className={ styles['upload-remote-title'] }>Remote Image</p>
+        <p className={styles['upload-remote-title']}>Remote Image</p>
         <Input.Search
           placeholder='https://'
           enterButton='Confirm'
-          onSearch={ this.handleConfirmRemoteImage }
+          onSearch={this.handleConfirmRemoteImage}
           pattern='https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)'
         />
       </Modal>
@@ -158,10 +158,10 @@ export class Palette extends React.PureComponent<Props, State> {
 
   render() {
     return (
-      <section className={ styles['palette'] }>
-        { this.renderPalette() }
-        { this.renderBottom() }
-        { this.renderUploadModal() }
+      <section className={styles['palette']}>
+        {this.renderPalette()}
+        {this.renderBottom()}
+        {this.renderUploadModal()}
       </section>
     )
   }

@@ -1,1 +1,1 @@
-export * from './explore'
+export * from './connect'

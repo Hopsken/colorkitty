@@ -4,8 +4,9 @@ import { RouteComponentProps } from 'react-router'
 import QS from 'querystring'
 import { Link } from 'react-router-dom'
 
-import { saveLikeById, getLikeIds, removeLikeById } from '@/utilities'
-import { baseUrl } from '@/config'
+import { Palette } from '@/types'
+import { GetPalettesParams } from '@/services'
+import { toHex } from '@/utilities'
 import { PaletteComponent } from './explore.palette'
 
 const styles = require('./explore.styl')
@@ -16,63 +17,48 @@ interface FetchPalettesParams {
   limit?: number
 }
 
-interface Palette {
-  id: number
-  colors: string[]
-  name: string
-  verified: boolean
-  likes: number
+interface Props extends RouteComponentProps<null> {
+  popular: Palette[]
+  newest: Palette[]
+
+  fetchPalettes: (params: GetPalettesParams) => void
+  likePalette: (palette_id: string) => void
+  unlikePalette: (palette_id: string) => void
 }
 
-interface Props extends RouteComponentProps { }
-
-interface State {
-  page: number
-  likes: number[]
-
-  palettes: Palette[]
-}
-
-export class ExploreContainer extends React.PureComponent<Props, State> {
-  state: State = {
-    page: 0,
-    likes: [],
-
-    palettes: [],
-  }
+export class ExploreContainer extends React.PureComponent<Props> {
 
   componentDidMount() {
     const params = QS.parse(this.props.location.search)
     const sorts = (params.sorts || 'likes') as FetchPalettesParams['sorts']
-    if (this.state.palettes.length === 0) {
-      if (['trendy', 'newest', 'likes'].includes(sorts)) {
-        this.fetchPalettes({ sorts })
+    if (sorts === 'trendy') {
+      if (this.props.popular.length === 0) {
+        this.props.fetchPalettes({ sorts: 'likes' })
+      }
+    } else {
+      if (this.props.newest.length === 0) {
+        this.props.fetchPalettes({ sorts: 'newest' })
       }
     }
-
-    this.setState({
-      likes: getLikeIds()
-    })
   }
 
   renderPalette = (palette: Palette) => {
-    const liked = this.state.likes.includes(palette.id)
-    const onLike = liked
-      ? this.unlike(palette.id)
-      : this.like(palette.id)
+    const onLike = palette.liked
+      ? this.unlike(palette.palette_id)
+      : this.like(palette.palette_id)
 
     return (
       <Link
-        key={ palette.id }
-        to={ `/${palette.colors.map(one => one.slice(1).toLowerCase()).join('-')}?name=${palette.name}` }
+        key={palette.palette_id}
+        to={`/${palette.colors.map(one => toHex(one).slice(1).toLowerCase()).join('-')}?name=${palette.name}`}
       >
         <PaletteComponent
-          className={ styles['item'] }
-          colors={ palette.colors }
-          name={ palette.name }
-          likes={ palette.likes }
-          liked={ liked }
-          onLike={ onLike }
+          className={styles['item']}
+          colors={palette.colors}
+          name={palette.name}
+          likes={palette.likes}
+          liked={palette.liked}
+          onLike={onLike}
         />
       </Link>
     )
@@ -80,15 +66,15 @@ export class ExploreContainer extends React.PureComponent<Props, State> {
 
   renderFeed() {
     return (
-      <Layout.Content className={ styles['feed-wrapper'] }>
+      <Layout.Content className={styles['feed-wrapper']}>
         <Skeleton
-          active={ true }
-          loading={ this.state.palettes.length === 0 }
-          title={ false }
-          paragraph={ { rows: 4 } }
+          active={true}
+          loading={this.palettes.length === 0}
+          title={false}
+          paragraph={{ rows: 4 }}
         >
-          <div className={ styles['feed'] }>
-            { (this.state.palettes || []).map(this.renderPalette) }
+          <div className={styles['feed']}>
+            {(this.palettes || []).map(this.renderPalette)}
           </div>
         </Skeleton>
       </Layout.Content>
@@ -97,47 +83,24 @@ export class ExploreContainer extends React.PureComponent<Props, State> {
 
   render() {
     return (
-      <Layout className={ styles['container'] }>
-        { this.renderFeed() }
+      <Layout className={styles['container']}>
+        {this.renderFeed()}
       </Layout>
     )
   }
 
-  private fetchPalettes(params: FetchPalettesParams) {
-    fetch(`${baseUrl}/palettes?${ QS.stringify(params) }`)
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          palettes: res.data
-        })
-      })
+  like = (palette_id: string) => () => {
+    this.props.likePalette(palette_id)
   }
 
-  like = (id: number) => () => {
-    fetch(`${baseUrl}/palette/${id}/like`, {
-      method: 'post'
-    })
-    .then(() => {
-      saveLikeById(id)
-      this.setState({
-        likes: this.state.likes.concat(id),
-        palettes: this.state.palettes.map(one => {
-          if (one.id === id) {
-            return {
-              ...one,
-              likes: ++one.likes
-            }
-          }
-          return one
-        })
-      })
-    })
+  unlike = (palette_id: string) => () => {
+    this.props.unlikePalette(palette_id)
   }
 
-  unlike = (id: number) => () => {
-    removeLikeById(id)
-    this.setState({
-      likes: this.state.likes.filter(one => id !== one)
-    })
+  private get palettes() {
+    const params = QS.parse(this.props.location.search)
+    const sorts = (params.sorts || 'likes') as FetchPalettesParams['sorts']
+    const { popular, newest } = this.props
+    return sorts === 'trendy' ? popular : newest
   }
 }

@@ -59,19 +59,19 @@ export function CombinationComp({
   const colorSlides =  (colorCombinations[type](hex) || []).map((one: string, index: number) => {
     return (
       <div
-        key={ index }
-        className={ styles['slide'] }
-        style={ { background: one, color: readable(one) } }
-        onClick={ handleChange(one) }
+        key={index}
+        className={styles['slide']}
+        style={{ background: one, color: readable(one) }}
+        onClick={handleChange(one)}
       >
-        <span>{ one.toUpperCase() }</span>
+        <span>{one.toUpperCase()}</span>
       </div>
     )
   })
 
   return (
-    <div className={ styles['slides'] }>
-      { colorSlides }
+    <div className={styles['slides']}>
+      {colorSlides}
     </div>
   )
 }
@@ -86,10 +86,10 @@ class SuprePickerComp extends React.PureComponent<SuprePickerProps, SuprePickerS
 
   renderSelector = () => (
     <Select
-      style={ { width: 140, marginBottom: 12 } }
+      style={{ width: 140, marginBottom: 12 }}
       defaultValue='analogous'
-      onChange={ this.handleChangeCombineType }
-      getPopupContainer={ this.getContainer }
+      onChange={this.handleChangeCombineType}
+      getPopupContainer={this.getContainer}
     >
       <Option value='monochromatic'>Monochromatic</Option>
       <Option value='analogous'>Analogous</Option>
@@ -102,31 +102,31 @@ class SuprePickerComp extends React.PureComponent<SuprePickerProps, SuprePickerS
 
   render() {
     return (
-      <div className={ styles['picker'] } id='sidebar'>
-        <Card bodyStyle={ { padding: 0 } }>
+      <div className={styles['picker']} id='sidebar'>
+        <Card bodyStyle={{ padding: 0 }}>
           <ChromePicker
-            { ...this.props }
-            disableAlpha={ true }
+            {...this.props}
+            disableAlpha={true}
           />
         </Card>
 
-        <SuppressibleCard className={ styles['card'] } size='small' type='inner' title='Shades'>
+        <SuppressibleCard className={styles['card']} size='small' type='inner' title='Shades'>
           <CombinationComp
-            hex={ this.props.hex }
+            hex={this.props.hex}
             type='shades'
           />
         </SuppressibleCard>
 
-        <SuppressibleCard className={ styles['card'] }  size='small' type='inner' title='Harmony'>
-          { this.renderSelector() }
+        <SuppressibleCard className={styles['card']}  size='small' type='inner' title='Harmony'>
+          {this.renderSelector()}
           <CombinationComp
-            hex={ this.props.hex }
-            type={ this.state.combinationType }
+            hex={this.props.hex}
+            type={this.state.combinationType}
           />
         </SuppressibleCard>
 
-        <SuppressibleCard className={ styles['card'] }  size='small' type='inner' title={ contrastTitle }>
-          <ContrastTable colors={ this.props.colors } activeColor={ this.props.hex! } />
+        <SuppressibleCard className={styles['card']}  size='small' type='inner' title={contrastTitle}>
+          <ContrastTable colors={this.props.colors} activeColor={this.props.hex!} />
         </SuppressibleCard>
       </div>
     )
