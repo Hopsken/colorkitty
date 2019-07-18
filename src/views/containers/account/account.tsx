@@ -13,12 +13,29 @@ interface Props {
   updateUserInfo: (payload: Partial<User>) => void
 }
 
-export class Account extends React.PureComponent<Props> {
+interface State {
+  tabPosition: 'left' | 'top'
+}
+
+export class Account extends React.PureComponent<Props, State> {
+
+  state: State = {
+    tabPosition: this.tabPosition
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.updateTabPosition)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateTabPosition)
+  }
 
   render() {
+    const { tabPosition } = this.state
     return (
       <section className={styles['wrapper']}>
-        <Tabs defaultActiveKey='1' tabPosition='left'>
+        <Tabs defaultActiveKey='1' tabPosition={tabPosition}>
           <Tabs.TabPane
             tab={<span><Icon type='user' />Profile</span>}
             key='1'
@@ -40,5 +57,17 @@ export class Account extends React.PureComponent<Props> {
         </Tabs>
       </section>
     )
+  }
+
+  updateTabPosition = (_: UIEvent) => {
+    this.setState({
+      tabPosition: this.tabPosition
+    })
+  }
+
+  private get tabPosition() {
+    return window.innerWidth > 600
+      ? 'left'
+      : 'top'
   }
 }
