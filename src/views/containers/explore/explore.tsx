@@ -1,10 +1,10 @@
 import * as React from 'react'
-import { Skeleton, Layout } from 'antd'
+import { Skeleton, Layout, notification } from 'antd'
 import { RouteComponentProps } from 'react-router'
 import QS from 'querystring'
 import { Link } from 'react-router-dom'
 
-import { Palette } from '@/types'
+import { Palette, User } from '@/types'
 import { GetPalettesParams } from '@/services'
 import { toHex } from '@/utilities'
 import { PaletteComponent } from '@/views/components'
@@ -18,6 +18,7 @@ interface FetchPalettesParams {
 }
 
 interface Props extends RouteComponentProps<null> {
+  user: User
   popular: Palette[]
   newest: Palette[]
 
@@ -87,6 +88,12 @@ export class ExploreContainer extends React.PureComponent<Props> {
   }
 
   like = (palette_id: string) => () => {
+    if (!this.props.user) {
+      notification.info({
+        message: 'Please login first.'
+      })
+      return
+    }
     this.props.likePalette(palette_id)
   }
 

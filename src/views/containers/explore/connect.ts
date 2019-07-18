@@ -13,8 +13,10 @@ const mapStateToProps = (state: RootState) => {
   const all = state.app.palettes
   const popularIds = state.app.popularPaletteIds
   const newestIds = state.app.newestPaletteIds
+  const user = state.root.user
 
   return {
+    user,
     popular: flatMap(popularIds, id => all.filter(one => one.palette_id === id)),
     newest: flatMap(newestIds, id => all.filter(one => one.palette_id === id))
   }
