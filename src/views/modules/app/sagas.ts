@@ -4,11 +4,24 @@ import { call, put, takeLatest, takeEvery, select } from 'redux-saga/effects'
 import {
   getPalettes, getPalette,
   likePalette, unlikePalette,
-  userPalettes, userLikes,
+  userPalettes, userLikes, savePalette,
 } from '@/services'
 import { selectPalette } from './selector'
-import { GetPalettesParams } from '@/services'
+import { GetPalettesParams, SavePalettePayload } from '@/services'
 import { actionTypes, types } from './types'
+
+function* createPalette(action: Action<SavePalettePayload>) {
+  const payload = action.payload
+  if (!payload || !payload.colors || !payload.name) {
+    return
+  }
+  try {
+    const result = yield call(savePalette, { colors: payload.colors, name: payload.name })
+    yield put(createAction(types.CREATE_PALETTE_SUCCESS)(result))
+  } catch {
+    yield put(createAction(types.CREATE_PALETTE_FAILURE)())
+  }
+}
 
 function* fetchUserPalettes(action: Action<string>) {
   if (!action.payload) {
@@ -27,7 +40,7 @@ function* fetchUserPalettes(action: Action<string>) {
   }
 }
 
-function* fetchPalette(action: Action<{ palette_id: string}>) {
+function* fetchPalette(action: Action<{ palette_id: string }>) {
   if (!action.payload) {
     return
   }
@@ -88,4 +101,5 @@ export function* appSaga() {
   yield takeLatest(actionTypes.unlikePalette, unlike)
   yield takeEvery(actionTypes.getUserPalettes, fetchUserPalettes)
   yield takeLatest(actionTypes.getPalette, fetchPalette)
+  yield takeLatest(actionTypes.createPalette, createPalette)
 }

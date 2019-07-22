@@ -3,13 +3,16 @@ import { message, Layout, Alert, Icon } from 'antd'
 import * as React from 'react'
 import { RouteComponentProps } from 'react-router'
 
-import { SuprePicker, Painter, SmartPalette, Footer, LeftPad } from '@/views/components'
+import { SuprePicker, Painter, SmartPalette, Toolbar } from '@/views/components'
 import { parseColorsFromUrl } from '@/utilities'
+import { SavePalettePayload, savePalette } from '@/services'
 
 const styles = require('./composer.styl')
 const displayError = (content: string) => message.error(content)
 
-interface Props extends RouteComponentProps { }
+interface Props extends RouteComponentProps {
+  user: any
+}
 
 interface State {
   colors: RGBColor[]
@@ -37,7 +40,7 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
     colors: defaultPalette,
     colorsCount: 5,
     currentIndex: -1,
-    paletteName: '',
+    paletteName: 'NEW PALETTE',
     showDrawer: false,
     rawImage: null
   }
@@ -68,11 +71,6 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
       colors={this.colors}
     />)
 
-    // fixme
-    if (this.props.location.pathname === '/explore') {
-      return null
-    }
-
     return (
       <section className={styles['container']}>
         <Alert
@@ -84,17 +82,6 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
           closable={true}
         />
         <Layout>
-          <Layout.Sider breakpoint='lg' collapsedWidth='0' width={280} className={styles['sidebar']}>
-            <div className={styles['sidebar-wrapper']}>
-              <LeftPad
-                colors={this.colors}
-                paletteName={this.state.paletteName}
-                onChangeColorsCount={this.handleChangeNumbers}
-                onInputPaletteName={this.handleInputName}
-              />
-            </div>
-          </Layout.Sider>
-
           <Layout.Content className={styles['content']}>
             <section className={styles['core']}>
               <SmartPalette
@@ -114,8 +101,16 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
                 updateColors={this.handleUpdateColors}
                 updateCurrentIndex={this.handleClickColor}
               />
+
+              <div className={styles['toolbar']}>
+                <Toolbar
+                  paletteName={paletteName}
+                  colors={this.colors}
+                  onChangeColorsCount={this.handleChangeNumbers}
+                  onSavePalette={this.handleSavePalette}
+                />
+              </div>
             </section>
-            <Footer />
           </Layout.Content>
 
           <Layout.Sider reverseArrow={true} breakpoint='lg' collapsedWidth='0' width={280} className={styles['sidebar']}>
@@ -167,10 +162,9 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
     })
   }
 
-  handleInputName = (ev: React.FormEvent<HTMLInputElement>) => {
-    const target = ev.target as HTMLInputElement
+  handleInputName = (name: string) => {
     this.setState({
-      paletteName: target.value
+      paletteName: name
     })
   }
 
@@ -187,10 +181,22 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
     })
   }
 
+  handleSavePalette = (payload: SavePalettePayload) => {
+    const { user } = this.props
+    if (!user) {
+      message.warn('Please login first.')
+      return
+    }
+    savePalette(payload)
+      .then(() => this.props.history.push(`/u/${user.username}`))
+      .catch(() => message.warn('Fail to save palette.'))
+  }
+
   private loadUrlColors() {
     const urlParams = new URLSearchParams(window.location.search)
     const name = urlParams.get('name')
     const colors = urlParams.get('colors')
+    console.info(name, colors)
     if (!colors) {
       return
     }

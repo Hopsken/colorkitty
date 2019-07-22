@@ -4,7 +4,7 @@ import { baseUrl } from '@/config'
 import { toHex, request, urlQuery } from '@/utilities'
 import { Palette } from '@/types'
 
-interface SaveColorPayload {
+export interface SavePalettePayload {
   colors: RGBColor[]
   name: string
 }
@@ -14,8 +14,8 @@ export interface GetPalettesParams {
   sorts?: 'likes' | 'newest'
 }
 
-export const saveColor = (
-  payload: SaveColorPayload
+export const savePalette = (
+  payload: SavePalettePayload
 ): Promise<Palette> => {
   const { colors, name } = payload
   const body = {

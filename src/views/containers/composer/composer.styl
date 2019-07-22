@@ -10,21 +10,27 @@
   flex-direction: column
   align-items: center
   overflow-y: initial
-  margin-left: 280px
-  margin-right: 280px
+  padding-left: 280px
+  padding-right: 280px
   background: #fdfdfd
 
-
   @media screen and (max-width 992px)
-    margin-left: 0
-    margin-right: 0
+    padding-left: 0
+    padding-right: 0
 
 .core
+  position: relative
   display: flex
   flex-direction: column
   align-items: center
-  padding: 90px 56px
-  min-height: 100vh
+  margin-top: 90px
+  padding: 0 56px
+  min-height: calc(100vh - 72px - 90px)
+
+.toolbar
+  position: absolute
+  top: 0
+  left: 0 - qu(5)
 
 .sidebar
   background: #f9fafb

@@ -24,6 +24,7 @@ export enum types {
 }
 
 export enum actionTypes {
+  'createPalette' = 'createPalette',
   'getPalette' = 'getPalette',
   'getPalettes' = 'getPalettes',
   'likePalette' = 'likePalette',

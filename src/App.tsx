@@ -3,7 +3,8 @@ import { Route } from 'react-router-dom'
 import * as React from 'react'
 import { Layout } from 'antd'
 
-import { ComposerContainer, Explore, Navbar, User, Account } from '@/views/containers'
+import { Footer } from '@/views/components'
+import { Composer, Explore, Navbar, User, Account } from '@/views/containers'
 
 require('./app.styl')
 
@@ -14,10 +15,11 @@ class App extends React.PureComponent {
         <Navbar />
         <main style={{ marginTop: 72 }}>
           <Route exact={true} path='/explore' component={Explore} />
-          <Route exact={true} path='/' component={ComposerContainer} />
+          <Route exact={true} path='/' component={Composer} />
           <Route path='/u/:username' component={User} />
           <Route path='/account' component={Account} />
         </main>
+        {location.pathname !== '/' && <Footer />}
       </Layout>
     )
   }
