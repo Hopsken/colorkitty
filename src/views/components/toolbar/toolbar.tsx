@@ -23,6 +23,9 @@ interface ToolbarState {
 }
 
 const styles = require('./toolbar.styl')
+const twitterShareUrl = 'https://twitter.com/intent/tweet?'
+  + 'button_hashtag=colorkitty'
+  + '&url=__URL__&text=Palette: __PALETTE_NAME__.'
 const exportMethodsArray = [
   {
     name: ExportMethod.URL,
@@ -106,6 +109,11 @@ export class Toolbar extends React.PureComponent<ToolbarProps, ToolbarState> {
             <Icon type='download' />
           </div>
         </Tooltip>
+        <Tooltip placement='left' title='Share'>
+          <div className={styles['item']} onClick={this.handleTweet}>
+            <Icon type='twitter' />
+          </div>
+        </Tooltip>
         <Tooltip placement='left' title='Save'>
           <div className={styles['item']} onClick={this.handleSavePalette}>
             <Icon type={isSaving ? 'loading' : 'cloud-upload'} />
@@ -183,5 +191,17 @@ export class Toolbar extends React.PureComponent<ToolbarProps, ToolbarState> {
         content: ''
       })
     }
+  }
+
+  handleTweet = () => {
+    const { paletteName, colors } = this.props
+
+    const win = window.open(
+      twitterShareUrl
+        .replace('__URL__', exportMethods['url'](colors, paletteName))
+        .replace('__PALETTE_NAME__', paletteName || 'New Palette')
+    )
+
+    win!.focus()
   }
 }
