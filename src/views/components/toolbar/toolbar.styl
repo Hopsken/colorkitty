@@ -7,13 +7,21 @@
   border: 1px solid rgba(62,57,107,0.2)
   border-radius: qu(1)
 
+  @media screen and (max-width 767px)
+    width: qu(70)
+    flex-direction: row
+
 .item
+  flex: 1
   font-size: 18px
   color: $G90
   padding: qu(3) qu(4)
 
   &:not(:last-child)
     border-bottom: 1px solid rgba(62,57,107,0.2)
+    @media screen and (max-width 767px)
+      border: none
+      border-right: 1px solid rgba(62,57,107,0.2)
 
 .export
   &-textarea
