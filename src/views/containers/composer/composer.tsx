@@ -196,7 +196,6 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
     const urlParams = new URLSearchParams(window.location.search)
     const name = urlParams.get('name')
     const colors = urlParams.get('colors')
-    console.info(name, colors)
     if (!colors) {
       return
     }
@@ -205,7 +204,7 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
       this.setState({
         colors: palette.concat(this.state.colors.slice(palette.length)),
         colorsCount: palette.length,
-        paletteName: name || ''
+        paletteName: name || 'New Palette'
       })
     }
   }
