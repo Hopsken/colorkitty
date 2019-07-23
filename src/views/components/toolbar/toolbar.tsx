@@ -109,17 +109,16 @@ export class Toolbar extends React.PureComponent<ToolbarProps, ToolbarState> {
             <Icon type='download' />
           </div>
         </Tooltip>
-        <Tooltip placement='left' title='Share'>
-          <div className={styles['item']} onClick={this.handleTweet}>
-            <Icon type='twitter' />
-          </div>
-        </Tooltip>
         <Tooltip placement='left' title='Save'>
           <div className={styles['item']} onClick={this.handleSavePalette}>
             <Icon type={isSaving ? 'loading' : 'cloud-upload'} />
           </div>
         </Tooltip>
-
+        <Tooltip placement='left' title='Share'>
+          <div className={styles['item']} onClick={this.handleTweet}>
+            <Icon type='twitter' />
+          </div>
+        </Tooltip>
         {this.renderExportModal()}
       </div>
     )

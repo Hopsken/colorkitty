@@ -4,7 +4,7 @@
   display: flex
   flex-direction: column
   background: #f9fafb
-  border: 1px solid rgba(62,57,107,0.2)
+  border: 1px solid rgba(62,57,107,0.1)
   border-radius: qu(1)
 
   @media screen and (max-width 767px)
@@ -13,15 +13,16 @@
 
 .item
   flex: 1
-  font-size: 18px
+  font-size: 16px
   color: $G90
-  padding: qu(3) qu(4)
+  padding: 10px 14px
+  text-align: center
 
   &:not(:last-child)
-    border-bottom: 1px solid rgba(62,57,107,0.2)
+    border-bottom: 1px solid rgba(62,57,107,0.1)
     @media screen and (max-width 767px)
       border: none
-      border-right: 1px solid rgba(62,57,107,0.2)
+      border-right: 1px solid rgba(62,57,107,0.1)
 
 .export
   &-textarea
