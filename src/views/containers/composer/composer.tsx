@@ -6,12 +6,14 @@ import { RouteComponentProps } from 'react-router'
 import { SuprePicker, Painter, SmartPalette, Toolbar } from '@/views/components'
 import { parseColorsFromUrl } from '@/utilities'
 import { SavePalettePayload, savePalette } from '@/services'
+import { Palette } from '@/types'
 
 const styles = require('./composer.styl')
 const displayError = (content: string) => message.error(content)
 
 interface Props extends RouteComponentProps {
   user: any
+  onSavePaletteSuccess: (palette: Palette) => void
 }
 
 interface State {
@@ -182,14 +184,20 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
   }
 
   handleSavePalette = (payload: SavePalettePayload) => {
-    const { user } = this.props
+    const { user, onSavePaletteSuccess } = this.props
     if (!user) {
       message.warn('Please login first.')
       return Promise.reject()
     }
     return savePalette(payload)
-      .then(() => this.props.history.push(`/u/${user.username}`))
-      .catch(() => message.warn('Fail to save palette.'))
+      .then((palette) => {
+        onSavePaletteSuccess(palette)
+        this.props.history.push(`/u/${user.username}`)
+      })
+      .catch((err) => {
+        console.info(err)
+        message.warn('Fail to save palette.')
+      })
   }
 
   private loadUrlColors() {

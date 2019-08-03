@@ -3,10 +3,9 @@ import { createAction } from 'redux-actions'
 import { Dispatch } from 'redux'
 import { withRouter } from 'react-router-dom'
 
-import { RootState } from '@/types'
+import { RootState, Palette } from '@/types'
 import { ComposerContainer } from './composer'
-import { actionTypes } from '@/views/modules/app'
-import { SavePalettePayload } from '@/services'
+import { types as actionTypes } from '@/views/modules/app'
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -15,7 +14,7 @@ const mapStateToProps = (state: RootState) => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  savePalette: (payload: SavePalettePayload) => dispatch(createAction(actionTypes.createPalette)(payload)),
+  onSavePaletteSuccess: (payload: Palette) => dispatch(createAction(actionTypes.CREATE_PALETTE_SUCCESS)(payload)),
 })
 
 export const Composer = connect(

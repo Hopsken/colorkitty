@@ -66,7 +66,7 @@ export const appReducer: Reducer<AppStore> = (
       return {
         ...state,
         palettes: appendPalettes(state.palettes, action.payload['data']),
-        userPaletteIds: state.userPaletteIds.concat(action.payload['data']['palette_id']),
+        userPaletteIds: [action.payload['data']['palette_id']].concat(state.userPaletteIds),
       }
     case types.GET_POP_PALETTES_SUCCESS:
       return {
