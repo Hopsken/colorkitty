@@ -12,6 +12,8 @@ const TabPane = Tabs.TabPane
 interface Props {
   privates: Palette[]
   likes: Palette[]
+
+  onDelete: (payload: string) => void
   fetchUserPalettes: (payload: 'private' | 'likes') => void
 }
 
@@ -35,12 +37,13 @@ export class UserPalettes extends React.PureComponent<Props> {
     }
   }
 
-  renderPalettes(palettes: Palette[]) {
+  renderPalettes = (palettes: Palette[]) => {
     const items = palettes.map((palette, index) => (
       <PaletteComponent
         key={index}
         className={styles['item']}
         palette={palette}
+        onDelete={this.props.onDelete}
       />
     ))
 
@@ -65,5 +68,4 @@ export class UserPalettes extends React.PureComponent<Props> {
       </Tabs>
     )
   }
-
 }

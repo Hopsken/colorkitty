@@ -38,6 +38,11 @@ export const appReducer: Reducer<AppStore> = (
         ...state,
         current: action.payload
       }
+    case types.DELETE_PALETTE_SUCCESS:
+      return {
+        ...state,
+        userPaletteIds: state.userPaletteIds.filter(id => id !== action.payload)
+      }
   }
 
   if (!action.payload || !action.payload['status'] || !action.payload['data']) {

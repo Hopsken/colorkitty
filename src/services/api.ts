@@ -51,3 +51,7 @@ export const unlikePalette = (palette_id: number) => {
 export const getPalette = (palette_id: string) => {
   return request.get(`${baseUrl}/palette/${palette_id}`)
 }
+
+export const deletePalette = (palette_id: number) => {
+  return request.delete(`${baseUrl}/palette/${palette_id}`)
+}

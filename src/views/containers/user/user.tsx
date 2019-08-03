@@ -14,6 +14,7 @@ interface Props extends RouteComponentProps<undefined> {
   likes: Palette[]
 
   logout: () => void
+  deleteUserPalette: (payload: string) => void
   fetchUserPalettes: (
     payload: 'private' | 'likes'
   ) => void
@@ -52,6 +53,7 @@ export class UserContainer extends React.PureComponent<Props> {
           privates={this.props.privates}
           likes={this.props.likes}
           fetchUserPalettes={this.props.fetchUserPalettes}
+          onDelete={this.props.deleteUserPalette}
         />
       </section>
     )

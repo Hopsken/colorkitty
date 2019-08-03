@@ -2,7 +2,7 @@ import { createAction, Action } from 'redux-actions'
 import { call, put, takeLatest, takeEvery, select } from 'redux-saga/effects'
 
 import {
-  getPalettes, getPalette,
+  getPalettes, getPalette, deletePalette,
   likePalette, unlikePalette,
   userPalettes, userLikes, savePalette,
 } from '@/services'
@@ -95,6 +95,18 @@ function* unlike(action: Action<number>) {
   }
 }
 
+function* deleteUserPalette(action: Action<number>) {
+  if (!action.payload) {
+    return
+  }
+  try {
+    yield call(deletePalette, action.payload)
+    yield put(createAction(types.DELETE_PALETTE_SUCCESS)(action.payload))
+  } catch {
+    yield put(createAction(types.DELETE_PALETTE_FAILURE)())
+  }
+}
+
 export function* appSaga() {
   yield takeLatest(actionTypes.getPalettes, fetchPalettes)
   yield takeLatest(actionTypes.likePalette, like)
@@ -102,4 +114,5 @@ export function* appSaga() {
   yield takeEvery(actionTypes.getUserPalettes, fetchUserPalettes)
   yield takeLatest(actionTypes.getPalette, fetchPalette)
   yield takeLatest(actionTypes.createPalette, createPalette)
+  yield takeLatest(actionTypes.deletePalette, deleteUserPalette)
 }

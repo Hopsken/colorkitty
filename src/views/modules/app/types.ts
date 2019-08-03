@@ -21,11 +21,14 @@ export enum types {
   'GET_PALETTE_SUCCESS' = 'GET_PALETTE_SUCCESS',
   'GET_PALETTE_FAILURE' = 'GET_PALETTE_FAILURE',
 
+  'DELETE_PALETTE_SUCCESS' = 'DELETE_PALETTE_SUCCESS',
+  'DELETE_PALETTE_FAILURE' = 'DELETE_PALETTE_FAILURE',
 }
 
 export enum actionTypes {
   'createPalette' = 'createPalette',
   'getPalette' = 'getPalette',
+  'deletePalette' = 'deletePalette',
   'getPalettes' = 'getPalettes',
   'likePalette' = 'likePalette',
   'unlikePalette' = 'unlikePalette',

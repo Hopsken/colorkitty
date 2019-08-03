@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Icon, Button, message } from 'antd'
+import { Icon, Button, message, Popconfirm } from 'antd'
 import copy from 'copy-to-clipboard'
 
 import { toHex, toRGBString } from '@/utilities'
@@ -11,8 +11,10 @@ const cx = require('classnames/bind').bind(styles)
 interface Props {
   palette: Palette
   className?: string
+
   onClickColor?: (index: number) => void
   onLike?: () => void
+  onDelete?: (id: string) => void
 }
 
 export class PaletteComponent extends React.PureComponent<Props> {
@@ -31,8 +33,9 @@ export class PaletteComponent extends React.PureComponent<Props> {
   }
 
   renderBottom = () => {
-    const { created, name, likes = 0, liked = false } = this.props.palette
-    console.info(this.props.palette)
+    const { created, name, likes = 0, liked = false, palette_id } = this.props.palette
+    const { onDelete } = this.props
+    const showDeleteBtn = onDelete && typeof onDelete === 'function'
 
     const Stars = likes != null && (
       <Button
@@ -47,6 +50,19 @@ export class PaletteComponent extends React.PureComponent<Props> {
         {likes != 0 && <span>{likes}</span>}
       </Button>
     )
+    const DeleteBtn = (
+      <Popconfirm
+        title='Are you sure delete this palette?'
+        onConfirm={this.handleDelete(palette_id)}
+        okText='Yes'
+        cancelText='No'
+      >
+        <Icon
+          type='delete'
+          style={{ color: '#a6a6a6', marginLeft: 8 }}
+        />
+      </Popconfirm>
+    )
 
     return (
       <div className={styles['bottom']}>
@@ -55,6 +71,7 @@ export class PaletteComponent extends React.PureComponent<Props> {
           {created && <span className={styles['bottom-date']}>{created}</span>}
         </div>
         {Stars}
+        {showDeleteBtn && DeleteBtn}
       </div>
     )
   }
@@ -84,6 +101,13 @@ export class PaletteComponent extends React.PureComponent<Props> {
   handleClick = (value: string) => {
     if (copy(value)) {
       message.success('Successfully copied!')
+    }
+  }
+
+  handleDelete = (id: string) => () => {
+    const { onDelete } = this.props
+    if (onDelete && typeof onDelete === 'function') {
+      onDelete(id)
     }
   }
 

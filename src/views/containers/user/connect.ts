@@ -26,6 +26,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   fetchUserPalettes: (
     payload: 'private' | 'likes'
   ) => dispatch(createAction(actionTypes.getUserPalettes)(payload)),
+  deleteUserPalette: (
+    payload: string
+  ) => dispatch(createAction(actionTypes.deletePalette)(payload))
 })
 
 export const User = connect(
