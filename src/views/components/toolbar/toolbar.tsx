@@ -5,18 +5,15 @@ import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 import copy from 'copy-to-clipboard'
 
 import { ExportMethod, exportMethods } from '@/utilities'
-import { SavePalettePayload } from '@/services'
 
 interface ToolbarProps {
   paletteName: string
   colors: RGBColor[]
 
   onChangeColorsCount: (count: number) => void
-  onSavePalette: (payload: SavePalettePayload) => void
 }
 
 interface ToolbarState {
-  isSaving: boolean
   showModal: boolean
   content: string
   includeShades: boolean
@@ -48,7 +45,6 @@ const exportMethodsArray = [
 export class Toolbar extends React.PureComponent<ToolbarProps, ToolbarState> {
 
   state = {
-    isSaving: false,
     showModal: false,
     content: '',
     includeShades: false,
@@ -91,7 +87,6 @@ export class Toolbar extends React.PureComponent<ToolbarProps, ToolbarState> {
   }
 
   render() {
-    const { isSaving } = this.state
     return (
       <div className={styles['toolbar']}>
         <Tooltip placement='left' title='Add color'>
@@ -104,14 +99,9 @@ export class Toolbar extends React.PureComponent<ToolbarProps, ToolbarState> {
             <Icon type='minus' />
           </div>
         </Tooltip>
-        <Tooltip placement='left' title='Download'>
+        <Tooltip placement='left' title='Export'>
           <div className={styles['item']} onClick={this.toggleModal}>
-            <Icon type='download' />
-          </div>
-        </Tooltip>
-        <Tooltip placement='left' title='Save'>
-          <div className={styles['item']} onClick={this.handleSavePalette}>
-            <Icon type={isSaving ? 'loading' : 'cloud-upload'} />
+            <Icon type='share-alt' />
           </div>
         </Tooltip>
         <Tooltip placement='left' title='Share'>
@@ -140,21 +130,6 @@ export class Toolbar extends React.PureComponent<ToolbarProps, ToolbarState> {
       return
     }
     this.props.onChangeColorsCount(this.props.colors.length - 1)
-  }
-
-  handleSavePalette = () => {
-    const { colors, paletteName, onSavePalette } = this.props
-    if (!onSavePalette || this.state.isSaving) {
-      return
-    }
-    this.setState({
-      isSaving: true
-    }, () => {
-      onSavePalette({
-        colors: colors,
-        name: paletteName,
-      })
-    })
   }
 
   toggleModal = () => {

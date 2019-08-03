@@ -32,6 +32,7 @@ export class PaletteComponent extends React.PureComponent<Props> {
 
   renderBottom = () => {
     const { created, name, likes = 0, liked = false } = this.props.palette
+    console.info(this.props.palette)
 
     const Stars = likes != null && (
       <Button

@@ -1,17 +1,18 @@
 import { SortableContainer, SortableElement } from 'react-sortable-hoc'
 import { Button, Upload, Tooltip, Modal, Input, Icon, message } from 'antd'
 import arrayMove from 'array-move'
-import { Color } from 'react-color'
+import { RGBColor, Color } from 'react-color'
 import * as React from 'react'
 import copy from 'copy-to-clipboard'
 
 import { toHex, toRGBString, readable, iSValidURL } from '@/utilities'
+import { SavePalettePayload } from '@/services'
 
 const styles = require('./palette.smart.styl')
 const cx = require('classnames/bind').bind(styles)
 
 interface Props {
-  colors: Color[]
+  colors: RGBColor[]
   paletteName: string
   currentIndex: number
 
@@ -19,9 +20,11 @@ interface Props {
   onClickColor: (index: number) => void
   onUploadImage: (file: File | string) => boolean
   onChangePaletteName: (name: string) => void
+  onSavePalette: (payload: SavePalettePayload) => Promise<any>
 }
 
 interface State {
+  isSaving: boolean
   showUploadModal: boolean
 }
 
@@ -84,6 +87,7 @@ const SortableColorList = SortableContainer(({
 export class SmartPalette extends React.PureComponent<Props, State> {
 
   state = {
+    isSaving: false,
     showUploadModal: false
   }
 
@@ -126,6 +130,14 @@ export class SmartPalette extends React.PureComponent<Props, State> {
       <div className={styles['palette-control']}>
         <Tooltip title='Pick colors from Image'>
           <Button icon='camera' onClick={this.toggleUploadModal}>Upload</Button>
+        </Tooltip>
+        <Tooltip title='Save'>
+          <Button
+            icon='cloud-upload'
+            loading={this.state.isSaving}
+            disabled={this.state.isSaving}
+            onClick={this.handleSavePalette}
+          />
         </Tooltip>
       </div>
     </div>
@@ -173,6 +185,21 @@ export class SmartPalette extends React.PureComponent<Props, State> {
 
   handleChangePaletteName = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.props.onChangePaletteName(event.currentTarget.value)
+  }
+
+  handleSavePalette = () => {
+    const { colors, paletteName, onSavePalette } = this.props
+    if (!onSavePalette || this.state.isSaving) {
+      return
+    }
+    this.setState({
+      isSaving: true
+    }, () => {
+      onSavePalette({
+        colors: colors,
+        name: paletteName,
+      }).catch(() => this.setState({ isSaving: false }))
+    })
   }
 
   toggleUploadModal = () => {

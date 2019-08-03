@@ -92,6 +92,7 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
                 onChangePaletteName={this.handleInputName}
                 onClickColor={this.handleClickColor}
                 onUploadImage={this.handleUploadImage}
+                onSavePalette={this.handleSavePalette}
                 currentIndex={currentIndex}
               />
 
@@ -107,7 +108,6 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
                   paletteName={paletteName}
                   colors={this.colors}
                   onChangeColorsCount={this.handleChangeNumbers}
-                  onSavePalette={this.handleSavePalette}
                 />
               </div>
             </section>
@@ -185,9 +185,9 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
     const { user } = this.props
     if (!user) {
       message.warn('Please login first.')
-      return
+      return Promise.reject()
     }
-    savePalette(payload)
+    return savePalette(payload)
       .then(() => this.props.history.push(`/u/${user.username}`))
       .catch(() => message.warn('Fail to save palette.'))
   }
