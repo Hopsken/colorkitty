@@ -5,6 +5,7 @@ type Id<T> = string & { kind: T }
 export interface Palette {
   palette_id: Id<'palettedId'>
   uid: Id<'userId'>
+  creator: string
   colors: RGBColor[]
   name: string
   likes: number
