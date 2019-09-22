@@ -110,6 +110,11 @@ module.exports = {
         toType: 'file'
       },
       {
+        from: `${rootDir}/src/views/assets/kitty.png`,
+        to: `${rootDir}/dist/kitty.png`,
+        toType: 'file'
+      },
+      {
         from: `${rootDir}/src/views/assets/colorkitty_192.png`,
         to: `${rootDir}/dist/colorkitty_192.png`,
         toType: 'file'
