@@ -6,6 +6,9 @@ import copy from 'copy-to-clipboard'
 
 import { ExportMethod, exportMethods } from '@/utilities'
 
+const styles = require('./toolbar.styl')
+const cx = require('classnames').bind(styles)
+
 interface ToolbarProps {
   paletteName: string
   colors: RGBColor[]
@@ -19,17 +22,19 @@ interface ToolbarState {
   includeShades: boolean
 }
 
-const styles = require('./toolbar.styl')
 const twitterShareUrl = 'https://twitter.com/intent/tweet?'
   + 'button_hashtag=colorkitty'
   + '&url=__URL__&text=Palette: __PALETTE_NAME__.'
 const exportMethodsArray = [
   {
-    name: ExportMethod.URL,
-    icon: 'link'
+    name: ExportMethod.SVG,
+    icon: 'block'
   }, {
     name: ExportMethod.PNG,
     icon: 'picture'
+  }, {
+    name: ExportMethod.URL,
+    icon: 'link'
   }, {
     name: ExportMethod.SCSS,
     icon: 'code'
@@ -51,17 +56,19 @@ export class Toolbar extends React.PureComponent<ToolbarProps, ToolbarState> {
   }
 
   renderExportModal = () => {
-    const methods = exportMethodsArray.map(method => (
-      <Card.Grid
-        key={method.name}
-        className={styles['export-item']}
-        // @ts-ignore
-        onClick={this.handleExport(method.name)}
-      >
-        <Icon type={method.icon} className={styles['export-icon']} />
-        {method.name.toUpperCase()}
-      </Card.Grid>
-    ))
+    const methods = exportMethodsArray.map(method => {
+      const iconCls = cx(styles['export-icon'], {[styles['active']]: method.name === ExportMethod.SVG})
+      return (
+        <Card.Grid
+          key={method.name}
+          // @ts-ignore
+          onClick={this.handleExport(method.name)}
+        >
+          <Icon type={method.icon} className={iconCls} />
+          {method.name.toUpperCase()}
+        </Card.Grid>
+      )
+    })
     const textArea = this.state.content && (
       <Input.TextArea
         className={styles['export-textarea']}
@@ -77,7 +84,10 @@ export class Toolbar extends React.PureComponent<ToolbarProps, ToolbarState> {
         title='Export'
       >
         <Checkbox checked={this.state.includeShades} onChange={this.toggleIncludeShades}>Include Shades</Checkbox>
-        <br /><br />
+        <p className={styles['export-tips']}>
+          Using <span className={styles['active']}>SVG</span> format,
+          you can copy-paste your palette to any prototyping tools like Sketch, Figma, and Adobe XD.
+        </p>
         <Card bodyStyle={{ padding: 0 }} bordered={false}>
           {methods}
           {textArea}

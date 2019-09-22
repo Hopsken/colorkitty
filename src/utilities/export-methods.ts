@@ -79,12 +79,40 @@ ${ colorText}
   return text
 }
 
+function fillRect(x: number, y: number, color: string, size = 40) {
+  const posX = size * x
+  const posY = (size * 1.3) * y
+  return `<rect width="${size}" height="${size}" x="${posX}" y ="${posY}" fill="${color}" />`
+}
+
+function exportSVG(colors: RGBColor[], name: string, includeShades = false) {
+  const size = 40
+
+  let colorArr: Array<string[]> = []
+  if (includeShades) {
+    colorArr = colors.map((color) => colorCombinations['shades'](color))
+  } else {
+    colorArr = [colors.map(toHex)]
+  }
+
+  const svgWidth = includeShades ? size * colorArr[0].length : size * colors.length
+  const svgHeight = size * (colorArr.length + 0.3 * (colorArr.length - 1))
+  const drawRow = (row: string[], rowNumber: number) =>　`<g>${row.map((one, x) => fillRect(x, rowNumber, one)).join('\n')}</g>`
+  return `
+    <svg width="${svgWidth}" height="${svgHeight}">
+      <title>${name}</title>
+      ${ colorArr.map(drawRow).join('\n') }
+    </svg>
+  `.trim()
+}
+
 export enum ExportMethod {
   URL = 'url',
   PNG = 'png',
   SCSS = 'scss',
   JSON = 'json',
-  HEX = 'hex'
+  HEX = 'hex',
+  SVG = 'svg',
 }
 
 export const exportMethods = {
@@ -92,5 +120,6 @@ export const exportMethods = {
   png: exportPNG,
   scss: exportSCSS,
   json: exportJSON,
-  hex: exportHex
+  hex: exportHex,
+  svg: exportSVG,
 }

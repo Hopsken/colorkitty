@@ -33,7 +33,7 @@ export class PaletteComponent extends React.PureComponent<Props> {
   }
 
   renderBottom = () => {
-    const { created, name, likes = 0, liked = false, palette_id, creator } = this.props.palette
+    const { name, likes = 0, liked = false, palette_id, creator } = this.props.palette
     const { onDelete } = this.props
     const showDeleteBtn = onDelete && typeof onDelete === 'function'
 
