@@ -67,11 +67,13 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
 
   render() {
     const { paletteName, colors, currentIndex, rawImage, showDrawer } = this.state
-    const rightSide = showDrawer && (<SuprePicker
+    const rightSide = showDrawer
+    ? <SuprePicker
       color={colors[currentIndex]}
       onChange={this.handleChangeColor}
       colors={this.colors}
-    />)
+    />
+    : <div className={styles['sidebar-tips']}>Click one color to view details</div>
 
     return (
       <section className={styles['container']}>
