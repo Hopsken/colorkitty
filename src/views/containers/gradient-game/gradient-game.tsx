@@ -5,7 +5,7 @@ import { random, TinyColor } from '@ctrl/tinycolor'
 const styles = require('./gradient-game.styl')
 
 function formatColor(color: TinyColor) {
-  return `R: ${color.r} G:${color.b} B:${color.b}`
+  return `R: ${color.r} G:${color.g} B:${color.b}`
 }
 
 const colorDistance = (c1: TinyColor, c2: TinyColor) => {
