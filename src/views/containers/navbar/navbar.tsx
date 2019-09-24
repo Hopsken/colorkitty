@@ -204,6 +204,7 @@ export class NavbarContianer extends React.PureComponent<Props, State> {
         <nav className={styles['nav']}>
           <Link to='/'><img alt='colorkitty' src={brandImg} /></Link>
           <Link to='/explore'>Explore</Link>
+          <Link className={styles['highlight']} to='/gradient-game'>Gradient Game</Link>
         </nav>
         {this.renderMe()}
         <Modal

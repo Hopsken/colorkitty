@@ -79,13 +79,13 @@ function shades(color: Color): string[] {
   const tinycolor = new TinyColor(color)
 
   return [
-    tinycolor.tint(90).toHexString(),
-    tinycolor.tint(60).toHexString(),
-    tinycolor.tint(30).toHexString(),
+    tinycolor.tint(75).toHexString(),
+    tinycolor.tint(50).toHexString(),
+    tinycolor.tint(25).toHexString(),
     tinycolor.toHexString(),
-    tinycolor.shade(30).toHexString(),
-    tinycolor.shade(60).toHexString(),
-    tinycolor.shade(90).toHexString(),
+    tinycolor.shade(25).toHexString(),
+    tinycolor.shade(50).toHexString(),
+    tinycolor.shade(75).toHexString(),
   ]
 }
 

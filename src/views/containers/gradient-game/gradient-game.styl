@@ -1,0 +1,30 @@
+@require '~@/styles'
+
+.container
+  padding: 20px
+  max-width: 1200px
+  margin: 0 auto
+
+.block
+  width: 100%
+  height: 120px
+  border-radius: 20px
+  margin-bottom: 20px
+
+.control
+  display: flex
+  margin-left: -10px
+  margin-right: -10px
+  margin-bottom: 20px
+
+  &-panel
+    flex: 1
+    padding-left: 10px
+    padding-right: 10px
+
+  &-card
+    border-radius: 8px
+
+    :global(.ant-slider-track)
+      background-color: $Main !important
+
