@@ -9,11 +9,12 @@ function formatColor(color: TinyColor) {
 }
 
 const colorDistance = (c1: TinyColor, c2: TinyColor) => {
-  const r = Math.abs(c1.r - c2.r)
-  const g = Math.abs(c1.g - c2.g)
-  const b = Math.abs(c1.b - c2.b)
+  const rMean = (c1.r - c2.r) / 2
+  const r = c1.r - c2.r
+  const g = c1.g - c2.g
+  const b = c1.b - c2.b
 
-  return r + g + b
+  return Math.sqrt((((512 + rMean) * r * r) >> 8) + 4 * g * g + (((767 - rMean) * b * b) >> 8))
 }
 
 function calcScore(target: string[], guess: string[]) {
@@ -21,7 +22,8 @@ function calcScore(target: string[], guess: string[]) {
   const [g1, g2] = guess.map(one => new TinyColor(one))
   const diff = colorDistance(t1, g1) + colorDistance(t2, g2)
 
-  return Math.floor(100 * (1 - diff / 1530))
+  // return Math.floor(100 * (1 - diff / 1530))
+  return Math.floor(100 * (1 - diff / (767 * 2)))
 }
 
 export class GradientGame extends React.PureComponent {
