@@ -5,6 +5,7 @@ import {
   Button, Checkbox, Icon,
   Modal, message
 } from 'antd'
+import cx from 'classnames'
 
 import { ExportMethod, exportMethods } from '@/utilities'
 import { SuppressibleCard } from '@/views/components'
@@ -18,11 +19,14 @@ const twitterShareUrl = 'https://twitter.com/intent/tweet?'
   + '&url=__URL__&text=Palette: __PALETTE_NAME__.'
 const exportMethodsArray = [
   {
-    name: ExportMethod.URL,
-    icon: 'link'
+    name: ExportMethod.SVG,
+    icon: 'block'
   }, {
     name: ExportMethod.PNG,
     icon: 'picture'
+  }, {
+    name: ExportMethod.URL,
+    icon: 'link'
   }, {
     name: ExportMethod.SCSS,
     icon: 'code'
@@ -33,7 +37,7 @@ const exportMethodsArray = [
     name: ExportMethod.HEX,
     icon: 'file-text'
   }
-]
+  ]
 const PHLink = (
   <Button
     className={styles['ph-button']}
@@ -89,17 +93,19 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
   }
 
   renderExportModal = () => {
-    const methods = exportMethodsArray.map(method => (
-      <Card.Grid
-        key={method.name}
-        className={styles['export-item']}
-        // @ts-ignore
-        onClick={this.handleExport(method.name)}
-      >
-        <Icon type={method.icon} className={styles['export-icon']} />
-        {method.name.toUpperCase()}
-      </Card.Grid>
-    ))
+    const methods = exportMethodsArray.map(method => {
+      const iconCls = cx(styles['export-icon'], {[styles['active']]: method.name === ExportMethod.SVG})
+      return (
+        <Card.Grid
+          key={method.name}
+          // @ts-ignore
+          onClick={this.handleExport(method.name)}
+        >
+          <Icon type={method.icon} className={iconCls} />
+          {method.name.toUpperCase()}
+        </Card.Grid>
+      )
+    })
     const textArea = this.state.content && (
       <Input.TextArea
         className={styles['export-textarea']}
@@ -114,7 +120,12 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
         footer={null}
         title='Export'
       >
-        <Card bordered={false}>
+        <Checkbox checked={this.state.includeShades} onChange={this.toggleIncludeShades}>Include Shades</Checkbox>
+        <p className={styles['export-tips']}>
+          Using <span className={styles['active']}>SVG</span> format,
+          you can copy-paste your palette to any prototyping tools like Sketch, Figma, and Adobe XD.
+        </p>
+        <Card bodyStyle={{ padding: 0 }} bordered={false}>
           {methods}
           {textArea}
         </Card>
@@ -163,12 +174,12 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
 
   render() {
     return (
-      <React.Fragment>
+      <div className={styles['left-pad']}>
         {this.renderPaletteSection()}
         {this.renderExportSection()}
         {this.renderSupportSection()}
         {this.renderExportModal()}
-      </React.Fragment>
+      </div>
     )
   }
 

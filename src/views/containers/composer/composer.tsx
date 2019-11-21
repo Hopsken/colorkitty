@@ -3,7 +3,7 @@ import { message, Layout, Alert, Icon } from 'antd'
 import * as React from 'react'
 import { RouteComponentProps } from 'react-router'
 
-import { SuprePicker, Painter, SmartPalette, Toolbar, LeftPad } from '@/views/components'
+import { SuprePicker, Painter, SmartPalette, LeftPad } from '@/views/components'
 import { parseColorsFromUrl } from '@/utilities'
 import { SavePalettePayload, savePalette } from '@/services'
 import { Palette } from '@/types'
@@ -102,7 +102,6 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
                 paletteName={paletteName}
                 updateColors={this.handleUpdateColors}
                 onChangeColorsCount={this.handleChangeNumbers}
-                onChangePaletteName={this.handleInputName}
                 onClickColor={this.handleClickColor}
                 onUploadImage={this.handleUploadImage}
                 onSavePalette={this.handleSavePalette}
@@ -115,14 +114,6 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
                 updateColors={this.handleUpdateColors}
                 updateCurrentIndex={this.handleClickColor}
               />
-
-              <div className={styles['toolbar']}>
-                <Toolbar
-                  paletteName={paletteName}
-                  colors={this.colors}
-                  onChangeColorsCount={this.handleChangeNumbers}
-                />
-              </div>
             </section>
           </Layout.Content>
 
