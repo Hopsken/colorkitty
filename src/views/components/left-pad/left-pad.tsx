@@ -7,9 +7,12 @@ import {
 } from 'antd'
 
 import { ExportMethod, exportMethods } from '@/utilities'
+import { SuppressibleCard } from '@/views/components'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 
 const styles = require('./left-pad.styl')
+const kofiImg = require('@/views/assets/cup-border.png')
+const phImg = require('@/views/assets/producthunt.svg')
 const twitterShareUrl = 'https://twitter.com/intent/tweet?'
   + 'button_hashtag=colorkitty'
   + '&url=__URL__&text=Palette: __PALETTE_NAME__.'
@@ -31,32 +34,31 @@ const exportMethodsArray = [
     icon: 'file-text'
   }
 ]
-// const PHLink = (
-//   <a
-//     href='https://www.producthunt.com/posts/colorkitty?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-colorkitty'
-//     target='_blank'
-//   >
-//     <img
-//       src='https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=151664&theme=light'
-//       alt='ColorKitty - Find perfect palettes from great pictures. | Product Hunt Embed'
-//       style={ { width: 250, height: 54 } }
-//       width='250px'
-//       height='54px'
-//     />
-//   </a>
-// )
+const PHLink = (
+  <Button
+    className={styles['ph-button']}
+    href='https://www.producthunt.com/posts/colorkitty?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-colorkitty'
+    target='_blank'
+  >
+    <img
+      src={phImg}
+      alt='Vote on ProductHunt'
+    />
+    Vote on ProductHunt
+  </Button>
+)
 
 const buyMeCoffee = (
   <a
     className={styles['bmc-button']}
     target='_blank'
-    href='https://www.buymeacoffee.com/hopsken'
+    href='https://ko-fi.com/hopsken'
   >
     <img
-      src='https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg'
+      src={kofiImg}
       alt='Buy me a coffee'
     />
-    <span>Buy me a coffee</span>
+    Buy Me A Coffee
   </a>
 )
 
@@ -64,7 +66,7 @@ interface LeftPadProps {
     paletteName: string
     colors: RGBColor[]
 
-    onInputPaletteName: (ev: React.FormEvent<HTMLInputElement>) => void
+    onChangePaletteName: (name: string) => void
     onChangeColorsCount: (count: number) => void
 }
 
@@ -80,6 +82,10 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
     showModal: false,
     content: '',
     includeShades: false,
+  }
+
+  handleInputName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.props.onChangePaletteName(event.target.value)
   }
 
   renderExportModal = () => {
@@ -123,7 +129,7 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
           <Input
             placeholder='NEW PALETTE'
             value={this.props.paletteName}
-            onChange={this.props.onInputPaletteName}
+            onChange={this.handleInputName}
           />
         </Form.Item>
         <Form.Item className={styles['form-item']} label='Count'>
@@ -148,14 +154,20 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
     </Card>
   )
 
+  renderSupportSection = () => (
+    <SuppressibleCard className={styles['card']} type='inner' size='small' title='Support'>
+      {buyMeCoffee}
+      {PHLink}
+    </SuppressibleCard>
+  )
+
   render() {
     return (
       <React.Fragment>
         {this.renderPaletteSection()}
         {this.renderExportSection()}
+        {this.renderSupportSection()}
         {this.renderExportModal()}
-        {/* { PHLink } */}
-        {buyMeCoffee}
       </React.Fragment>
     )
   }
