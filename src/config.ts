@@ -1,1 +1,1 @@
-export const baseUrl = 'https://colorkitty.herokuapp.com'
+export const baseUrl = 'http://localhost:3000'

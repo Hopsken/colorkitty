@@ -28,17 +28,16 @@ interface Props extends RouteComponentProps<null> {
 }
 
 export class ExploreContainer extends React.PureComponent<Props> {
-
   componentDidMount() {
     const params = QS.parse(this.props.location.search)
     const sorts = (params.sorts || 'newest') as FetchPalettesParams['sorts']
     if (sorts === 'trendy') {
       if (this.props.popular.length === 0) {
-        this.props.fetchPalettes({ sorts: 'likes' })
+        this.props.fetchPalettes({ sortBy: 'likes' })
       }
     } else {
       if (this.props.newest.length === 0) {
-        this.props.fetchPalettes({ sorts: 'newest' })
+        this.props.fetchPalettes({ sortBy: 'created' })
       }
     }
   }
@@ -51,7 +50,13 @@ export class ExploreContainer extends React.PureComponent<Props> {
     return (
       <Link
         key={palette.palette_id}
-        to={`/?colors=${palette.colors.map(one => toHex(one).slice(1).toLowerCase()).join('-')}&name=${palette.name}`}
+        to={`/?colors=${palette.colors
+          .map(one =>
+            toHex(one)
+              .slice(1)
+              .toLowerCase(),
+          )
+          .join('-')}&name=${palette.name}`}
       >
         <PaletteComponent
           className={styles['item']}
@@ -80,17 +85,13 @@ export class ExploreContainer extends React.PureComponent<Props> {
   }
 
   render() {
-    return (
-      <Layout className={styles['container']}>
-        {this.renderFeed()}
-      </Layout>
-    )
+    return <Layout className={styles['container']}>{this.renderFeed()}</Layout>
   }
 
   like = (palette_id: string) => () => {
     if (!this.props.user) {
       notification.info({
-        message: 'Please login first.'
+        message: 'Please login first.',
       })
       return
     }
