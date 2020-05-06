@@ -1,4 +1,5 @@
 import now from 'lodash/now'
+import { apiHost } from '@/config'
 
 import { urlQuery } from '@/utilities'
 
@@ -10,7 +11,7 @@ export interface Request {
     url: string,
     query?: object,
     headers?: HeadersInit,
-    options?: RequestInit
+    options?: RequestInit,
   ): Promise<T>
   post<T>(url: string, body?: RequestBody, headers?: HeadersInit): Promise<T>
   put<T>(url: string, body?: RequestBody, headers?: HeadersInit): Promise<T>
@@ -22,10 +23,10 @@ export const request = ((url: string, options: RequestInit) => {
     ...options,
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
-      ...options.headers
-    }
+      ...options.headers,
+    },
   }
-  return fetch(url, options).then(res => {
+  return fetch(`${apiHost}/${url}`, options).then(res => {
     if (res.status >= 200 && res.status < 300) {
       return res.json()
     } else {
@@ -39,49 +40,49 @@ request.get = <T>(
   url: string,
   body?: object,
   headers: any = {},
-  options?: RequestInit
+  options?: RequestInit,
 ) => {
   url = urlQuery.prepend(url, { _: now() }) // 避免 `_` 参数被覆盖
   url = urlQuery.append(url, body)
   return request<T>(url, {
     ...options,
     headers,
-    method: 'GET'
+    method: 'GET',
   })
 }
 
 request.post = <T>(
   url: string,
   body?: RequestBody,
-  headers: any = { 'Content-Type': 'application/json' }
+  headers: any = { 'Content-Type': 'application/json' },
 ) => {
   return request<T>(url, {
     body,
     headers,
-    method: 'POST'
+    method: 'POST',
   })
 }
 
 request.put = <T>(
   url: string,
   body?: RequestBody,
-  headers: any = { 'Content-Type': 'application/json' }
+  headers: any = { 'Content-Type': 'application/json' },
 ) => {
   return request<T>(url, {
     body,
     headers,
-    method: 'PUT'
+    method: 'PUT',
   })
 }
 
 request.delete = <T>(
   url: string,
   body?: RequestBody,
-  headers: any = { 'Content-Type': 'application/json' }
+  headers: any = { 'Content-Type': 'application/json' },
 ) => {
   return request<T>(url, {
     body,
     headers,
-    method: 'DELETE'
+    method: 'DELETE',
   })
 }
