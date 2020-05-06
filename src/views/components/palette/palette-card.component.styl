@@ -1,0 +1,58 @@
+.wrapper
+  width: 400px
+
+.card
+  position: relative
+  width: 100%
+  padding-top: 60%
+  background: #ccc
+  border-radius: 4px
+  overflow: hidden
+
+  &:hover .btn-heart
+    transform: translateX(-12px)
+
+  .btn-heart
+    display: flex
+    align-items: center
+    position: absolute
+    right: 0
+    top: 12px
+    height: 32px
+    padding: 4px 12px
+    border-radius: 16px
+    background: #ffffff
+    font-weight: 500
+    transform: translateX(100%)
+    transition: transform ease .6s
+    cursor: pointer
+    > i
+      margin-right: 4px
+
+.colors-wrapper
+  position: absolute
+  left: 0
+  right: 0
+  top: 0
+  bottom: 0
+
+  display: flex
+  flex-direction: row
+
+.color
+  position: relative
+  flex: 1
+  &:hover .text
+    opacity: 1
+  .text
+    opacity: 0
+    position: absolute
+    left: 0
+    right: 0
+    bottom: 0
+    height: 20px
+    font-size: 12px
+    text-align: center
+    background: alpha(#cccccc, 0.25)
+    color: #ffffff
+    text-transform: uppercase

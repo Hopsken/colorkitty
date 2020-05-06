@@ -4,8 +4,16 @@ import * as React from 'react'
 import { Layout } from 'antd'
 
 import { Footer } from '@/views/components'
-import { Composer, Explore, Navbar, User, Account, GradientGame } from '@/views/containers'
+import {
+  Composer,
+  Explore,
+  Navbar,
+  User,
+  Account,
+  GradientGame,
+} from '@/views/containers'
 import { parseColorsFromUrl } from './utilities'
+import { Playground } from './views/containers/playground'
 
 require('./app.styl')
 
@@ -15,12 +23,13 @@ class App extends React.PureComponent {
       <Layout>
         <Navbar />
         <main style={{ marginTop: 72 }}>
-          <Route exact={true} path='/explore' component={Explore} />
-          <Route exact={true} path='/' component={Composer} />
-          <Route exact={true} path='/account' component={Account} />
-          <Route exact={true} path='/gradient-game' component={GradientGame} />
-          <Route path='/u/:username' component={User} />
-          <Route path='/:colors' render={this.handleRedirectOld} />
+          <Route exact={true} path="/explore" component={Explore} />
+          <Route exact={true} path="/" component={Composer} />
+          <Route exact={true} path="/account" component={Account} />
+          <Route exact={true} path="/gradient-game" component={GradientGame} />
+          <Route path="/u/:username" component={User} />
+          <Route path="/:colors" render={this.handleRedirectOld} />
+          <Route path="/play" component={Playground} />
         </main>
         {location.pathname !== '/' && <Footer />}
       </Layout>
