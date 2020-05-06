@@ -28,26 +28,26 @@ module.exports = webpackMerge(commonConfig, {
         test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
         use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              plugins: [
-                '@babel/plugin-syntax-typescript',
-                '@babel/plugin-syntax-jsx',
-                'react-hot-loader/babel',
-              ],
-            },
-          },
+          // {
+          //   loader: 'babel-loader',
+          //   options: {
+          //     plugins: [
+          //       '@babel/plugin-syntax-typescript',
+          //       '@babel/plugin-syntax-jsx',
+          //       'react-hot-loader/babel',
+          //     ],
+          //   },
+          // },
           {
             loader: 'ts-loader',
             options: {
               transpileOnly: true,
               getCustomTransformers: () => ({
-                before: [ tsImportPluginFactory({
+                before: [tsImportPluginFactory({
                   libraryName: 'antd',
                   libraryDirectory: 'lib',
                   style: true
-                }) ]
+                })]
               }),
               compilerOptions: {
                 sourceMap: true,

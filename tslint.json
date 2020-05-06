@@ -1,9 +1,22 @@
 {
   "defaultSeverity": "error",
   "extends": [
-    "tslint-eslint-rules",
-    "tslint-react"
+    "tslint:recommended",
+    "tslint-config-standard",
+    "tslint-react",
+    "tslint-config-prettier"
   ],
+  "jsRules": {},
+  "rules": {
+    "ordered-imports": false,
+    "object-literal-sort-keys": false,
+    "member-ordering": false,
+    "jsx-no-lambda": false,
+    "jsx-boolean-value": false,
+    "no-var-requires": false,
+    "interface-name": false
+  },
+  "rulesDirectory": [],
   "linterOptions": {
     "exclude": [
       "config/**/*.js",
