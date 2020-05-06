@@ -19,7 +19,6 @@ interface Props {
   updateColors: (colors: Color[]) => void
   onClickColor: (index: number) => void
   onUploadImage: (file: File | string) => boolean
-  onChangePaletteName: (name: string) => void
   onSavePalette: (payload: SavePalettePayload) => Promise<any>
 }
 
@@ -121,11 +120,9 @@ export class SmartPalette extends React.PureComponent<Props, State> {
 
   renderBottom = () => (
     <div className={styles['palette-info']}>
-      <input
-        className={styles['palette-name']}
-        value={this.props.paletteName}
-        onChange={this.handleChangePaletteName}
-      />
+      <div className={styles['palette-name']}>
+        {this.props.paletteName}
+      </div>
 
       <div className={styles['palette-control']}>
         <Tooltip title='Pick colors from Image'>
@@ -181,10 +178,6 @@ export class SmartPalette extends React.PureComponent<Props, State> {
         {this.renderUploadModal()}
       </section>
     )
-  }
-
-  handleChangePaletteName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.onChangePaletteName(event.currentTarget.value)
   }
 
   handleSavePalette = () => {

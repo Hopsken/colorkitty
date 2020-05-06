@@ -9,7 +9,7 @@ interface State {
 export class SuppressibleCard extends React.PureComponent<CardProps, State> {
 
     state = {
-        visible: false
+        visible: true
     }
 
     render() {

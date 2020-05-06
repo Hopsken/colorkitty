@@ -33,7 +33,7 @@ export class PaletteComponent extends React.PureComponent<Props> {
   }
 
   renderBottom = () => {
-    const { created, name, likes = 0, liked = false, palette_id } = this.props.palette
+    const { name, likes = 0, liked = false, palette_id, creator } = this.props.palette
     const { onDelete } = this.props
     const showDeleteBtn = onDelete && typeof onDelete === 'function'
 
@@ -68,7 +68,7 @@ export class PaletteComponent extends React.PureComponent<Props> {
       <div className={styles['bottom']}>
         <div className={styles['bottom-info']}>
           {name && <span className={styles['bottom-name']}>{name}</span>}
-          {created && <span className={styles['bottom-date']}>{created}</span>}
+          {creator && <span className={styles['bottom-meta']}>by {creator}</span>}
         </div>
         {Stars}
         {showDeleteBtn && DeleteBtn}

@@ -3,7 +3,7 @@ import { message, Layout, Alert, Icon } from 'antd'
 import * as React from 'react'
 import { RouteComponentProps } from 'react-router'
 
-import { SuprePicker, Painter, SmartPalette, Toolbar } from '@/views/components'
+import { SuprePicker, Painter, SmartPalette, LeftPad } from '@/views/components'
 import { parseColorsFromUrl } from '@/utilities'
 import { SavePalettePayload, savePalette } from '@/services'
 import { Palette } from '@/types'
@@ -67,11 +67,13 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
 
   render() {
     const { paletteName, colors, currentIndex, rawImage, showDrawer } = this.state
-    const rightSide = showDrawer && (<SuprePicker
+    const rightSide = showDrawer
+    ? <SuprePicker
       color={colors[currentIndex]}
       onChange={this.handleChangeColor}
       colors={this.colors}
-    />)
+    />
+    : <div className={styles['sidebar-tips']}>Click one color to view details</div>
 
     return (
       <section className={styles['container']}>
@@ -84,6 +86,15 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
           closable={true}
         />
         <Layout>
+          <Layout.Sider breakpoint='lg' collapsedWidth='0' width={280} className={styles['sidebar']}>
+            <LeftPad
+              paletteName={paletteName}
+              colors={this.colors}
+              onChangePaletteName={this.handleInputName}
+              onChangeColorsCount={this.handleChangeNumbers}
+            />
+          </Layout.Sider>
+
           <Layout.Content className={styles['content']}>
             <section className={styles['core']}>
               <SmartPalette
@@ -91,7 +102,6 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
                 paletteName={paletteName}
                 updateColors={this.handleUpdateColors}
                 onChangeColorsCount={this.handleChangeNumbers}
-                onChangePaletteName={this.handleInputName}
                 onClickColor={this.handleClickColor}
                 onUploadImage={this.handleUploadImage}
                 onSavePalette={this.handleSavePalette}
@@ -104,14 +114,6 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
                 updateColors={this.handleUpdateColors}
                 updateCurrentIndex={this.handleClickColor}
               />
-
-              <div className={styles['toolbar']}>
-                <Toolbar
-                  paletteName={paletteName}
-                  colors={this.colors}
-                  onChangeColorsCount={this.handleChangeNumbers}
-                />
-              </div>
             </section>
           </Layout.Content>
 

@@ -10,16 +10,16 @@
   <link rel="icon" sizes="192x192" href="/colorkitty_192.png" />
   <link rel="shortcut icon" type="image/png" href="/favicon.png" />
 
-  <title>ColorKitty - Find the perfect color palettes from pictures.</title>
+  <title>ColorKitty - Create, Discover and Share Beautiful Color Palettes and Colors.</title>
   <meta name="title" content="ColorKitty">
   <meta name="description"
-    content="Easily extract perfect color palettes from amazing pictures using our color picker.">
+    content="ColorKitty is a creative community where people create, discover and share beautiful color palettes and colors.">
   <meta property="og:site_name" content="ColorKitty">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://colorkitty.com/">
   <meta property="og:title" content="ColorKitty">
   <meta property="og:description"
-    content="Easily extract perfect color palettes from amazing pictures using our color picker.">
+    content="create, discover and share beautiful color palettes and colors.">
   <meta property="og:image" content="https://colorkitty.com/images/screenshot.png">
   <meta name="twitter:site" content="@colorkitty_com">
   <meta name="twitter:domain" content="colorkitty.com">
@@ -27,9 +27,9 @@
   <meta name="twitter:url" content="https://colorkitty.com/">
   <meta name="twitter:title" content="ColorKitty">
   <meta name="twitter:description"
-    content="Easily extract perfect color palettes from amazing pictures using our color picker.">
+    content="create, discover and share beautiful color palettes and colors.">
   <meta name="twitter:image" content="https://colorkitty.com/images/screenshot.png">
-  
+
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130815614-1"></script>
   <script>
@@ -43,11 +43,11 @@
   <style>
     @keyframes breath {
       from {
-        transform: scale(0.9)
+        transform: translateY(-40px)
       }
 
       to {
-        transform: scale(1.1)
+        transform: translateY(40px)
       }
     }
 
@@ -62,16 +62,27 @@
       display: block;
       animation: breath 1.5s infinite ease-in-out alternate;
     }
+    .credit {
+      font-size: 12px;
+      position: absolute;
+      bottom: 0;
+      color: #9BB1C6;
+      width: 100%;
+      text-align: center;
+    }
+    .credit a {
+      color: #9BB1C6;
+    }
   </style>
 </head>
 
 <body>
   <div id='app'>
     <div id='loading'>
-      <img width="100" height="100" src='/colorkitty_192.png' alt='loading' />
+      <img width="100" height="100" src='/kitty.png' alt='loading' />
     </div>
+    <p class="credit">Icon made by <a href="https://www.freepik.com/home">Freepik</a> from <a href="http://www.flaticon.com/">www.flaticon.com</a></p>
   </div>
-  <script src='https://embed.small.chat/T5R6WDLN4GL54YNLQ1.js' async></script>
 </body>
 
 </html>

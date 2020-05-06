@@ -5,21 +5,28 @@ import {
   Button, Checkbox, Icon,
   Modal, message
 } from 'antd'
+import cx from 'classnames'
 
 import { ExportMethod, exportMethods } from '@/utilities'
+import { SuppressibleCard } from '@/views/components'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 
 const styles = require('./left-pad.styl')
+const kofiImg = require('@/views/assets/cup-border.png')
+const phImg = require('@/views/assets/producthunt.svg')
 const twitterShareUrl = 'https://twitter.com/intent/tweet?'
   + 'button_hashtag=colorkitty'
   + '&url=__URL__&text=Palette: __PALETTE_NAME__.'
 const exportMethodsArray = [
   {
-    name: ExportMethod.URL,
-    icon: 'link'
+    name: ExportMethod.SVG,
+    icon: 'block'
   }, {
     name: ExportMethod.PNG,
     icon: 'picture'
+  }, {
+    name: ExportMethod.URL,
+    icon: 'link'
   }, {
     name: ExportMethod.SCSS,
     icon: 'code'
@@ -30,33 +37,32 @@ const exportMethodsArray = [
     name: ExportMethod.HEX,
     icon: 'file-text'
   }
-]
-// const PHLink = (
-//   <a
-//     href='https://www.producthunt.com/posts/colorkitty?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-colorkitty'
-//     target='_blank'
-//   >
-//     <img
-//       src='https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=151664&theme=light'
-//       alt='ColorKitty - Find perfect palettes from great pictures. | Product Hunt Embed'
-//       style={ { width: 250, height: 54 } }
-//       width='250px'
-//       height='54px'
-//     />
-//   </a>
-// )
+  ]
+const PHLink = (
+  <Button
+    className={styles['ph-button']}
+    href='https://www.producthunt.com/posts/colorkitty?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-colorkitty'
+    target='_blank'
+  >
+    <img
+      src={phImg}
+      alt='Vote on ProductHunt'
+    />
+    Vote on ProductHunt
+  </Button>
+)
 
 const buyMeCoffee = (
   <a
     className={styles['bmc-button']}
     target='_blank'
-    href='https://www.buymeacoffee.com/hopsken'
+    href='https://ko-fi.com/hopsken'
   >
     <img
-      src='https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg'
+      src={kofiImg}
       alt='Buy me a coffee'
     />
-    <span>Buy me a coffee</span>
+    Buy Me A Coffee
   </a>
 )
 
@@ -64,7 +70,7 @@ interface LeftPadProps {
     paletteName: string
     colors: RGBColor[]
 
-    onInputPaletteName: (ev: React.FormEvent<HTMLInputElement>) => void
+    onChangePaletteName: (name: string) => void
     onChangeColorsCount: (count: number) => void
 }
 
@@ -82,18 +88,24 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
     includeShades: false,
   }
 
+  handleInputName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.props.onChangePaletteName(event.target.value)
+  }
+
   renderExportModal = () => {
-    const methods = exportMethodsArray.map(method => (
-      <Card.Grid
-        key={method.name}
-        className={styles['export-item']}
-        // @ts-ignore
-        onClick={this.handleExport(method.name)}
-      >
-        <Icon type={method.icon} className={styles['export-icon']} />
-        {method.name.toUpperCase()}
-      </Card.Grid>
-    ))
+    const methods = exportMethodsArray.map(method => {
+      const iconCls = cx(styles['export-icon'], {[styles['active']]: method.name === ExportMethod.SVG})
+      return (
+        <Card.Grid
+          key={method.name}
+          // @ts-ignore
+          onClick={this.handleExport(method.name)}
+        >
+          <Icon type={method.icon} className={iconCls} />
+          {method.name.toUpperCase()}
+        </Card.Grid>
+      )
+    })
     const textArea = this.state.content && (
       <Input.TextArea
         className={styles['export-textarea']}
@@ -108,7 +120,12 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
         footer={null}
         title='Export'
       >
-        <Card bordered={false}>
+        <Checkbox checked={this.state.includeShades} onChange={this.toggleIncludeShades}>Include Shades</Checkbox>
+        <p className={styles['export-tips']}>
+          Using <span className={styles['active']}>SVG</span> format,
+          you can copy-paste your palette to any prototyping tools like Sketch, Figma, and Adobe XD.
+        </p>
+        <Card bodyStyle={{ padding: 0 }} bordered={false}>
           {methods}
           {textArea}
         </Card>
@@ -123,7 +140,7 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
           <Input
             placeholder='NEW PALETTE'
             value={this.props.paletteName}
-            onChange={this.props.onInputPaletteName}
+            onChange={this.handleInputName}
           />
         </Form.Item>
         <Form.Item className={styles['form-item']} label='Count'>
@@ -148,15 +165,21 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
     </Card>
   )
 
+  renderSupportSection = () => (
+    <SuppressibleCard className={styles['card']} type='inner' size='small' title='Support'>
+      {buyMeCoffee}
+      {PHLink}
+    </SuppressibleCard>
+  )
+
   render() {
     return (
-      <React.Fragment>
+      <div className={styles['left-pad']}>
         {this.renderPaletteSection()}
         {this.renderExportSection()}
+        {this.renderSupportSection()}
         {this.renderExportModal()}
-        {/* { PHLink } */}
-        {buyMeCoffee}
-      </React.Fragment>
+      </div>
     )
   }
 
