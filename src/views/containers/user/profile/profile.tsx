@@ -30,15 +30,15 @@ export class ProfileComp extends React.PureComponent<Props> {
     const { username, avatar } = this.props
 
     return (
-      <Row className={styles['profile']}>
+      <Row className={styles.profile}>
         <Col span={8}>
           <img
-            className={styles['avatar']}
+            className={styles.avatar}
             src={avatar || `https://ui-avatars.com/api/?size=150&length=1&background=F27978&color=fff&name=${username}`}
           />
         </Col>
-        <Col span={16} className={styles['info']}>
-          <div className={styles['title']}>
+        <Col span={16} className={styles.info}>
+          <div className={styles.title}>
             <h5 className={styles['title-name']}>
               {username}
             </h5>
@@ -51,7 +51,7 @@ export class ProfileComp extends React.PureComponent<Props> {
               </Dropdown>
             </div>
           </div>
-          <p className={styles['desc']}>{`Palettes collected by ${username}.`}</p>
+          <p className={styles.desc}>{`Palettes collected by ${username}.`}</p>
         </Col>
       </Row>
     )

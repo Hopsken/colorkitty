@@ -3,10 +3,10 @@ import { Palette } from '@/types'
 export interface AppStore {
   current: Palette | null
   palettes: Palette[]
-  userPaletteIds: Array<Palette['palette_id']>
-  likedPaletteIds: Array<Palette['palette_id']>
-  popularPaletteIds: Array<Palette['palette_id']>
-  newestPaletteIds: Array<Palette['palette_id']>
+  userPaletteIds: Array<Palette['_id']>
+  likedPaletteIds: Array<Palette['_id']>
+  popularPaletteIds: Array<Palette['_id']>
+  newestPaletteIds: Array<Palette['_id']>
 }
 
 declare module '@/types' {

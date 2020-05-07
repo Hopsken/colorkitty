@@ -16,22 +16,20 @@ const mapStateToProps = (state: RootState) => {
 
   return {
     user: state.root.user,
-    privates: flatMap(privateIds, id => all.filter(one => one.palette_id === id)),
-    likes: flatMap(likedIds, id => all.filter(one => one.palette_id === id)),
+    privates: flatMap(privateIds, id => all.filter(one => one._id === id)),
+    likes: flatMap(likedIds, id => all.filter(one => one._id === id)),
   }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   logout: () => dispatch(createAction(rootActionTypes.logout)()),
-  fetchUserPalettes: (
-    payload: 'private' | 'likes'
-  ) => dispatch(createAction(actionTypes.getUserPalettes)(payload)),
-  deleteUserPalette: (
-    payload: string
-  ) => dispatch(createAction(actionTypes.deletePalette)(payload))
+  fetchUserPalettes: (payload: 'private' | 'likes') =>
+    dispatch(createAction(actionTypes.getUserPalettes)(payload)),
+  deleteUserPalette: (payload: string) =>
+    dispatch(createAction(actionTypes.deletePalette)(payload)),
 })
 
 export const User = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(withRouter(UserContainer))

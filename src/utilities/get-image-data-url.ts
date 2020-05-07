@@ -3,7 +3,7 @@ export function getImageDataUrlAsync(img: File): Promise<string> {
     const reader = new FileReader()
     reader.addEventListener('load', () => {
       if (reader.result) {
-        resolve(<string>reader.result)
+        resolve(reader.result as string)
       } else {
         reject(reader.error)
       }

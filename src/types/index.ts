@@ -20,8 +20,8 @@ export interface Palette {
   name: string
   colors: HexColor[]
   creator: User
-  isLiked: boolean
   createdAt: string
   updatedAt: string
+  liked: boolean
   likesCount?: number
 }

@@ -9,7 +9,7 @@ const FAKE_PALETTE: any = {
   liked: false,
   likes: 0,
   name: 'NEW PALETTE',
-  palette_id: 510,
+  paletteId: 510,
   _id: '223' as any,
   isLiked: false,
   createdAt: '',

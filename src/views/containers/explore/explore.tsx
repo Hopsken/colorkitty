@@ -23,8 +23,8 @@ interface Props extends RouteComponentProps<null> {
   newest: Palette[]
 
   fetchPalettes: (params: GetPalettesParams) => void
-  likePalette: (palette_id: string) => void
-  unlikePalette: (palette_id: string) => void
+  likePalette: (paletteId: string) => void
+  unlikePalette: (paletteId: string) => void
 }
 
 export class ExploreContainer extends React.PureComponent<Props> {
@@ -44,12 +44,12 @@ export class ExploreContainer extends React.PureComponent<Props> {
 
   renderPalette = (palette: Palette) => {
     const onLike = palette.liked
-      ? this.unlike(palette.palette_id)
-      : this.like(palette.palette_id)
+      ? this.unlike(palette._id)
+      : this.like(palette._id)
 
     return (
       <Link
-        key={palette.palette_id}
+        key={palette._id}
         to={`/?colors=${palette.colors
           .map(one =>
             toHex(one)
@@ -59,7 +59,7 @@ export class ExploreContainer extends React.PureComponent<Props> {
           .join('-')}&name=${palette.name}`}
       >
         <PaletteComponent
-          className={styles['item']}
+          className={styles.item}
           palette={palette}
           onLike={onLike}
         />
@@ -76,7 +76,7 @@ export class ExploreContainer extends React.PureComponent<Props> {
           title={false}
           paragraph={{ rows: 4 }}
         >
-          <div className={styles['feed']}>
+          <div className={styles.feed}>
             {(this.palettes || []).map(this.renderPalette)}
           </div>
         </Skeleton>
@@ -85,21 +85,21 @@ export class ExploreContainer extends React.PureComponent<Props> {
   }
 
   render() {
-    return <Layout className={styles['container']}>{this.renderFeed()}</Layout>
+    return <Layout className={styles.container}>{this.renderFeed()}</Layout>
   }
 
-  like = (palette_id: string) => () => {
+  like = (paletteId: string) => () => {
     if (!this.props.user) {
       notification.info({
         message: 'Please login first.',
       })
       return
     }
-    this.props.likePalette(palette_id)
+    this.props.likePalette(paletteId)
   }
 
-  unlike = (palette_id: string) => () => {
-    this.props.unlikePalette(palette_id)
+  unlike = (paletteId: string) => () => {
+    this.props.unlikePalette(paletteId)
   }
 
   private get palettes() {

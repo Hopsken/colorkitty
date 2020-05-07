@@ -44,7 +44,7 @@ export class UserContainer extends React.PureComponent<Props> {
     }
 
     return (
-      <section className={styles['wrapper']}>
+      <section className={styles.wrapper}>
         <ProfileComp
           username={this.props.user.username}
           logout={this.handleLogout}

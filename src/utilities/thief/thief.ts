@@ -8,9 +8,8 @@ import { MMCQ } from './mmcq'
 export const getPaletteFromImage = (
   imageData: ImageData,
   colorCount?: number,
-  quality?: number
+  quality?: number,
 ): RGBColor[] | null => {
-
   if (!imageData) {
     return null
   }
@@ -23,29 +22,32 @@ export const getPaletteFromImage = (
     quality = 10
   }
 
-  const pixelArray = getPixelsFromImage(imageData, { quality: 10, excludeWhite: true })
+  const pixelArray = getPixelsFromImage(imageData, {
+    quality: 10,
+    excludeWhite: true,
+  })
 
   const cmap = MMCQ.quantize(pixelArray, colorCount)
   let palette = cmap ? cmap.palette() : null
 
   if (palette) {
-    palette = palette.map((arr: Array<number>) => (
-      {
-        r: arr[0],
-        g: arr[1],
-        b: arr[2],
-      })
-    )
+    palette = palette.map((arr: number[]) => ({
+      r: arr[0],
+      g: arr[1],
+      b: arr[2],
+    }))
   }
 
   return palette
 }
 
-export const getPixelsFromImage = (imageData: ImageData, options: {
-  quality?: number
-  excludeWhite?: boolean
-}) => {
-
+export const getPixelsFromImage = (
+  imageData: ImageData,
+  options: {
+    quality?: number
+    excludeWhite?: boolean
+  },
+) => {
   if (!imageData || !imageData.data) {
     return []
   }
@@ -56,7 +58,7 @@ export const getPixelsFromImage = (imageData: ImageData, options: {
   const pixels = imageData.data
   const pixelCount = imageData.height * imageData.width
 
-  const pixelArray: Array<Array<number>> = []
+  const pixelArray: number[][] = []
 
   for (let i = 0, offset, r, g, b, a; i < pixelCount; i += quality) {
     offset = i * 4
@@ -78,12 +80,8 @@ export const getPixelsFromImage = (imageData: ImageData, options: {
 }
 
 export const getColorsFromImage = (imageData: ImageData) => {
-
-  return getPixelsFromImage(
-    imageData,
-    { quality: 1, excludeWhite: false }
-  ).map(
-    (arr) => ({ r: arr[0], g: arr[1], b: arr[2] } as RGBColor)
+  return getPixelsFromImage(imageData, { quality: 1, excludeWhite: false }).map(
+    arr => ({ r: arr[0], g: arr[1], b: arr[2] } as RGBColor),
   )
 }
 
@@ -97,11 +95,13 @@ const colorDistance = (c1: RGBColor, c2: RGBColor) => {
   const g = c1.g - c2.g
   const b = c1.b - c2.b
 
-  return Math.sqrt((((512 + rMean) * r * r) >> 8) + 4 * g * g + (((767 - rMean) * b * b) >> 8))
+  return Math.sqrt(
+    // tslint:disable-next-line
+    (((512 + rMean) * r * r) >> 8) + 4 * g * g + (((767 - rMean) * b * b) >> 8),
+  )
 }
 
 const findNearestColor = (colors: RGBColor[], target: RGBColor) => {
-
   let nearestIndex = 0
 
   let minDistance = Infinity
@@ -124,11 +124,13 @@ const findNearestColor = (colors: RGBColor[], target: RGBColor) => {
   return {
     index: nearestIndex,
     rgb: colors[nearestIndex],
-    distance: minDistance
+    distance: minDistance,
   }
 }
 
-export const findNearestColorOfPalette = (colors: RGBColor[], palette: RGBColor[]) => {
-
+export const findNearestColorOfPalette = (
+  colors: RGBColor[],
+  palette: RGBColor[],
+) => {
   return palette.map(one => findNearestColor(colors, one))
 }

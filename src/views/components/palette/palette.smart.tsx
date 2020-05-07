@@ -172,7 +172,7 @@ export class SmartPalette extends React.PureComponent<Props, State> {
 
   render() {
     return (
-      <section className={styles['palette']}>
+      <section className={styles.palette}>
         {this.renderPalette()}
         {this.renderBottom()}
         {this.renderUploadModal()}
@@ -189,7 +189,7 @@ export class SmartPalette extends React.PureComponent<Props, State> {
       isSaving: true
     }, () => {
       onSavePalette({
-        colors: colors,
+        colors,
         name: paletteName,
       }).catch(() => this.setState({ isSaving: false }))
     })

@@ -18,7 +18,7 @@ interface Props {
 }
 
 const Placeholder = (
-  <div className={styles['placeholder']}>
+  <div className={styles.placeholder}>
     <h3>None Palettes Yet</h3>
     <Button type='primary' size='large'>
       <Link to='/generate'>GENERATE</Link>
@@ -41,14 +41,14 @@ export class UserPalettes extends React.PureComponent<Props> {
     const items = palettes.map((palette, index) => (
       <PaletteComponent
         key={index}
-        className={styles['item']}
+        className={styles.item}
         palette={palette}
         onDelete={this.props.onDelete}
       />
     ))
 
     return (
-      <div className={styles['palettes']}>
+      <div className={styles.palettes}>
         {palettes.length === 0 ? Placeholder : items}
       </div>
     )

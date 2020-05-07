@@ -17,18 +17,21 @@ const mapStateToProps = (state: RootState) => {
 
   return {
     user,
-    popular: flatMap(popularIds, id => all.filter(one => one.palette_id === id)),
-    newest: flatMap(newestIds, id => all.filter(one => one.palette_id === id))
+    popular: flatMap(popularIds, id => all.filter(one => one._id === id)),
+    newest: flatMap(newestIds, id => all.filter(one => one._id === id)),
   }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  likePalette: (palette_id: string) => dispatch(createAction(actionTypes.likePalette)(palette_id)),
-  unlikePalette: (palette_id: string) => dispatch(createAction(actionTypes.unlikePalette)(palette_id)),
-  fetchPalettes: (params: GetPalettesParams) => dispatch(createAction(actionTypes.getPalettes)(params))
+  likePalette: (paletteId: string) =>
+    dispatch(createAction(actionTypes.likePalette)(paletteId)),
+  unlikePalette: (paletteId: string) =>
+    dispatch(createAction(actionTypes.unlikePalette)(paletteId)),
+  fetchPalettes: (params: GetPalettesParams) =>
+    dispatch(createAction(actionTypes.getPalettes)(params)),
 })
 
 export const Explore = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(withRouter(ExploreContainer))

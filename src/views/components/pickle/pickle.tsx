@@ -35,11 +35,11 @@ export const Pickle = (props: Props) => {
   return (
     <div
       {...others}
-      className={`${styles['pickle']} ${className}`}
+      className={`${styles.pickle} ${className}`}
       style={{ ...pickleStyle, ...style }}
     >
-      <span className={styles['triangle']} style={triangleStyle} />
-      <span className={styles['circle']} style={circleStyle}>{index}</span>
+      <span className={styles.triangle} style={triangleStyle} />
+      <span className={styles.circle} style={circleStyle}>{index}</span>
     </div>
   )
 }

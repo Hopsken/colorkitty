@@ -19,7 +19,10 @@ interface Props extends RouteComponentProps<null> {
   getCurrentUser: () => void
 }
 
-enum modalState { login, signup }
+enum modalState {
+  login,
+  signup,
+}
 
 interface State {
   showModal: boolean
@@ -32,11 +35,10 @@ interface State {
 }
 
 export class NavbarContianer extends React.PureComponent<Props, State> {
-
   readonly inputProps = {
     required: true,
-    className: styles['input'],
-    size: 'large' as InputProps['size']
+    className: styles.input,
+    size: 'large' as InputProps['size'],
   }
 
   state = {
@@ -46,7 +48,7 @@ export class NavbarContianer extends React.PureComponent<Props, State> {
     email: '',
     password: '',
     isLoading: false,
-    error: ''
+    error: '',
   }
 
   componentDidMount() {
@@ -59,34 +61,33 @@ export class NavbarContianer extends React.PureComponent<Props, State> {
     const { user, loadingUser } = this.props
 
     const loginLink = (
-      <Button
-        className={cx('menu-item')}
-        onClick={this.showModalForLogin}
-      >
+      <Button className={cx('menu-item')} onClick={this.showModalForLogin}>
         LOG IN
       </Button>
     )
 
     const loading = (
       <Spin
-        className={styles['loading']}
-        size='small'
-        indicator={<Icon type='loading' spin={true} />}
+        className={styles.loading}
+        size="small"
+        indicator={<Icon type="loading" spin={true} />}
       />
     )
 
     const userLink = user && (
       <Link className={styles['menu-item']} to={`/u/${user.username}`}>
         <img
-          className={styles['avatar']}
-          src={`https://ui-avatars.com/api/?length=1&background=F27978&color=fff&name=${user.username}`}
+          className={styles.avatar}
+          src={`https://ui-avatars.com/api/?length=1&background=F27978&color=fff&name=${
+            user.username
+          }`}
         />
       </Link>
     )
 
     return (
-      <div className={styles['menu']}>
-        {user ? userLink : (loadingUser ? loading : loginLink)}
+      <div className={styles.menu}>
+        {user ? userLink : loadingUser ? loading : loginLink}
       </div>
     )
   }
@@ -103,34 +104,34 @@ export class NavbarContianer extends React.PureComponent<Props, State> {
         <Input
           {...this.inputProps}
           value={username}
-          placeholder='Username'
-          prefix={<Icon type='user' />}
+          placeholder="Username"
+          prefix={<Icon type="user" />}
           onChange={this.handleEdit('username')}
         />
         <Input
           {...this.inputProps}
-          type='password'
+          type="password"
           value={password}
-          placeholder='Password'
-          prefix={<Icon type='lock' />}
+          placeholder="Password"
+          prefix={<Icon type="lock" />}
           onChange={this.handleEdit('password')}
         />
 
-        {error && <p className={styles['error']}>{error}</p>}
+        {error && <p className={styles.error}>{error}</p>}
 
         <Button
-          type='primary'
+          type="primary"
           block={true}
-          size='large'
+          size="large"
           loading={isLoading}
           onClick={this.handleLogin}
         >
           Continue
         </Button>
 
-        <p className={styles['tip']}>
+        <p className={styles.tip}>
           Don't have an account?
-            <a onClick={this.showModalForSignUp}>Sign up</a>
+          <a onClick={this.showModalForSignUp}>Sign up</a>
         </p>
       </form>
     )
@@ -148,39 +149,39 @@ export class NavbarContianer extends React.PureComponent<Props, State> {
         <Input
           {...this.inputProps}
           value={username}
-          placeholder='Username'
-          prefix={<Icon type='user' />}
+          placeholder="Username"
+          prefix={<Icon type="user" />}
           onChange={this.handleEdit('username')}
         />
         <Input
           {...this.inputProps}
-          type='email'
+          type="email"
           value={email}
-          placeholder='Email'
-          prefix={<Icon type='mail' />}
+          placeholder="Email"
+          prefix={<Icon type="mail" />}
           onChange={this.handleEdit('email')}
         />
         <Input
           {...this.inputProps}
-          type='password'
+          type="password"
           value={password}
-          placeholder='Password'
-          prefix={<Icon type='lock' />}
+          placeholder="Password"
+          prefix={<Icon type="lock" />}
           onChange={this.handleEdit('password')}
         />
 
-        {error && <p className={styles['error']}>{error}</p>}
+        {error && <p className={styles.error}>{error}</p>}
 
         <Button
-          type='primary'
+          type="primary"
           block={true}
-          size='large'
+          size="large"
           loading={isLoading}
           onClick={this.handleSignUp}
         >
           Sign Up
         </Button>
-        <p className={styles['tip']}>
+        <p className={styles.tip}>
           Already have an account?
           <a onClick={this.showModalForLogin}>Login</a>
         </p>
@@ -200,18 +201,22 @@ export class NavbarContianer extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Layout.Header className={styles['header']} >
-        <nav className={styles['nav']}>
-          <Link to='/'><img alt='colorkitty' src={brandImg} /></Link>
-          <Link to='/explore'>Explore</Link>
-          <Link className={styles['highlight']} to='/gradient-game'>Gradient Game</Link>
+      <Layout.Header className={styles.header}>
+        <nav className={styles.nav}>
+          <Link to="/">
+            <img alt="colorkitty" src={brandImg} />
+          </Link>
+          <Link to="/explore">Explore</Link>
+          <Link className={styles.highlight} to="/gradient-game">
+            Gradient Game
+          </Link>
         </nav>
         {this.renderMe()}
         <Modal
           visible={showModal && !user}
           footer={null}
           onCancel={this.toggleModal}
-          width='400px'
+          width="400px"
           style={{ top: '20%' }}
         >
           {modal}
@@ -222,92 +227,97 @@ export class NavbarContianer extends React.PureComponent<Props, State> {
 
   private toggleModal = () => {
     this.setState({
-      showModal: !this.state.showModal
+      showModal: !this.state.showModal,
     })
   }
 
-  private handleEdit = (key: string) => (ev: React.FormEvent<HTMLInputElement>) => {
+  private handleEdit = (key: string) => (
+    ev: React.FormEvent<HTMLInputElement>,
+  ) => {
     const target = ev.target as HTMLInputElement
     this.setState({
       ...this.state,
-      [key]: target.value
+      [key]: target.value,
     })
   }
 
   private handleLogin = () => {
-    const { username, password } = this.state
+    const { email, password } = this.state
 
-    if (!username || !password) {
+    if (!email || !password) {
       this.setState({
-        error: "Username or password can't be empty"
+        error: "email or password can't be empty",
       })
       return
     }
 
     this.setState({
-      isLoading: true
+      isLoading: true,
     })
 
-    login({ username, password })
+    login({ email, password })
       .then(res => {
-        if (!res['status']) {
+        if (!res.status) {
           this.setState({
-            error: res['msg'],
-            isLoading: false
+            error: res.msg,
+            isLoading: false,
           })
         } else {
-          this.props.login({ username, password })
+          this.props.login({ email, password })
           this.setState({
             showModal: false,
-            isLoading: false
+            isLoading: false,
           })
         }
       })
-      .catch(() => this.setState({
-        error: 'Unexpected error.',
-        isLoading: false
-      }))
+      .catch(() =>
+        this.setState({
+          error: 'Unexpected error.',
+          isLoading: false,
+        }),
+      )
   }
 
   private handleSignUp = () => {
     const { email, password, username } = this.state
     this.setState({
-      isLoading: true
+      isLoading: true,
     })
 
     signup({ email, username, password })
       .then(res => {
-        if (!res['status']) {
+        if (!res.status) {
           this.setState({
-            error: res['msg'],
-            isLoading: false
+            error: res.msg,
+            isLoading: false,
           })
         } else {
-          this.props.login({ username, password })
+          this.props.login({ email, password })
           this.setState({
             showModal: false,
-            isLoading: false
+            isLoading: false,
           })
         }
       })
-      .catch(() => this.setState({
-        error: 'Unexpected error.',
-        isLoading: false
-      }))
+      .catch(() =>
+        this.setState({
+          error: 'Unexpected error.',
+          isLoading: false,
+        }),
+      )
   }
 
   private showModalForLogin = () => {
     this.setState({
       modalContent: modalState.login,
-      showModal: true
+      showModal: true,
     })
   }
 
   private showModalForSignUp = () => {
     this.setState({
       modalContent: modalState.signup,
-      showModal: true
+      showModal: true,
     })
   }
-
 }

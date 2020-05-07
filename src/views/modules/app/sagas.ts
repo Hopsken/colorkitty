@@ -2,9 +2,14 @@ import { createAction, Action } from 'redux-actions'
 import { call, put, takeLatest, takeEvery, select } from 'redux-saga/effects'
 
 import {
-  getPalettes, getPalette, deletePalette,
-  likePalette, unlikePalette,
-  userPalettes, userLikes, savePalette,
+  getPalettes,
+  getPalette,
+  deletePalette,
+  likePalette,
+  unlikePalette,
+  userPalettes,
+  userLikes,
+  savePalette,
 } from '@/services'
 import { selectPalette } from './selector'
 import { GetPalettesParams, SavePalettePayload } from '@/services'
@@ -16,7 +21,10 @@ function* createPalette(action: Action<SavePalettePayload>) {
     return
   }
   try {
-    const result = yield call(savePalette, { colors: payload.colors, name: payload.name })
+    const result = yield call(savePalette, {
+      colors: payload.colors,
+      name: payload.name,
+    })
     yield put(createAction(types.CREATE_PALETTE_SUCCESS)(result))
   } catch {
     yield put(createAction(types.CREATE_PALETTE_FAILURE)())
@@ -40,14 +48,14 @@ function* fetchUserPalettes(action: Action<string>) {
   }
 }
 
-function* fetchPalette(action: Action<{ palette_id: string }>) {
+function* fetchPalette(action: Action<{ paletteId: string }>) {
   if (!action.payload) {
     return
   }
   try {
-    let palette = yield select(selectPalette, action.payload.palette_id)
+    let palette = yield select(selectPalette, action.payload.paletteId)
     if (!palette) {
-      palette = (yield call(getPalette, action.payload.palette_id))['data']
+      palette = (yield call(getPalette, action.payload.paletteId)).data
     }
     yield put(createAction(types.GET_PALETTE_SUCCESS)(palette))
   } catch {
@@ -61,7 +69,7 @@ function* fetchPalettes(action: Action<GetPalettesParams>) {
   }
   try {
     const result = yield call(getPalettes, action.payload)
-    if (action.payload['sorts'] === 'likes') {
+    if (action.payload.sortBy === 'likes') {
       yield put(createAction(types.GET_POP_PALETTES_SUCCESS)(result))
     } else {
       yield put(createAction(types.GET_NEW_PALETTES_SUCCESS)(result))

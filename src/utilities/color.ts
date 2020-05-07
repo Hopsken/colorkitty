@@ -19,11 +19,11 @@ export function isHexColor(hex: Color) {
 }
 
 export function isRGBColor(color: Color): color is RGBColor {
-  return color != null && (color as RGBColor).r !== undefined
+  return typeof color !== 'string' && (color as any)?.r !== undefined
 }
 
 export function isHSLColor(color: Color): color is HSLColor {
-  return color != null && (color as HSLColor).h !== undefined
+  return typeof color !== 'string' && (color as any)?.h !== undefined
 }
 
 export function getRandomColor() {

@@ -96,12 +96,12 @@ export class Painter extends React.PureComponent<Props, State> {
 
     return (
       <section
-        className={styles['painter']}
+        className={styles.painter}
         style={{ visibility: file ? 'visible' : 'hidden' }}
       >
         {hidden && <Spin indicator={loadingIcon} />}
         <div
-          className={styles['painting']}
+          className={styles.painting}
           style={{ display: hidden ? 'none' : 'block' }}
         >
           <canvas
@@ -146,7 +146,7 @@ export class Painter extends React.PureComponent<Props, State> {
     })
 
     const ctx = this.canvas.current.getContext('2d')
-    const imageUrl = typeof file === 'string' ? file : await getImageDataUrlAsync(file!)
+    const imageUrl = typeof file === 'string' ? file : await getImageDataUrlAsync(file)
 
     // 绘制图片至 canvas
     const img = new Image()
@@ -162,7 +162,7 @@ export class Painter extends React.PureComponent<Props, State> {
         this.loadColorsFromImageData(imageData)
       })
     }
-    img.src = imageUrl!
+    img.src = imageUrl
     img.onerror = () => message.error('Error on loading image. Please try another one.')
 
     return false

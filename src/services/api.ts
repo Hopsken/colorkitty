@@ -1,6 +1,6 @@
 import { Color } from 'react-color'
 
-import { baseUrl } from '@/config'
+import { apiHost } from '@/config'
 import { toHex, request, urlQuery } from '@/utilities'
 import { Palette } from '@/types'
 
@@ -20,15 +20,15 @@ export const savePalette = (payload: SavePalettePayload): Promise<Palette> => {
     name,
     colors: colors.map(one => toHex(one)),
   }
-  return request.post(`${baseUrl}/palettes`, JSON.stringify(body))
+  return request.post(`${apiHost}/palettes`, JSON.stringify(body))
 }
 
 export const userPalettes = (): Promise<Palette[]> => {
-  return request.get(`${baseUrl}/users/me/palettes`)
+  return request.get(`${apiHost}/users/me/palettes`)
 }
 
 export const userLikes = (): Promise<Palette[]> => {
-  return request.get(`${baseUrl}/users/me/palettes/likes`)
+  return request.get(`${apiHost}/users/me/palettes/likes`)
 }
 
 export const getPalettes = ({
@@ -36,22 +36,22 @@ export const getPalettes = ({
   sortBy = 'likes',
 }: GetPalettesParams): Promise<Palette[]> => {
   return request.get(
-    urlQuery.append(`${baseUrl}/palettes`, { timeframe, sortBy }),
+    urlQuery.append(`${apiHost}/palettes`, { timeframe, sortBy }),
   )
 }
 
-export const likePalette = (palette_id: number) => {
-  return request.post(`${baseUrl}/palettes/${palette_id}/like`)
+export const likePalette = (paletteId: number) => {
+  return request.post(`${apiHost}/palettes/${paletteId}/like`)
 }
 
-export const unlikePalette = (palette_id: number) => {
-  return request.delete(`${baseUrl}/palettes/${palette_id}/like`)
+export const unlikePalette = (paletteId: number) => {
+  return request.delete(`${apiHost}/palettes/${paletteId}/like`)
 }
 
-export const getPalette = (palette_id: string) => {
-  return request.get(`${baseUrl}/palettes/${palette_id}`)
+export const getPalette = (paletteId: string) => {
+  return request.get(`${apiHost}/palettes/${paletteId}`)
 }
 
-export const deletePalette = (palette_id: number) => {
-  return request.delete(`${baseUrl}/palettes/${palette_id}`)
+export const deletePalette = (paletteId: number) => {
+  return request.delete(`${apiHost}/palettes/${paletteId}`)
 }

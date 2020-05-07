@@ -57,7 +57,7 @@ export class Toolbar extends React.PureComponent<ToolbarProps, ToolbarState> {
 
   renderExportModal = () => {
     const methods = exportMethodsArray.map(method => {
-      const iconCls = cx(styles['export-icon'], {[styles['active']]: method.name === ExportMethod.SVG})
+      const iconCls = cx(styles['export-icon'], {[styles.active]: method.name === ExportMethod.SVG})
       return (
         <Card.Grid
           key={method.name}
@@ -85,7 +85,7 @@ export class Toolbar extends React.PureComponent<ToolbarProps, ToolbarState> {
       >
         <Checkbox checked={this.state.includeShades} onChange={this.toggleIncludeShades}>Include Shades</Checkbox>
         <p className={styles['export-tips']}>
-          Using <span className={styles['active']}>SVG</span> format,
+          Using <span className={styles.active}>SVG</span> format,
           you can copy-paste your palette to any prototyping tools like Sketch, Figma, and Adobe XD.
         </p>
         <Card bodyStyle={{ padding: 0 }} bordered={false}>
@@ -98,24 +98,24 @@ export class Toolbar extends React.PureComponent<ToolbarProps, ToolbarState> {
 
   render() {
     return (
-      <div className={styles['toolbar']}>
+      <div className={styles.toolbar}>
         <Tooltip placement='left' title='Add color'>
-          <div className={styles['item']} onClick={this.handleAddColor}>
+          <div className={styles.item} onClick={this.handleAddColor}>
             <Icon type='plus' />
           </div>
         </Tooltip>
         <Tooltip placement='left' title='Remove color'>
-          <div className={styles['item']} onClick={this.handleRemoveColor}>
+          <div className={styles.item} onClick={this.handleRemoveColor}>
             <Icon type='minus' />
           </div>
         </Tooltip>
         <Tooltip placement='left' title='Export'>
-          <div className={styles['item']} onClick={this.toggleModal}>
+          <div className={styles.item} onClick={this.toggleModal}>
             <Icon type='share-alt' />
           </div>
         </Tooltip>
         <Tooltip placement='left' title='Share'>
-          <div className={styles['item']} onClick={this.handleTweet}>
+          <div className={styles.item} onClick={this.handleTweet}>
             <Icon type='twitter' />
           </div>
         </Tooltip>
@@ -182,7 +182,7 @@ export class Toolbar extends React.PureComponent<ToolbarProps, ToolbarState> {
 
     const win = window.open(
       twitterShareUrl
-        .replace('__URL__', exportMethods['url'](colors, paletteName))
+        .replace('__URL__', exportMethods.url(colors, paletteName))
         .replace('__PALETTE_NAME__', paletteName || 'New Palette')
     )
 

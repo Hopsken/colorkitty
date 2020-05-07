@@ -23,8 +23,8 @@ function* userSignUp(action: Action<SignupPayload>) {
     yield put(createAction(types.SIGNUP_SUCCESS)(result))
     yield userLogin(
       createAction(actionTypes.login)({
-        username: action.payload['username'],
-        password: action.payload['password'],
+        username: action.payload.username,
+        password: action.payload.password,
       }),
     )
   } catch (error) {
@@ -75,7 +75,7 @@ function* userInfo(action: Action<UpdateUserInfoPayload>) {
   try {
     const result = yield call(updateUserInfo, action.payload)
     yield put(createAction(types.UPDATE_USER_INFO_SUCCESS)(result))
-    if (action.payload['password']) {
+    if (action.payload.password) {
       yield put(createAction(types.LOGOUT_SUCCESS)('Password changed.'))
     }
   } catch {

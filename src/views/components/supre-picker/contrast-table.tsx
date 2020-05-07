@@ -103,7 +103,7 @@ export class ContrastTable extends React.PureComponent<ContrastTableProps, Contr
         }
 
         return (
-          <table className={styles['contrast']}>
+          <table className={styles.contrast}>
             {this.renderHead()}
             {this.renderBoby()}
           </table>

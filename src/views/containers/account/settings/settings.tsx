@@ -76,9 +76,9 @@ class Settings extends React.PureComponent<Props> {
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
-      if (!err && values['password']) {
+      if (!err && values.password) {
         this.props.updateUserInfo({
-          password: values['password']
+          password: values.password
         })
         notification.success({
           message: 'Password Changed.',

@@ -31,11 +31,10 @@ const defaultPalette = [
   { r: 60, g: 174, b: 163 },
   { r: 246, g: 213, b: 92 },
   { r: 237, g: 85, b: 59 },
-  { r: 23, g: 154, b: 209 }
+  { r: 23, g: 154, b: 209 },
 ]
 
 export class ComposerContainer extends React.PureComponent<Props, State> {
-
   private drawerContainer = React.createRef<HTMLElement>()
 
   state = {
@@ -44,7 +43,7 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
     currentIndex: -1,
     paletteName: 'NEW PALETTE',
     showDrawer: false,
-    rawImage: null
+    rawImage: null,
   }
 
   componentDidMount() {
@@ -66,27 +65,42 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { paletteName, colors, currentIndex, rawImage, showDrawer } = this.state
-    const rightSide = showDrawer
-    ? <SuprePicker
-      color={colors[currentIndex]}
-      onChange={this.handleChangeColor}
-      colors={this.colors}
-    />
-    : <div className={styles['sidebar-tips']}>Click one color to view details</div>
+    const {
+      paletteName,
+      colors,
+      currentIndex,
+      rawImage,
+      showDrawer,
+    } = this.state
+    const rightSide = showDrawer ? (
+      <SuprePicker
+        color={colors[currentIndex]}
+        onChange={this.handleChangeColor}
+        colors={this.colors}
+      />
+    ) : (
+      <div className={styles['sidebar-tips']}>
+        Click one color to view details
+      </div>
+    )
 
     return (
-      <section className={styles['container']}>
+      <section className={styles.container}>
         <Alert
-          type='info'
-          icon={<Icon type='desktop' />}
+          type="info"
+          icon={<Icon type="desktop" />}
           className={styles['notice-bar']}
-          message='We are better on desktop.'
+          message="We are better on desktop."
           banner={true}
           closable={true}
         />
         <Layout>
-          <Layout.Sider breakpoint='lg' collapsedWidth='0' width={280} className={styles['sidebar']}>
+          <Layout.Sider
+            breakpoint="lg"
+            collapsedWidth="0"
+            width={280}
+            className={styles.sidebar}
+          >
             <LeftPad
               paletteName={paletteName}
               colors={this.colors}
@@ -95,8 +109,8 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
             />
           </Layout.Sider>
 
-          <Layout.Content className={styles['content']}>
-            <section className={styles['core']}>
+          <Layout.Content className={styles.content}>
+            <section className={styles.core}>
               <SmartPalette
                 colors={this.colors}
                 paletteName={paletteName}
@@ -117,10 +131,14 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
             </section>
           </Layout.Content>
 
-          <Layout.Sider reverseArrow={true} breakpoint='lg' collapsedWidth='0' width={280} className={styles['sidebar']}>
-            <div className={styles['sidebar-wrapper']}>
-              {rightSide}
-            </div>
+          <Layout.Sider
+            reverseArrow={true}
+            breakpoint="lg"
+            collapsedWidth="0"
+            width={280}
+            className={styles.sidebar}
+          >
+            <div className={styles['sidebar-wrapper']}>{rightSide}</div>
           </Layout.Sider>
         </Layout>
       </section>
@@ -129,13 +147,13 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
 
   handleUpdateColors = (colors: RGBColor[]) => {
     this.setState({
-      colors: colors.concat(this.state.colors.slice(colors.length))
+      colors: colors.concat(this.state.colors.slice(colors.length)),
     })
   }
 
   handleChangeNumbers = (count: number) => {
     this.setState({
-      colorsCount: count
+      colorsCount: count,
     })
   }
 
@@ -148,13 +166,13 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
         } else {
           return value
         }
-      })
+      }),
     )
   }
 
   handleCloseDrawer = () => {
     this.setState({
-      showDrawer: false
+      showDrawer: false,
     })
   }
 
@@ -162,26 +180,26 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
     const { currentIndex } = this.state
     this.setState({
       currentIndex: index === currentIndex ? -1 : index,
-      showDrawer: index === currentIndex ? false : true
+      showDrawer: index === currentIndex ? false : true,
     })
   }
 
   handleInputName = (name: string) => {
     this.setState({
-      paletteName: name
+      paletteName: name,
     })
   }
 
   handleUploadImage = (file: File | string) => {
     this.setState({
-      rawImage: file
+      rawImage: file,
     })
     return false
   }
 
   handleUpdateCurrentIndex = (index: number) => {
     this.setState({
-      currentIndex: index
+      currentIndex: index,
     })
   }
 
@@ -192,12 +210,11 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
       return Promise.reject()
     }
     return savePalette(payload)
-      .then((palette) => {
+      .then(palette => {
         onSavePaletteSuccess(palette)
         this.props.history.push(`/u/${user.username}`)
       })
-      .catch((err) => {
-        console.info(err)
+      .catch(() => {
         message.warn('Fail to save palette.')
       })
   }
@@ -214,7 +231,7 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
       this.setState({
         colors: palette.concat(this.state.colors.slice(palette.length)),
         colorsCount: palette.length,
-        paletteName: name || 'New Palette'
+        paletteName: name || 'New Palette',
       })
     }
   }

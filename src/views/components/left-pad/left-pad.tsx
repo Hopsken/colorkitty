@@ -94,7 +94,7 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
 
   renderExportModal = () => {
     const methods = exportMethodsArray.map(method => {
-      const iconCls = cx(styles['export-icon'], {[styles['active']]: method.name === ExportMethod.SVG})
+      const iconCls = cx(styles['export-icon'], {[styles.active]: method.name === ExportMethod.SVG})
       return (
         <Card.Grid
           key={method.name}
@@ -122,7 +122,7 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
       >
         <Checkbox checked={this.state.includeShades} onChange={this.toggleIncludeShades}>Include Shades</Checkbox>
         <p className={styles['export-tips']}>
-          Using <span className={styles['active']}>SVG</span> format,
+          Using <span className={styles.active}>SVG</span> format,
           you can copy-paste your palette to any prototyping tools like Sketch, Figma, and Adobe XD.
         </p>
         <Card bodyStyle={{ padding: 0 }} bordered={false}>
@@ -134,7 +134,7 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
   }
 
   renderPaletteSection = () => (
-    <Card className={styles['card']} type='inner' size='small' title='Palette'>
+    <Card className={styles.card} type='inner' size='small' title='Palette'>
       <Form labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
         <Form.Item className={styles['form-item']} label='Name'>
           <Input
@@ -158,7 +158,7 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
   )
 
   renderExportSection = () => (
-    <Card className={styles['card']} type='inner' size='small' title='Export'>
+    <Card className={styles.card} type='inner' size='small' title='Export'>
       <Checkbox checked={this.state.includeShades} onChange={this.toggleIncludeShades}>Include Shades</Checkbox><br /><br />
       <Button block={true} onClick={this.toggleModal}><Icon type='picture' />Export</Button>
       <Button block={true} onClick={this.handleTweet}><Icon type='twitter' />Tweet</Button>
@@ -166,7 +166,7 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
   )
 
   renderSupportSection = () => (
-    <SuppressibleCard className={styles['card']} type='inner' size='small' title='Support'>
+    <SuppressibleCard className={styles.card} type='inner' size='small' title='Support'>
       {buyMeCoffee}
       {PHLink}
     </SuppressibleCard>
@@ -222,7 +222,7 @@ export class LeftPad extends React.PureComponent<LeftPadProps, LeftPadState> {
 
     const win = window.open(
       twitterShareUrl
-        .replace('__URL__', exportMethods['url'](colors, paletteName))
+        .replace('__URL__', exportMethods.url(colors, paletteName))
         .replace('__PALETTE_NAME__', paletteName || 'New Palette')
     )
 

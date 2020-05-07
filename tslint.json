@@ -2,7 +2,6 @@
   "defaultSeverity": "error",
   "extends": [
     "tslint:recommended",
-    "tslint-config-standard",
     "tslint-react",
     "tslint-config-prettier"
   ],
@@ -14,7 +13,11 @@
     "jsx-no-lambda": false,
     "jsx-boolean-value": false,
     "no-var-requires": false,
-    "interface-name": false
+    "interface-name": false,
+    "member-access": [
+      true,
+      "no-public"
+    ]
   },
   "rulesDirectory": [],
   "linterOptions": {

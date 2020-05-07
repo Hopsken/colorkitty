@@ -19,17 +19,17 @@ const PaletteColor: React.FC<{
   const hex = toHex(color).toUpperCase()
   const style = { backgroundColor: hex }
 
-  const hexSpan = displayHex && <span className={styles['text']}>{hex}</span>
+  const hexSpan = displayHex && <span className={styles.text}>{hex}</span>
 
   return (
-    <div className={styles['color']} style={style}>
+    <div className={styles.color} style={style}>
       {hexSpan}
     </div>
   )
 })
 
 export const PaletteCard: React.FC<Props> = ({ palette, className }) => {
-  const cls = cx(styles['wrapper'], className)
+  const cls = cx(styles.wrapper, className)
 
   const colors = palette.colors.map((color, index) => {
     return <PaletteColor key={index} color={color} />
@@ -46,7 +46,7 @@ export const PaletteCard: React.FC<Props> = ({ palette, className }) => {
 
   return (
     <div className={cls}>
-      <div className={styles['card']}>
+      <div className={styles.card}>
         <div className={styles['colors-wrapper']}>{colors}</div>
         {heartIcon}
       </div>

@@ -34,7 +34,7 @@ export class Account extends React.PureComponent<Props, State> {
   render() {
     const { tabPosition } = this.state
     return (
-      <section className={styles['wrapper']}>
+      <section className={styles.wrapper}>
         <Tabs defaultActiveKey='1' tabPosition={tabPosition}>
           <Tabs.TabPane
             tab={<span><Icon type='user' />Profile</span>}

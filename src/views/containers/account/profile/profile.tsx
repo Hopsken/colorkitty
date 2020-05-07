@@ -1,7 +1,20 @@
 /* tslint:disable:jsx-no-multiline-js */
 
-import { Form, Input, Button, Icon, Row, Col, message, Upload, Divider } from 'antd'
-import { FormComponentProps, GetFieldDecoratorOptions } from 'antd/lib/form/Form'
+import {
+  Form,
+  Input,
+  Button,
+  Icon,
+  Row,
+  Col,
+  message,
+  Upload,
+  Divider,
+} from 'antd'
+import {
+  FormComponentProps,
+  GetFieldDecoratorOptions,
+} from 'antd/lib/form/Form'
 import { UploadChangeParam } from 'antd/lib/upload'
 import pickBy from 'lodash/pickBy'
 import * as React from 'react'
@@ -19,7 +32,7 @@ interface Props extends FormComponentProps {
 }
 
 interface State {
-  loading: boolean,
+  loading: boolean
   avatarUrl: string
 }
 
@@ -31,10 +44,9 @@ interface FieldOptions {
 }
 
 class Profile extends React.PureComponent<Props> {
-
   state: State = {
     loading: false,
-    avatarUrl: ''
+    avatarUrl: '',
   }
 
   renderNormailField(type: string, options: FieldOptions) {
@@ -42,15 +54,13 @@ class Profile extends React.PureComponent<Props> {
     const { user } = this.props
 
     const field = getFieldDecorator(type, {
-      initialValue: user && user[type] || '',
-      ...options.decorators
+      initialValue: (user && user[type]) || '',
+      ...options.decorators,
     })(<Input prefix={<Icon type={options.iconType} />} />)
 
     return (
       <Col sm={24} md={options.span || 12}>
-        <FormItem label={options.label}>
-          {field}
-        </FormItem>
+        <FormItem label={options.label}>{field}</FormItem>
       </Col>
     )
   }
@@ -67,14 +77,14 @@ class Profile extends React.PureComponent<Props> {
 
     return (
       <Upload
-        name='avatar'
-        listType='picture-card'
+        name="avatar"
+        listType="picture-card"
         showUploadList={false}
         action={'//jsonplaceholder.typicode.com/posts/'}
         beforeUpload={this.beforeUpload}
         onChange={this.handleAvatarChange}
       >
-        {avatarUrl ? <img src={avatarUrl} alt='avatar' /> : uploadButton}
+        {avatarUrl ? <img src={avatarUrl} alt="avatar" /> : uploadButton}
       </Upload>
     )
   }
@@ -83,38 +93,30 @@ class Profile extends React.PureComponent<Props> {
     const { getFieldDecorator } = this.props.form
     const { user } = this.props
 
-    const fullNameField = getFieldDecorator('fullname', {
-      initialValue: user && user['fullname'] || ''
-    })(<Input prefix={<Icon type='user' />} />)
     const locationField = getFieldDecorator('location', {
-      initialValue: user && user['location'] || ''
-    })(<Input prefix={<Icon type='environment' />} />)
+      initialValue: (user && user.location) || '',
+    })(<Input prefix={<Icon type="environment" />} />)
     // const avatarField = getFieldDecorator('avatar')(this.renderAvatarField())
 
     return (
       <Form onSubmit={this.handleUpdateProfile}>
-        <Divider orientation='left'>About Me</Divider>
+        <Divider orientation="left">About Me</Divider>
         <Row>
-          { /* <Col span={ 8 }>
+          {/* <Col span={ 8 }>
             { avatarField }
-          </Col> */ }
+          </Col> */}
           <Col span={16}>
-            <FormItem label='Full Name'>
-              {fullNameField}
-            </FormItem>
-            <FormItem label='Location'>
-              {locationField}
-            </FormItem>
+            <FormItem label="Location">{locationField}</FormItem>
           </Col>
         </Row>
 
-        <Divider orientation='left'>Contact Info</Divider>
+        <Divider orientation="left">Contact Info</Divider>
         <Row gutter={32}>
-          { /* { this.renderNormailField('contact', {
+          {/* { this.renderNormailField('contact', {
             label: 'Contact Mail',
             iconType: 'mail',
             decorators: { rules: [ { type: 'email', message: 'The email address is not valid.' } ] }
-          }) } */ }
+          }) } */}
 
           {this.renderNormailField('instagram', {
             label: 'Instagram',
@@ -141,13 +143,15 @@ class Profile extends React.PureComponent<Props> {
             iconType: 'link',
             decorators: {
               rules: [{ type: 'url', message: 'The url is not valid.' }],
-            }
+            },
           })}
         </Row>
 
         <Row>
           <Col span={24} style={{ textAlign: 'right' }}>
-            <Button type='primary' size='large' htmlType='submit'>Update Profile</Button>
+            <Button type="primary" size="large" htmlType="submit">
+              Update Profile
+            </Button>
           </Col>
         </Row>
       </Form>
@@ -162,10 +166,12 @@ class Profile extends React.PureComponent<Props> {
     if (info.file.status === 'done') {
       // todo
       // get this url from response
-      getBase64(info.file.originFileObj!, (avatarUrl: string) => this.setState({
-        avatarUrl,
-        loading: false,
-      }))
+      getBase64(info.file.originFileObj!, (avatarUrl: string) =>
+        this.setState({
+          avatarUrl,
+          loading: false,
+        }),
+      )
     }
   }
 
@@ -193,7 +199,6 @@ class Profile extends React.PureComponent<Props> {
       }
     })
   }
-
 }
 
 export const ProfileForm = Form.create()(Profile)

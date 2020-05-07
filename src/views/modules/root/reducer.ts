@@ -29,11 +29,11 @@ export const rootReducer: Reducer<RootStore> = (
         loadingUser: false
       }
     case types.LOGIN_SUCCESS:
-      if (!action.payload || !action.payload['data']) {
+      if (!action.payload || !action.payload.data) {
         return state
       }
 
-      localStorage.setItem('token', action.payload['data'])
+      localStorage.setItem('token', action.payload.data)
       return state
     case types.GET_CURRENT_USER_SUCCESS:
       if (!action.payload) {
@@ -42,18 +42,18 @@ export const rootReducer: Reducer<RootStore> = (
 
       return {
         ...state,
-        user: action.payload['data'],
+        user: action.payload.data,
         loadingUser: false
       }
     case types.UPDATE_USER_INFO_SUCCESS:
-      if (!action.payload || !action.payload['status']) {
+      if (!action.payload || !action.payload.status) {
         return state
       }
       return {
         ...state,
         user: {
           ...state.user,
-          ...action.payload['data']
+          ...action.payload.data
         }
       }
     case types.LOGOUT_SUCCESS:
