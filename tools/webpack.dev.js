@@ -28,16 +28,6 @@ module.exports = webpackMerge(commonConfig, {
         test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
         use: [
-          // {
-          //   loader: 'babel-loader',
-          //   options: {
-          //     plugins: [
-          //       '@babel/plugin-syntax-typescript',
-          //       '@babel/plugin-syntax-jsx',
-          //       'react-hot-loader/babel',
-          //     ],
-          //   },
-          // },
           {
             loader: 'ts-loader',
             options: {
@@ -59,8 +49,8 @@ module.exports = webpackMerge(commonConfig, {
         ]
       },
       {
-        test: /\.(styl|css)$/,
-        exclude: [/node_modules/],
+        test: /\.styl$/,
+        exclude: [/node_modules/, /tailwind\.styl$/],
         use: [
           'style-loader',
           {
@@ -73,14 +63,6 @@ module.exports = webpackMerge(commonConfig, {
           },
           'postcss-loader',
           'stylus-loader'
-        ]
-      },
-      {
-        test: /\.(css)$/,
-        include: /node_modules/,
-        use: [
-          'style-loader',
-          'css-loader'
         ]
       }
     ]

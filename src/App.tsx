@@ -16,6 +16,7 @@ import { parseColorsFromUrl } from './utilities'
 import { Playground } from './views/containers/playground'
 
 require('./app.styl')
+require('./tailwind.styl')
 
 class App extends React.PureComponent {
   render() {

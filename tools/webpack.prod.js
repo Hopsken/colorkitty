@@ -23,11 +23,11 @@ module.exports = webpackMerge(commonConfig, {
             options: {
               transpileOnly: true,
               getCustomTransformers: () => ({
-                before: [ tsImportPluginFactory({
+                before: [tsImportPluginFactory({
                   libraryName: 'antd',
                   libraryDirectory: 'lib',
                   style: true
-                }) ]
+                })]
               }),
               compilerOptions: {
                 module: 'es2015'
@@ -37,8 +37,8 @@ module.exports = webpackMerge(commonConfig, {
         ]
       },
       {
-        test: /\.(styl|css)$/,
-        exclude: /node_modules/,
+        test: /\.styl$/,
+        exclude: [/node_modules/, /tailwind\.styl$/],
         use: [
           MiniCssExtractPlugin.loader,
           {
@@ -54,19 +54,11 @@ module.exports = webpackMerge(commonConfig, {
         ]
       },
       {
-        test: /\.(css)$/,
-        include: /node_modules/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader'
-        ]
-      },
-      {
         test: /\.less$/,
         include: /node_modules/,
         use: [{
           loader: MiniCssExtractPlugin.loader,
-        },{
+        }, {
           loader: 'css-loader'
         }, {
           loader: 'less-loader',

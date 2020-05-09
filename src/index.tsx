@@ -6,7 +6,7 @@ import * as React from 'react'
 import { store } from './views/modules'
 import App from './App'
 
-require('./global.styl')
+// require('./global.styl')
 
 render(
   <Provider store={store}>
@@ -14,5 +14,5 @@ render(
       <App />
     </BrowserRouter>
   </Provider>,
-  document.getElementById('app')
+  document.getElementById('app'),
 )

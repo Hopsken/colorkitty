@@ -29,7 +29,7 @@ module.exports = {
         include: /node_modules/,
         use: [{
           loader: 'style-loader'
-        },{
+        }, {
           loader: 'css-loader'
         }, {
           loader: 'less-loader',
@@ -49,6 +49,21 @@ module.exports = {
             javascriptEnabled: true
           }
         }]
+      },
+      {
+        test: /tailwind\.styl$/,
+        exclude: /node_modules/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: false,
+            }
+          },
+          'postcss-loader',
+          'stylus-loader',
+        ]
       },
       {
         test: /\.(png|jpg|jpeg|gif|webm|mp4|svg)$/,

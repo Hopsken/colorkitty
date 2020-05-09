@@ -202,7 +202,7 @@ export class NavbarContianer extends React.PureComponent<Props, State> {
 
     return (
       <Layout.Header className={styles.header}>
-        <nav className={styles.nav}>
+        <nav className={`${styles.nav}`}>
           <Link to="/">
             <img alt="colorkitty" src={brandImg} />
           </Link>
