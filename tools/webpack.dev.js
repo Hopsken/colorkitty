@@ -64,6 +64,22 @@ module.exports = webpackMerge(commonConfig, {
           'postcss-loader',
           'stylus-loader'
         ]
+      },
+      {
+        test: /\.css$/,
+        exclude: [/node_modules/],
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              modules: true,
+              localIdentName: '[local]-[hash:4]',
+            }
+          },
+          'postcss-loader',
+        ]
       }
     ]
   },

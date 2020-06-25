@@ -3,15 +3,16 @@ import { Route, Redirect } from 'react-router-dom'
 import * as React from 'react'
 import { Layout } from 'antd'
 
-import { Footer } from '@/views/components'
+// import { Footer } from '@/views/components'
 import {
-  Composer,
+  // Composer,
   Explore,
-  Navbar,
+  // Navbar,
   User,
   Account,
   GradientGame,
 } from '@/views/containers'
+import { Editor } from '@/views/pages/editor'
 import { parseColorsFromUrl } from './utilities'
 import { Playground } from './views/containers/playground'
 
@@ -22,17 +23,18 @@ class App extends React.PureComponent {
   render() {
     return (
       <Layout>
-        <Navbar />
+        {/* <Navbar /> */}
         <main style={{ marginTop: 72 }}>
           <Route exact={true} path="/explore" component={Explore} />
-          <Route exact={true} path="/" component={Composer} />
+          <Route exact={true} path="/" component={Editor} />
           <Route exact={true} path="/account" component={Account} />
           <Route exact={true} path="/gradient-game" component={GradientGame} />
           <Route path="/u/:username" component={User} />
           <Route path="/:colors" render={this.handleRedirectOld} />
           <Route path="/play" component={Playground} />
+          {/* <Route path="/editor" component={ Editor } /> */}
         </main>
-        {location.pathname !== '/' && <Footer />}
+        {/* {location.pathname !== '/' && <Footer />} */}
       </Layout>
     )
   }
