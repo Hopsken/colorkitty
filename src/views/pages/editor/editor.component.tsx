@@ -4,6 +4,8 @@ import _ from 'underscore'
 import { Header } from './components/header'
 import { PaletteList } from './components/palette-list'
 import { ColorList } from './components/color-list'
+import { ColorCard } from './components/color-card'
+import { ColorInfo } from './components/color-info'
 // import { Layout } from 'antd'
 
 // import styles from './editor.component.styl'
@@ -11,24 +13,27 @@ import { ColorList } from './components/color-list'
 
 function useEditor() {
   const [palettes, setPalettes] = useState<PaletteSchema[]>([])
-  const [imageData, setImageData] = useState<ImageData | null>(null)
-  const [selectedPlt, setSelectedPlt] = useState<string | undefined>()
+  const [imageData, setImageData] = useState<ImageData>()
+  const [selectedPlt, setSelectedPlt] = useState<string>()
+  const [selectedColor, setSelectedColor] = useState<ColorSchema>()
 
   const createPalette = useCallback(() =>{
     const newID = _.uniqueId()
+    const colors = [{ hex: '#20639B' }]
     setPalettes((items) => [
       ...items,
       {
         id: newID,
+        colors,
         name: `Palette ${items.length}`,
-        colors: [{ hex: '#A6A6A6' }],
       }
     ])
     setSelectedPlt(newID)
+    setSelectedColor(colors[0])
   }, [])
 
   const loadImageData = useCallback(() => {
-    setImageData(null)
+    setImageData(undefined)
   }, [])
 
   const currentPalette = useMemo(() => {
@@ -39,6 +44,9 @@ function useEditor() {
     return {
       onSelectPalette(id: string) {
         setSelectedPlt(id)
+      },
+      onSelectColor(color: ColorSchema) {
+        setSelectedColor(color)
       }
     }
   }, [])
@@ -49,12 +57,17 @@ function useEditor() {
     imageData,
     loadImageData,
     currentPalette,
+    currentColor: selectedColor,
     onSelectPalette: handlers.onSelectPalette,
+    onSelectColor: handlers.onSelectColor,
   }
 }
 
 export const Editor = () => {
-  const { palettes, currentPalette, createPalette, onSelectPalette } = useEditor()
+  const {
+    palettes, currentPalette, currentColor,
+    createPalette, onSelectPalette, onSelectColor,
+  } = useEditor()
 
   return (
     <section>
@@ -64,7 +77,6 @@ export const Editor = () => {
         style={{ top: '4rem' }}
       >
         <aside className="flex-grow-0 w-1/5 bg-white">
-
           <PaletteList
             selected={ currentPalette?.id }
             palettes={ palettes }
@@ -73,11 +85,14 @@ export const Editor = () => {
           />
           <ColorList
             colors={ currentPalette?.colors ?? [] }
-            onSelect={ console.info }
+            onSelect={ onSelectColor }
           />
         </aside>
         <main className="flex-1 flex-grow-1">CORE</main>
-        <aside className="flex-grow-0 w-1/5 bg-white">RIGHT</aside>
+        <aside className="flex-grow-0 w-1/5 bg-white">
+          <ColorCard color={ currentColor } />
+          <ColorInfo color={ currentColor } />
+        </aside>
       </section>
     </section>
   )
