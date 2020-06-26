@@ -73,7 +73,7 @@
     "tslint-config-prettier": "^1.18.0",
     "tslint-loader": "^3.6.0",
     "tslint-react": "^4.0.0",
-    "typescript": "^3.8.3",
+    "typescript": "^3.9.4",
     "underscore": "^1.10.2",
     "url": "^0.11.0",
     "url-loader": "^1.1.2",

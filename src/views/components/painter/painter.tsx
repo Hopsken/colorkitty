@@ -5,7 +5,7 @@ import * as React from 'react'
 
 import {
   toRGBString,
-  getImageDataUrlAsync,
+  getFileDataUrl,
   getColorsFromImage,
   getPaletteFromImage,
   findNearestColorOfPalette,
@@ -149,7 +149,7 @@ export class Painter extends React.PureComponent<Props, State> {
 
     const ctx = this.canvas.current.getContext('2d')
     const imageUrl =
-      typeof file === 'string' ? file : await getImageDataUrlAsync(file)
+      typeof file === 'string' ? file : await getFileDataUrl(file)
 
     // 绘制图片至 canvas
     const img = new Image()

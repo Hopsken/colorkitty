@@ -6,7 +6,7 @@ const styles = require('./pickle.styl')
 interface Props extends React.BaseHTMLAttributes<HTMLDivElement> {
   size: number
   color: string
-  index: number
+  index?: number
 }
 
 export const Pickle = (props: Props) => {

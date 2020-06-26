@@ -1,5 +1,5 @@
 export * from './color'
-export * from './get-image-data-url'
+export * from './resolve-image'
 export * from './thief'
 export * from './export-palette-to-png'
 export * from './export-methods'

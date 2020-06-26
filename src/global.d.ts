@@ -21,3 +21,15 @@ declare interface PaletteSchema {
   name: string
   colors: ColorSchema[]
 }
+
+declare interface RGBColor {
+  r: number
+  g: number
+  b: number
+  a?: number
+}
+
+declare interface FrameSize {
+  width: number
+  height: number
+}
