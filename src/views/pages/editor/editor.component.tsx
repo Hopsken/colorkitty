@@ -9,6 +9,7 @@ import { ColorCard } from './components/color-card'
 import { ColorInfo } from './components/color-info'
 import { Painter } from './components/painter'
 import { getImageDataFromFile, getColorsFromImage, toHex } from '@/utilities'
+import { ColorPanels } from '@/views/components'
 // import { Layout } from 'antd'
 
 // import styles from './editor.component.styl'
@@ -245,9 +246,10 @@ export const Editor = () => {
             getColorAtPos={ getColorAtPos }
           />
         </main>
-        <aside className="flex-grow-0 w-1/5 bg-white">
+        <aside className="flex-grow-0 w-1/5 overflow-y-auto bg-white">
           <ColorCard color={ currentColor } />
           <ColorInfo color={ currentColor } />
+          { currentColor && <ColorPanels hex={ currentColor.hex } /> }
         </aside>
       </section>
     </section>

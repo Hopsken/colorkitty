@@ -7,7 +7,7 @@ export function readable(color: Color): string {
 }
 
 export function toHex(color: Color): HexColor {
-  return new TinyColor(color).toHexString() as HexColor
+  return new TinyColor(color).toHexString().toUpperCase() as HexColor
 }
 
 export function toRGBString(color: Color): string {

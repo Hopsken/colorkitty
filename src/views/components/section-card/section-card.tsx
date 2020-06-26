@@ -1,7 +1,7 @@
 import React from 'react'
 
-interface Props {
-  title: string
+export interface Props {
+  title: React.ReactNode
   handler?: React.ReactNode
 }
 

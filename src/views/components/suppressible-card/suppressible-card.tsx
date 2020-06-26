@@ -1,38 +1,30 @@
-import * as React from 'react'
-import { Icon, Card } from 'antd'
-import { CardProps } from 'antd/lib/card'
+import React, { useState, useCallback } from 'react'
+import { SectionCard, Props as SectionCardProps } from '../section-card'
+import { Icon } from 'antd'
 
-interface State {
-    visible: boolean
+interface Props extends SectionCardProps {
+  defaultVisible?: boolean
 }
 
-export class SuppressibleCard extends React.PureComponent<CardProps, State> {
+export const SuppressibleCard: React.FC<Props> = React.memo((props) => {
+  const { defaultVisible, ...rest } = props
+  const [ visible, setVisible ] = useState(props.defaultVisible ?? false)
 
-    state = {
-        visible: true
-    }
+  const toggle = useCallback(() => {
+    setVisible(state => !state)
+  }, [])
 
-    render() {
-        const { visible } = this.state
-        const icon = (<Icon
-            type={visible ? 'eye' : 'eye-invisible'}
-            onClick={this.toggleVisible}
-        />)
-        const bodyStyle = {
-            ...this.props.bodyStyle,
-            padding: visible ? 12 : 0
-        }
+  const icon = (
+    <Icon
+        type={visible ? 'eye' : 'eye-invisible'}
+        onClick={toggle}
+    />
+  )
 
-        return (
-            <Card {...this.props} bodyStyle={bodyStyle} extra={icon}>
-                {visible ? this.props.children : null}
-            </Card>
-        )
-    }
+  return (
+    <SectionCard { ...rest } handler={ icon }>
+      { visible ? props.children : null }
+    </SectionCard>
+  )
+})
 
-    toggleVisible = () => {
-        this.setState({
-            visible: !this.state.visible
-        })
-    }
-}

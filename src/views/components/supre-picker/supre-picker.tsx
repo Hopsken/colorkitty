@@ -1,7 +1,4 @@
-import { InjectedColorProps, ChromePicker, CustomPicker } from 'react-color'
-import { Select, Card, message, Icon } from 'antd'
-import isFunction from 'lodash/isFunction'
-import { Color } from 'react-color'
+import { Select, Tooltip, message, Icon } from 'antd'
 import * as React from 'react'
 
 import { colorCombinations, ColorCombinationType, readable } from '@/utilities'
@@ -9,74 +6,56 @@ import { SuppressibleCard } from '../suppressible-card'
 import { ContrastTable } from './contrast-table'
 
 const Option = Select.Option
-const styles = require('./supre-picker.styl')
+
 const contrastTitle = (
-  <span>
-    Contrast&nbsp;&nbsp;
-    <a target='_blank' href='https://webaim.org/articles/contrast/'>
+  <span className='flex items-center'>
+    <span className='mr-2'>Contrast</span>
+    <a className='flex items-center' target='_blank' href='https://webaim.org/articles/contrast/'>
       <Icon type='question-circle' />
     </a>
   </span>
 )
-
-interface SuprePickerProps extends InjectedColorProps {
-  colors: Color[]
-}
 
 interface SuprePickerState {
   combinationType: ColorCombinationType
 }
 
 interface ColorCombinationProps {
-  hex?: string
+  hex: string
   type: ColorCombinationType
-  onClick?: (color: Color) => void
 }
 
-export function CombinationComp({
-  type,
-  hex,
-  onClick
-}: ColorCombinationProps) {
-  if (!hex) {
-    return null
-  }
+export const ColorCombine: React.FC<ColorCombinationProps> = React.memo((props) => {
+  const { hex, type } = props
 
-  const handleChange = (color: string) => () => {
-    if (onClick && isFunction(onClick)) {
-      onClick(color)
-    }
-
-    // @ts-ignore
+  const onClick = (color: string) => () => {
     if (!navigator.clipboard) {
       return
     }
-    // @ts-ignore
     navigator.clipboard.writeText(color)
-    .then(() => message.success('Copied!'))
+      .then(() => message.success('Copied!'))
   }
 
-  const colorSlides =  (colorCombinations[type](hex) || []).map((one: string, index: number) => {
+  const colorSlides = (colorCombinations[type](hex) || []).map((one: string, index: number) => {
     return (
-      <div
-        key={index}
-        className={styles.slide}
-        style={{ background: one, color: readable(one) }}
-        onClick={handleChange(one)}
-      >
-        <span>{one.toUpperCase()}</span>
-      </div>
+      <Tooltip key={ index } title={ one.toUpperCase() }>
+        <span
+          className='flex-1 h-4 mr-1'
+          style={ { background: one, color: readable(one) } }
+          onClick={ onClick(one) }
+        />
+      </Tooltip>
     )
   })
 
   return (
-    <div className={styles.slides}>
-      {colorSlides}
+    <div className='flex mx-4'>
+      { colorSlides }
     </div>
   )
-}
+})
 
-class SuprePickerComp extends React.PureComponent<SuprePickerProps, SuprePickerState> {
+export class ColorPanels extends React.PureComponent<{ hex: string }, SuprePickerState> {
 
   state = {
     combinationType: 'analogous' as ColorCombinationType,
@@ -86,10 +65,10 @@ class SuprePickerComp extends React.PureComponent<SuprePickerProps, SuprePickerS
 
   renderSelector = () => (
     <Select
-      style={{ width: 140, marginBottom: 12 }}
+      className='w-auto mb-3 ml-4'
       defaultValue='analogous'
-      onChange={this.handleChangeCombineType}
-      getPopupContainer={this.getContainer}
+      onChange={ this.handleChangeCombineType }
+      getPopupContainer={ this.getContainer }
     >
       <Option value='monochromatic'>Monochromatic</Option>
       <Option value='analogous'>Analogous</Option>
@@ -102,31 +81,26 @@ class SuprePickerComp extends React.PureComponent<SuprePickerProps, SuprePickerS
 
   render() {
     return (
-      <div className={styles.picker} id='sidebar'>
-        <Card bodyStyle={{ padding: 0 }}>
-          <ChromePicker
-            {...this.props}
-            disableAlpha={true}
-          />
-        </Card>
-
-        <SuppressibleCard className={styles.card} size='small' type='inner' title='Shades'>
-          <CombinationComp
-            hex={this.props.hex}
+      <div>
+        <SuppressibleCard title='Shades'>
+          <ColorCombine
+            hex={ this.props.hex }
             type='shades'
           />
         </SuppressibleCard>
 
-        <SuppressibleCard className={styles.card}  size='small' type='inner' title='Harmony'>
-          {this.renderSelector()}
-          <CombinationComp
-            hex={this.props.hex}
-            type={this.state.combinationType}
+        <SuppressibleCard title='Harmony'>
+          { this.renderSelector() }
+          <ColorCombine
+            hex={ this.props.hex }
+            type={ this.state.combinationType }
           />
         </SuppressibleCard>
 
-        <SuppressibleCard className={styles.card}  size='small' type='inner' title={contrastTitle}>
-          <ContrastTable colors={this.props.colors} activeColor={this.props.hex!} />
+        <SuppressibleCard title={ contrastTitle }>
+          <div className='mx-4'>
+            <ContrastTable colors={ [] } activeColor={ this.props.hex! } />
+          </div>
         </SuppressibleCard>
       </div>
     )
@@ -139,5 +113,3 @@ class SuprePickerComp extends React.PureComponent<SuprePickerProps, SuprePickerS
   }
 
 }
-
-export const SuprePicker = CustomPicker(SuprePickerComp)
