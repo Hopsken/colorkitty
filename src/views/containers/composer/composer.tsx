@@ -3,7 +3,7 @@ import { message, Layout, Alert, Icon } from 'antd'
 import * as React from 'react'
 import { RouteComponentProps } from 'react-router'
 
-import { SuprePicker, Painter, SmartPalette, LeftPad } from '@/views/components'
+import { Painter, SmartPalette, LeftPad } from '@/views/components'
 import { parseColorsFromUrl } from '@/utilities'
 import { SavePalettePayload, savePalette } from '@/services'
 import { Palette } from '@/types'
@@ -67,17 +67,18 @@ export class ComposerContainer extends React.PureComponent<Props, State> {
   render() {
     const {
       paletteName,
-      colors,
+      // colors,
       currentIndex,
       rawImage,
       showDrawer,
     } = this.state
     const rightSide = showDrawer ? (
-      <SuprePicker
-        color={colors[currentIndex]}
-        onChange={this.handleChangeColor}
-        colors={this.colors}
-      />
+      // <SuprePicker
+      //   color={colors[currentIndex]}
+      //   onChange={this.handleChangeColor}
+      //   colors={this.colors}
+      // />
+      null
     ) : (
       <div className={styles['sidebar-tips']}>
         Click one color to view details

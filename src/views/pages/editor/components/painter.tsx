@@ -52,7 +52,7 @@ const CorePainter: React.FC<CoreProps> = (props) => {
   )
 
   return (
-    <div className='relative'>
+    <div className='relative shadow-2xl'>
       <canvas ref={ canvas } width={ imageSize.width } height={ imageSize.height } />
       { pickle }
     </div>

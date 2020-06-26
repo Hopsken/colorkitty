@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react'
 import _ from 'underscore'
-import { message } from 'antd'
+import { message, Button } from 'antd'
 
 import { Header } from './components/header'
 import { PaletteList } from './components/palette-list'
@@ -215,6 +215,34 @@ export const Editor = () => {
     }
   }, [imageData])
 
+  const paletteHandlers = useMemo(() => {
+    return {
+      handleAddColor() {
+        const randomColor = genRandomColors(1)
+        handleUpdatePalette({
+          colors: (currentPalette?.colors ?? []).concat(randomColor)
+        })
+      },
+      handleDeleteColor(index: number) {
+        handleUpdatePalette({
+          colors: (currentPalette?.colors ?? []).filter((__, cur: number) => cur !== index)
+        })
+      }
+    }
+  }, [handleUpdatePalette, currentPalette])
+
+  const handleDeleteColor = useCallback(() => {
+    paletteHandlers.handleDeleteColor(selectedColorIndex)
+  }, [paletteHandlers.handleDeleteColor, selectedColorIndex])
+
+  const deleteButton = currentColor && (
+    <div className='mx-4 my-4'>
+      <Button block={ true } type='default' onClick={ handleDeleteColor }>
+        Delete Swatch
+      </Button>
+    </div>
+  )
+
   return (
     <section>
       <Header name="Untitled" onChangeName={() => void 0} />
@@ -233,6 +261,7 @@ export const Editor = () => {
             activeIndex={ selectedColorIndex }
             colors={ currentPalette?.colors ?? [] }
             onSelect={ onSelectColor }
+            onAddColor={ imageData && paletteHandlers.handleAddColor }
           />
         </aside>
         <main className="flex items-center justify-center flex-1 flex-grow-1">
@@ -250,6 +279,7 @@ export const Editor = () => {
           <ColorCard color={ currentColor } />
           <ColorInfo color={ currentColor } />
           { currentColor && <ColorPanels hex={ currentColor.hex } /> }
+          { deleteButton }
         </aside>
       </section>
     </section>

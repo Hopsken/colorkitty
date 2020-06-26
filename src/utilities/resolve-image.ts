@@ -41,7 +41,7 @@ export async function getImageDataFromFile(file: File, frame?: FrameSize) {
   ctx.drawImage(imgEl, 0, 0, canvas.width, canvas.height)
 
   return {
-    imageData: ctx.getImageData(0, 0, canvas.width, canvas.width),
+    imageData: ctx.getImageData(0, 0, canvas.width, canvas.height),
     imageSize: { width: canvas.width, height: canvas.height }
   }
 }

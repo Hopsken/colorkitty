@@ -7,7 +7,7 @@ export interface Props {
 
 export const SectionCard: React.FC<Props> = (props) => {
   return (
-    <div className='flex flex-col py-4 border-b border-gray-400 border-solid'>
+    <div className='flex flex-col py-4 border-b border-gray-200 border-solid'>
       <div className='flex items-center justify-between h-10 px-4'>
         <span className='font-medium'>{ props.title }</span>
         <span className='flex'>{ props.handler }</span>
