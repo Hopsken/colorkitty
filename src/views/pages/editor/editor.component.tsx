@@ -74,6 +74,11 @@ function useEditor() {
       onSelectColor(index: number) {
         setSelectedColorIndex(index)
       },
+      reset() {
+        setPalettes([])
+        setSelectedPlt(undefined)
+        setSelectedColorIndex(0)
+      }
     }
   }, [])
 
@@ -87,6 +92,7 @@ function useEditor() {
     onSelectColor: handlers.onSelectColor,
     handleUpdatePalette,
     handleUpdateColor,
+    reset: handlers.reset,
   }
 }
 
@@ -104,6 +110,7 @@ function useImage() {
 
   useEffect(() => {
     if (!state) {
+      imageColors.current = []
       return
     }
 
@@ -150,6 +157,13 @@ function useImage() {
     }).filter(Boolean) as ColorSchema[]
   }, [getColorAtPos, state])
 
+  const reset = useCallback(()=> {
+    setState(undefined)
+    setLoading(false)
+    imageColors.current = []
+    rawFile.current = undefined
+  }, [])
+
 
   return {
     loading,
@@ -158,6 +172,7 @@ function useImage() {
     loadImage,
     getColorAtPos,
     genRandomColors,
+    reset,
   }
 }
 
@@ -165,12 +180,12 @@ export const Editor = () => {
   const {
     palettes, currentPalette, currentColor, selectedColorIndex,
     createPalette, onSelectPalette, onSelectColor,
-    handleUpdateColor, handleUpdatePalette,
+    handleUpdateColor, handleUpdatePalette, reset: resetEditor
   } = useEditor()
 
   const {
     loading, imageData, imageSize,
-    loadImage, getColorAtPos, genRandomColors,
+    loadImage, getColorAtPos, genRandomColors, reset: resetImage
   } = useImage()
 
   const handleUpdateColorPos = useCallback((pos: NonNullable<ColorSchema['pos']>) => {
@@ -231,6 +246,11 @@ export const Editor = () => {
     }
   }, [handleUpdatePalette, currentPalette])
 
+  const handleResetAll = useCallback(() => {
+    resetEditor()
+    resetImage()
+  }, [resetImage, resetEditor])
+
   const handleDeleteColor = useCallback(() => {
     paletteHandlers.handleDeleteColor(selectedColorIndex)
   }, [paletteHandlers.handleDeleteColor, selectedColorIndex])
@@ -245,7 +265,7 @@ export const Editor = () => {
 
   return (
     <section>
-      <Header name="Untitled" onChangeName={() => void 0} />
+      <Header name="Untitled" onChangeName={() => void 0} onSave={ console.info } onReset={ handleResetAll } />
       <section
         className="fixed inset-0 flex bg-gray-100"
         style={{ top: '4rem' }}

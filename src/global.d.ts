@@ -16,6 +16,12 @@ declare interface ColorSchema {
   pos: [number, number]
 }
 
+declare interface ColorProfileSchem {
+  id: string
+  name: string
+  palettes: PaletteSchema[]
+}
+
 declare interface PaletteSchema {
   id: string
   name: string

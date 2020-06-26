@@ -3,7 +3,7 @@ import { TinyColor, mostReadable } from '@ctrl/tinycolor'
 import { HexColor } from '@/types'
 
 export function readable(color: Color): string {
-  return mostReadable(color, ['#fff', '#4A4A4A'])!.toHexString()
+  return mostReadable(color, ['#fff', '#000'])!.toHexString()
 }
 
 export function toHex(color: Color): HexColor {
