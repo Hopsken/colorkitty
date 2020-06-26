@@ -1,8 +1,9 @@
-import React, { useRef, useEffect, useMemo, useCallback } from 'react'
+import React, { useRef, useEffect, useMemo, useCallback, useState } from 'react'
 import { Uploader } from './uploader'
 import { Spin } from 'antd'
 import Draggable, { DraggableData } from 'react-draggable'
 import { Pickle } from '@/views/components'
+import { toHex } from '@/utilities'
 
 interface Props {
   readonly loading: boolean
@@ -10,8 +11,9 @@ interface Props {
   readonly imageData?: ImageData
   readonly currentColor?: ColorSchema
 
-  onUpdateColorPos(pos: readonly [number, number]): void
+  onUpdateColorPos(pos: ColorSchema['pos']): void
   onSelectFile(file: File): void
+  getColorAtPos(pos: ColorSchema['pos']): RGBColor | undefined
 }
 
 interface CoreProps {
@@ -19,11 +21,12 @@ interface CoreProps {
   readonly imageData: ImageData
   readonly currentColor?: ColorSchema
 
-  onUpdateColorPos(pos: readonly [number, number]): void
+  onUpdateColorPos(pos: ColorSchema['pos']): void
+  getColorAtPos(pos: ColorSchema['pos']): RGBColor | undefined
 }
 
 const CorePainter: React.FC<CoreProps> = (props) => {
-  const { imageData, imageSize, currentColor, onUpdateColorPos } = props
+  const { imageData, imageSize, currentColor } = props
 
   const canvas = useRef<HTMLCanvasElement>(null)
 
@@ -39,28 +42,12 @@ const CorePainter: React.FC<CoreProps> = (props) => {
     ctx.putImageData(imageData, 0, 0)
   }, [imageData])
 
-
-  const getPos = useCallback((offset: number, bound: number) => {
-    const percent = Number((offset/bound).toFixed(4))
-    if (percent <0) { return 0 }
-    if (percent >1) { return 1 }
-    return percent * 100 // 0<=x<=100
-  }, [])
-
-  const handleDragPickle = useCallback((offset: readonly [number, number]) => {
-    const pos = [
-      getPos(offset[0], imageSize.width),
-      getPos(offset[1], imageSize.height)
-    ] as const
-
-    onUpdateColorPos(pos)
-  }, [onUpdateColorPos, imageSize, getPos])
-
   const pickle = currentColor && (
     <DraggablePickle
       color={ currentColor }
       canvasSize={ imageSize }
-      onDrag={ handleDragPickle }
+      onDrag={ props.onUpdateColorPos }
+      getColorAtPos={ props.getColorAtPos }
     />
   )
 
@@ -75,8 +62,15 @@ const CorePainter: React.FC<CoreProps> = (props) => {
 const DraggablePickle: React.FC<{
   color: ColorSchema,
   canvasSize: FrameSize,
-  onDrag(offset: readonly [number, number]): void
-}> = ({ color, canvasSize, onDrag }) => {
+  onDrag(offset: ColorSchema['pos']): void
+  getColorAtPos(pos: ColorSchema['pos']): RGBColor | undefined
+}> = ({ color, canvasSize, onDrag, getColorAtPos }) => {
+  const [hex, setHex] = useState(color.hex)
+
+  useEffect(() => {
+    setHex(color.hex)
+  }, [color.hex])
+
   const pickleStyle = useMemo(() => ({
     top: -55,
     left: -20,
@@ -89,27 +83,44 @@ const DraggablePickle: React.FC<{
     bottom: canvasSize.height,
   }), [canvasSize])
 
-  const defaultPos = useMemo(() => {
-    const [x, y] = color.pos || [0.5, 0.5]
+  const position = useMemo(() => {
+    const [x, y] = color.pos || [50, 50]
     return {
-      x: x * canvasSize.width,
-      y: y * canvasSize.height,
+      x: x / 100 * canvasSize.width,
+      y: y / 100 * canvasSize.height,
     }
   }, [color, canvasSize])
 
+  const getPercent = useCallback((offset: number, bound: number) => {
+    const percent = Number((offset/bound).toFixed(4))
+    if (percent <0) { return 0 }
+    if (percent >1) { return 1 }
+    return percent * 100 // 0<=x<=100
+  }, [])
+
   const handleDragPickle = useCallback((_: MouseEvent, data: DraggableData) => {
-    onDrag([data.x, data.y])
-  }, [onDrag])
+    const pos: ColorSchema['pos'] = [
+      getPercent(data.x, canvasSize.width),
+      getPercent(data.y, canvasSize.height),
+    ]
+
+    onDrag(pos)
+
+    const newColor = getColorAtPos(pos)
+    if (!newColor) { return }
+    setHex(toHex(newColor) as string)
+  }, [onDrag, canvasSize, getColorAtPos])
 
   return (
     <Draggable
       bounds={ bounds }
-      defaultPosition={ defaultPos }
+      position={ position }
+      onDrag={ handleDragPickle }
       onStop={ handleDragPickle }
     >
       <Pickle
         size={ 40 }
-        color={ color.hex }
+        color={ hex }
         style={ pickleStyle }
       />
     </Draggable>
@@ -131,6 +142,7 @@ export const Painter: React.FC<Props> = (props) => {
       imageData={ props.imageData }
       imageSize={ props.imageSize }
       onUpdateColorPos={ props.onUpdateColorPos }
+      getColorAtPos={ props.getColorAtPos }
     />
   )
 }

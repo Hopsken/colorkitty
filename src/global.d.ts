@@ -13,7 +13,7 @@ declare module '*.styl' {
 declare interface ColorSchema {
   hex: string
   name?: string
-  pos?: [number, number]
+  pos: [number, number]
 }
 
 declare interface PaletteSchema {

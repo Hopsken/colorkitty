@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useRef } from 'react'
+import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react'
 import _ from 'underscore'
 import { message } from 'antd'
 
@@ -19,15 +19,15 @@ function useEditor() {
   const [selectedPlt, setSelectedPlt] = useState<string>()
   const [selectedColorIndex, setSelectedColorIndex] = useState<number>(0)
 
-  const createPalette = useCallback(() =>{
+  const createPalette = useCallback((palette: Partial<PaletteSchema>) =>{
     const newID = _.uniqueId()
-    const colors = [{ hex: '#20639B' }]
+    const colors = palette.colors ?? []
     setPalettes((items) => [
       ...items,
       {
         id: newID,
         colors,
-        name: `Palette ${items.length}`,
+        name: palette.name ?? `Palette ${items.length}`,
       }
     ])
     setSelectedPlt(newID)
@@ -93,9 +93,21 @@ function useImage() {
   const rawFile = useRef<File>()
   const imageColors = useRef<RGBColor[]>([])
 
+  interface State {
+    imageData: ImageData
+    imageSize: FrameSize
+  }
+
   const [loading, setLoading] = useState(false)
-  const [imageData, setImageData] = useState<ImageData>()
-  const [imageSize, setImageSize] = useState<{ width: number, height: number }>()
+  const [state, setState] = useState<State>()
+
+  useEffect(() => {
+    if (!state) {
+      return
+    }
+
+    imageColors.current = getColorsFromImage(state.imageData)
+  }, [state])
 
   const loadImage = useCallback((file: File) => {
     rawFile.current = file
@@ -103,18 +115,16 @@ function useImage() {
 
     getImageDataFromFile(file)
       .then((result) => {
-        setImageData(result.imageData)
-        setImageSize(result.imageSize)
+        setState(result)
         setLoading(false)
-
-        imageColors.current = getColorsFromImage(result.imageData)
       })
       .catch(() => {
         message.error('error on parsing file')
       })
   }, [])
 
-  const getColorAtPos = useCallback((pos: NonNullable<ColorSchema['pos']>) => {
+  const getColorAtPos = useCallback((pos: ColorSchema['pos']) => {
+    const { imageSize } = state ?? {}
     if (!imageSize) { return }
 
     const coordinate = {
@@ -124,27 +134,42 @@ function useImage() {
     const index = Math.round(coordinate.height * imageSize.width + coordinate.width)
 
     return imageColors.current[index]
-  }, [imageSize])
+  }, [state])
+
+  const genRandomColors = useCallback((count = 5): ColorSchema[] => {
+    if (!state) { return [] }
+
+    const poses = _.map(new Array(count), () => [_.random(0, 100), _.random(0, 100)])
+
+    return _.map(poses, (pos) => {
+      const color = getColorAtPos(pos as [number, number])
+      if (!color) { return }
+
+      return { hex: toHex(color) as string, pos }
+    }).filter(Boolean) as ColorSchema[]
+  }, [getColorAtPos, state])
 
 
   return {
     loading,
-    imageData,
-    imageSize,
+    imageData: state?.imageData,
+    imageSize: state?.imageSize,
     loadImage,
     getColorAtPos,
+    genRandomColors,
   }
 }
 
 export const Editor = () => {
   const {
     palettes, currentPalette, currentColor, selectedColorIndex,
-    createPalette, onSelectPalette, onSelectColor, handleUpdateColor,
+    createPalette, onSelectPalette, onSelectColor,
+    handleUpdateColor, handleUpdatePalette,
   } = useEditor()
 
   const {
     loading, imageData, imageSize,
-    loadImage, getColorAtPos,
+    loadImage, getColorAtPos, genRandomColors,
   } = useImage()
 
   const handleUpdateColorPos = useCallback((pos: NonNullable<ColorSchema['pos']>) => {
@@ -158,6 +183,37 @@ export const Editor = () => {
     })
   }, [handleUpdateColor, getColorAtPos])
 
+  const handleCreatePalette = useCallback(() => {
+    const randomColors = genRandomColors()
+    createPalette({ colors: randomColors })
+  }, [createPalette, genRandomColors])
+
+  // when image change
+  useEffect(() => {
+    if (!imageData) {
+      return
+    }
+
+    if (currentPalette) {
+      const newColors = currentPalette.colors.map((color) => {
+        if (!color.pos) {
+          return color
+        }
+
+        const newColor = getColorAtPos(color.pos)
+        if (!newColor) { return color }
+
+        return { ...color, hex: toHex(newColor) as string }
+      })
+      handleUpdatePalette({
+        ...currentPalette,
+        colors: newColors,
+      })
+    } else {
+      handleCreatePalette()
+    }
+  }, [imageData])
+
   return (
     <section>
       <Header name="Untitled" onChangeName={() => void 0} />
@@ -169,7 +225,7 @@ export const Editor = () => {
           <PaletteList
             selected={ currentPalette?.id }
             palettes={ palettes }
-            onClickAdd={ createPalette }
+            onClickAdd={ imageData && handleCreatePalette }
             onSelect={ onSelectPalette }
           />
           <ColorList
@@ -186,6 +242,7 @@ export const Editor = () => {
             onSelectFile={ loadImage }
             currentColor={ currentColor }
             onUpdateColorPos={ handleUpdateColorPos }
+            getColorAtPos={ getColorAtPos }
           />
         </main>
         <aside className="flex-grow-0 w-1/5 bg-white">

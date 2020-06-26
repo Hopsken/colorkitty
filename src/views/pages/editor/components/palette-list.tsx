@@ -6,12 +6,12 @@ import { Icon } from 'antd';
 interface Props {
   selected?: string
   palettes: PaletteSchema[]
-  onClickAdd(): void
+  onClickAdd?(): void
   onSelect(id: string): void
 }
 
 export const PaletteList: React.FC<Props> = (props) => {
-  const handler = (
+  const handler = props.onClickAdd && (
     <Icon
       type='plus'
       onClick={ props.onClickAdd }
