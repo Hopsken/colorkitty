@@ -28,7 +28,7 @@ function useEditor() {
       {
         id: newID,
         colors,
-        name: palette.name ?? `Palette ${items.length}`,
+        name: palette.name ?? `Palette ${items.length + 1}`,
       }
     ])
     setSelectedPlt(newID)
