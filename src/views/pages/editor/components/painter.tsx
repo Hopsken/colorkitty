@@ -66,6 +66,7 @@ const DraggablePickle: React.FC<{
   getColorAtPos(pos: ColorSchema['pos']): RGBColor | undefined
 }> = ({ color, canvasSize, onDrag, getColorAtPos }) => {
   const [hex, setHex] = useState(color.hex)
+  const enhanced = false
 
   useEffect(() => {
     setHex(color.hex)
@@ -111,11 +112,21 @@ const DraggablePickle: React.FC<{
     setHex(toHex(newColor) as string)
   }, [onDrag, canvasSize, getColorAtPos])
 
+  const handleDragLocally = useCallback((_: MouseEvent, data: DraggableData) => {
+    const pos: ColorSchema['pos'] = [
+      getPercent(data.x, canvasSize.width),
+      getPercent(data.y, canvasSize.height),
+    ]
+    const newColor = getColorAtPos(pos)
+    if (!newColor) { return }
+    setHex(toHex(newColor) as string)
+  }, [canvasSize, getColorAtPos])
+
   return (
     <Draggable
       bounds={ bounds }
       position={ position }
-      onDrag={ handleDragPickle }
+      onDrag={ enhanced ? handleDragPickle : handleDragLocally }
       onStop={ handleDragPickle }
     >
       <Pickle
