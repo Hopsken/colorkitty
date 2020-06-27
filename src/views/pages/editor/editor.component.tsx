@@ -91,6 +91,7 @@ function useEditor() {
     onSelectPalette: handlers.onSelectPalette,
     onSelectColor: handlers.onSelectColor,
     handleUpdatePalette,
+    handleUpdatePalettes: setPalettes,
     handleUpdateColor,
     reset: handlers.reset,
   }
@@ -180,7 +181,7 @@ export const Editor = () => {
   const {
     palettes, currentPalette, currentColor, selectedColorIndex,
     createPalette, onSelectPalette, onSelectColor,
-    handleUpdateColor, handleUpdatePalette, reset: resetEditor
+    handleUpdateColor, handleUpdatePalette, reset: resetEditor, handleUpdatePalettes,
   } = useEditor()
 
   const {
@@ -230,7 +231,7 @@ export const Editor = () => {
     }
   }, [imageData])
 
-  const paletteHandlers = useMemo(() => {
+  const colorHandlers = useMemo(() => {
     return {
       handleAddColor() {
         const randomColor = genRandomColors(1)
@@ -242,9 +243,25 @@ export const Editor = () => {
         handleUpdatePalette({
           colors: (currentPalette?.colors ?? []).filter((__, cur: number) => cur !== index)
         })
-      }
+      },
     }
   }, [handleUpdatePalette, currentPalette])
+
+  const paletteHandlers = useMemo(() => {
+    return{
+      delete(id: string) {
+        return handleUpdatePalettes(items => items.filter(one => one.id !== id))
+      },
+      rename(id: string, name: string) {
+        return handleUpdatePalettes(items => _.map(items, (item) => {
+          if (item.id === id) {
+            return { ...item, name }
+          }
+          return item
+        }))
+      }
+    }
+  }, [handleUpdatePalettes])
 
   const handleResetAll = useCallback(() => {
     resetEditor()
@@ -252,8 +269,8 @@ export const Editor = () => {
   }, [resetImage, resetEditor])
 
   const handleDeleteColor = useCallback(() => {
-    paletteHandlers.handleDeleteColor(selectedColorIndex)
-  }, [paletteHandlers.handleDeleteColor, selectedColorIndex])
+    colorHandlers.handleDeleteColor(selectedColorIndex)
+  }, [colorHandlers.handleDeleteColor, selectedColorIndex])
 
   const deleteButton = currentColor && (
     <div className='mx-4 my-4'>
@@ -270,18 +287,20 @@ export const Editor = () => {
         className="fixed inset-0 flex bg-gray-100"
         style={{ top: '4rem' }}
       >
-        <aside className="flex-grow-0 w-1/5 bg-white">
+        <aside className="flex-grow-0 w-1/5 max-w-xs bg-white">
           <PaletteList
             selected={ currentPalette?.id }
             palettes={ palettes }
             onClickAdd={ imageData && handleCreatePalette }
             onSelect={ onSelectPalette }
+            onDelete={ paletteHandlers.delete }
+            onRename={ paletteHandlers.rename }
           />
           <ColorList
             activeIndex={ selectedColorIndex }
             colors={ currentPalette?.colors ?? [] }
             onSelect={ onSelectColor }
-            onAddColor={ imageData && paletteHandlers.handleAddColor }
+            onAddColor={ imageData && colorHandlers.handleAddColor }
           />
         </aside>
         <main className="flex items-center justify-center flex-1 flex-grow-1">
@@ -295,7 +314,7 @@ export const Editor = () => {
             getColorAtPos={ getColorAtPos }
           />
         </main>
-        <aside className="flex-grow-0 w-1/5 overflow-y-auto bg-white">
+        <aside className="flex-grow-0 w-1/5 max-w-xs overflow-y-auto bg-white">
           <ColorCard color={ currentColor } />
           <ColorInfo color={ currentColor } />
           { currentColor && <ColorPanels hex={ currentColor.hex } /> }

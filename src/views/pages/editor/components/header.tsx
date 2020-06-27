@@ -35,7 +35,7 @@ export const Header: React.FC<Props> = (props) => {
   return (
     <Layout.Header className='fixed inset-x-0 top-0 h-16 px-8 text-white bg-gray-900'>
       <div className="absolute inset-0 flex items-center justify-center text-center">
-        <Input className='w-24 text-white bg-transparent border-none outline-none focus:border-none' value={ props.name } onChange={ onChangeName } />
+        <Input className='w-20 mr-1 text-white bg-transparent border-none outline-none' value={ props.name } onChange={ onChangeName } />
         <Dropdown overlay={ menu } trigger={ ['click'] } placement='bottomCenter'>
           <Icon type='down' />
         </Dropdown>
