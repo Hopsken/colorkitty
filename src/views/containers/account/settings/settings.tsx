@@ -119,4 +119,4 @@ class Settings extends React.PureComponent<Props> {
 
 }
 
-export const SettingsForm = withRouter(Form.create()(Settings))
+export const SettingsForm = withRouter(Form.create()(Settings) as any)
