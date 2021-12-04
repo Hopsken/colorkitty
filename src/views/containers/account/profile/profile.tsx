@@ -162,7 +162,7 @@ class Profile extends React.PureComponent<Props> {
     if (info.file.status === 'done') {
       // todo
       // get this url from response
-      getBase64(info.file.originFileObj!, (avatarUrl: string) => this.setState({
+      getBase64(info.file.originFileObj! as File, (avatarUrl: string) => this.setState({
         avatarUrl,
         loading: false,
       }))
@@ -196,4 +196,4 @@ class Profile extends React.PureComponent<Props> {
 
 }
 
-export const ProfileForm = Form.create()(Profile)
+export const ProfileForm: any = Form.create()(Profile)
