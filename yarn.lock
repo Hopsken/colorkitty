@@ -3264,11 +3264,6 @@ invariant@^2.2.4:
   dependencies:
     loose-envify "^1.0.0"
 
-ip-regex@^1.0.1:
-  version "1.0.3"
-  resolved "https://registry.nlark.com/ip-regex/download/ip-regex-1.0.3.tgz#dc589076f659f419c222039a33316f1c7387effd"
-  integrity sha1-3FiQdvZZ9BnCIgOaMzFvHHOH7/0=
-
 ip-regex@^2.1.0:
   version "2.1.0"
   resolved "https://registry.nlark.com/ip-regex/download/ip-regex-2.1.0.tgz#fa78bf5d2e6913c911ce9f819ee5146bb6d844e9"
@@ -4117,9 +4112,9 @@ nan@^2.12.1:
   integrity sha1-PzSkc/8Y4VwbVia2KQO1rW5mX+4=
 
 nanoid@^3.1.30:
-  version "3.1.30"
-  resolved "https://registry.npmmirror.com/nanoid/download/nanoid-3.1.30.tgz#63f93cc548d2a113dc5dfbc63bfa09e2b9b64362"
-  integrity sha1-Y/k8xUjSoRPcXfvGO/oJ4rm2Q2I=
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.2.0.tgz#62667522da6673971cca916a6d3eff3f415ff80c"
+  integrity sha512-fmsZYa9lpn69Ad5eDn7FMcnnSR+8R34W9qJEijxYhTbfOWzr22n1QxCMzXLK+ODyW2973V3Fux959iQoUxzUIA==
 
 nanomatch@^1.2.1, nanomatch@^1.2.9:
   version "1.2.13"
@@ -6373,11 +6368,6 @@ tinycolor2@^1.4.1:
   resolved "https://registry.npm.taobao.org/tinycolor2/download/tinycolor2-1.4.2.tgz#3f6a4d1071ad07676d7fa472e1fac40a719d8803"
   integrity sha1-P2pNEHGtB2dtf6Ry4frECnGdiAM=
 
-tlds@^1.187.0:
-  version "1.226.0"
-  resolved "https://registry.npmmirror.com/tlds/download/tlds-1.226.0.tgz#a20d4260141b0f76dccb736103ba1ec1c841afd2"
-  integrity sha1-og1CYBQbD3bcy3NhA7oewchBr9I=
-
 to-arraybuffer@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npm.taobao.org/to-arraybuffer/download/to-arraybuffer-1.0.1.tgz#7d229b1fcc637e466ca081180836a7aabff83f43"
@@ -6702,14 +6692,6 @@ url-parse@^1.4.3, url-parse@^1.5.3:
   dependencies:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
-
-url-regex@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.nlark.com/url-regex/download/url-regex-4.1.1.tgz#a5617b22e15e26dac57ce74c3f52088bcdfec995"
-  integrity sha1-pWF7IuFeJtrFfOdMP1IIi83+yZU=
-  dependencies:
-    ip-regex "^1.0.1"
-    tlds "^1.187.0"
 
 url-slug@2.0.0:
   version "2.0.0"
